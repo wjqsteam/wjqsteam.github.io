@@ -116,7 +116,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="金融工程实验课上的一些笔记">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-11-19T08:18:11.807Z">
+<meta property="og:updated_time" content="2020-11-21T12:05:57.495Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="金融工程实验笔记">
 <meta name="twitter:description" content="金融工程实验课上的一些笔记">
@@ -363,7 +363,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-11-19 16:18:11" itemprop="dateModified" datetime="2020-11-19T16:18:11+08:00">2020-11-19</time>
+                <time title="修改时间：2020-11-21 20:05:57" itemprop="dateModified" datetime="2020-11-21T20:05:57+08:00">2020-11-21</time>
               
             
           </span>
@@ -758,18 +758,18 @@
 <p>或者</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">oV := BackUpSystemParameters2(); // 自动回复系统参数，注意放置位置</span><br></pre></td></tr></table></figure>
 <h1 id="金融数据的提取"><a href="#金融数据的提取" class="headerlink" title="金融数据的提取"></a>金融数据的提取</h1><ol>
-<li><code>base</code>类数据 : 与报告期无关数据，如股票的基本信息，公司名称，所属行业。按F11调出基本面<br>分类浏览表。</li>
+<li><code>base</code>类数据 : 与报告期无关数据，如股票的基本信息，公司名称，所属行业。按F11调出基本面分类浏览表。</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SetSysParam(PN_Stock(),&apos;SZ000002&apos;);</span><br><span class="line">return base(10002);</span><br></pre></td></tr></table></figure>
 <ol start="2">
 <li><code>Report</code>类数据: 基础财务数据，与报告期相关。</li>
 </ol>
 <p>特点:一个证券一个报告期一个记录，与四个报告期相关</p>
-<p>常见：股票每股收益、三大报表以及财务比率、股票分红配送配股、业绩预测、基金的财务指标、资产配置、<br>持有人结构等。</p>
-<p>TSL中报告期是一个8位整数:year+code,其中code有0331,0630,0930,1231，分别表示一季报，中报<br>，三季报和年报。</p>
-<p>TSL中每个财务指标都有一个代码(一般为整数),该代码可以从证券数据专家中选取，再点击小人头查看，<br>或按F11进行查阅。</p>
+<p>常见：股票每股收益、三大报表以及财务比率、股票分红配送配股、业绩预测、基金的财务指标、资产配置、持有人结构等。</p>
+<p>TSL中报告期是一个8位整数:year+code,其中code有0331,0630,0930,1231，分别表示一季报，中报，三季报和年报。</p>
+<p>TSL中每个财务指标都有一个代码(一般为整数),该代码可以从证券数据专家中选取，再点击小人头查看，或按F11进行查阅。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SetSysParam(PN_Stock(),&apos;SZ000002&apos;);</span><br><span class="line">return report(46002,20200630); // 46002营业收入,20200630报告期为中报</span><br></pre></td></tr></table></figure>
-<p><code>ReportOfAll(代码，报告期)</code>:取通过基础财务数据实时计算出来的指标，如净资产收益率=净利率/<br>股东权益</p>
+<p><code>ReportOfAll(代码，报告期)</code>:取通过基础财务数据实时计算出来的指标，如净资产收益率=净利率/股东权益</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SetSysParam(PN_Stock(),&apos;SZ000002&apos;);</span><br><span class="line">v1:=report(46078,20200630);</span><br><span class="line">v2:=report(44140,20200630);</span><br><span class="line">v:=ReportOfAll(9900100,20200630);</span><br><span class="line">return array(v1/v2*100,v);</span><br></pre></td></tr></table></figure>
 <ol start="3">
 <li>季度数据<code>LastQuarterData(报告期，代码，布尔值)</code></li>
