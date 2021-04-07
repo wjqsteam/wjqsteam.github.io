@@ -1,0 +1,5670 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.2',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="利用Pandas进行数据的分组聚合">
+<meta name="keywords" content="笔记,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据分组聚合">
+<meta property="og:url" content="http://yoursite.com/2020/10/23/数据分组聚合/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="利用Pandas进行数据的分组聚合">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-07T08:48:01.895Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据分组聚合">
+<meta name="twitter:description" content="利用Pandas进行数据的分组聚合">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/10/23/数据分组聚合/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>数据分组聚合 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/23/数据分组聚合/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wjqsteam">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据分组聚合
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-10-23 00:00:00" itemprop="dateCreated datePublished" datetime="2020-10-23T00:00:00+08:00">2020-10-23</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-04-07 16:48:01" itemprop="dateModified" datetime="2021-04-07T16:48:01+08:00">2021-04-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>利用Pandas进行数据的分组聚合</p>
+<a id="more"></a>
+<hr>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">df =pd.DataFrame(&#123;<span class="string">'key1'</span>:[<span class="string">'a'</span>,<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'b'</span>,<span class="string">'a'</span>],</span><br><span class="line">              <span class="string">'key2'</span>:[<span class="string">'one'</span>,<span class="string">'two'</span>,<span class="string">'one'</span>,<span class="string">'two'</span>,<span class="string">'one'</span>],</span><br><span class="line">              <span class="string">'data1'</span>:np.random.randn(<span class="number">5</span>),</span><br><span class="line">              <span class="string">'data2'</span>:np.random.randn(<span class="number">5</span>)&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>key1</th>
+      <th>key2</th>
+      <th>data1</th>
+      <th>data2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>a</td>
+      <td>one</td>
+      <td>0.522993</td>
+      <td>-1.868061</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>a</td>
+      <td>two</td>
+      <td>0.528846</td>
+      <td>-0.535036</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>b</td>
+      <td>one</td>
+      <td>-0.114234</td>
+      <td>-0.975933</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>b</td>
+      <td>two</td>
+      <td>0.222472</td>
+      <td>-0.466721</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>a</td>
+      <td>one</td>
+      <td>-0.254106</td>
+      <td>0.760814</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grouped = df[<span class="string">'data1'</span>].groupby(df[<span class="string">'key1'</span>]) <span class="comment">#访问data1,并根据key1调用groupby</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grouped.mean()</span><br></pre></td></tr></table></figure>
+<pre><code>key1
+a    0.265911
+b    0.054119
+Name: data1, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">means = df[<span class="string">'data1'</span>].groupby([df[<span class="string">'key1'</span>],df[<span class="string">'key2'</span>]]).mean()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">means</span><br></pre></td></tr></table></figure>
+<pre><code>key1  key2
+a     one     0.134443
+      two     0.528846
+b     one    -0.114234
+      two     0.222472
+Name: data1, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">means.unstack() <span class="comment"># 取消层次化索引</span></span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>key2</th>
+      <th>one</th>
+      <th>two</th>
+    </tr>
+    <tr>
+      <th>key1</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>0.134443</td>
+      <td>0.528846</td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td>-0.114234</td>
+      <td>0.222472</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">states = np.array([<span class="string">'Ohio'</span>,<span class="string">'California'</span>,<span class="string">'California'</span>,<span class="string">'Ohio'</span>,<span class="string">'Ohio'</span>])</span><br><span class="line">years = np.array([<span class="number">2005</span>,<span class="number">2005</span>,<span class="number">2006</span>,<span class="number">2005</span>,<span class="number">2006</span>])</span><br><span class="line">df[<span class="string">'data1'</span>].groupby([states,years]).mean() <span class="comment">#长度适当的列表都能用作分组键</span></span><br></pre></td></tr></table></figure>
+<pre><code>California  2005    0.528846
+            2006   -0.114234
+Ohio        2005    0.372732
+            2006   -0.254106
+Name: data1, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.groupby(<span class="string">'key1'</span>).mean()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>data1</th>
+      <th>data2</th>
+    </tr>
+    <tr>
+      <th>key1</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>0.265911</td>
+      <td>-0.547428</td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td>0.054119</td>
+      <td>-0.721327</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.groupby([<span class="string">'key1'</span>,<span class="string">'key2'</span>]).mean() <span class="comment"># 将dataframe的列名作为分组键</span></span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>data1</th>
+      <th>data2</th>
+    </tr>
+    <tr>
+      <th>key1</th>
+      <th>key2</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">a</th>
+      <th>one</th>
+      <td>0.134443</td>
+      <td>-0.553624</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>0.528846</td>
+      <td>-0.535036</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">b</th>
+      <th>one</th>
+      <td>-0.114234</td>
+      <td>-0.975933</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>0.222472</td>
+      <td>-0.466721</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.groupby([<span class="string">'key1'</span>,<span class="string">'key2'</span>]).size() <span class="comment"># 返回一个含有分组大小的Series</span></span><br></pre></td></tr></table></figure>
+<pre><code>key1  key2
+a     one     2
+      two     1
+b     one     1
+      two     1
+dtype: int64
+</code></pre><p>分组关键词中的缺失值都会被从结果中除去</p>
+<h2 id="对分组进行迭代"><a href="#对分组进行迭代" class="headerlink" title="对分组进行迭代"></a>对分组进行迭代</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> name,group <span class="keyword">in</span> df.groupby(<span class="string">'key1'</span>):</span><br><span class="line">    print(name)</span><br><span class="line">    print(group)</span><br></pre></td></tr></table></figure>
+<pre><code>a
+  key1 key2     data1     data2
+0    a  one  0.522993 -1.868061
+1    a  two  0.528846 -0.535036
+4    a  one -0.254106  0.760814
+b
+  key1 key2     data1     data2
+2    b  one -0.114234 -0.975933
+3    b  two  0.222472 -0.466721
+</code></pre><p>二元数组（分组名和数据块）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (k1,k2), group <span class="keyword">in</span> df.groupby([<span class="string">'key1'</span>,<span class="string">'key2'</span>]):</span><br><span class="line">    print((k1,k2))</span><br><span class="line">    print(group)</span><br></pre></td></tr></table></figure>
+<pre><code>(&#39;a&#39;, &#39;one&#39;)
+  key1 key2     data1     data2
+0    a  one  0.522993 -1.868061
+4    a  one -0.254106  0.760814
+(&#39;a&#39;, &#39;two&#39;)
+  key1 key2     data1     data2
+1    a  two  0.528846 -0.535036
+(&#39;b&#39;, &#39;one&#39;)
+  key1 key2     data1     data2
+2    b  one -0.114234 -0.975933
+(&#39;b&#39;, &#39;two&#39;)
+  key1 key2     data1     data2
+3    b  two  0.222472 -0.466721
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pieces = dict(list(df.groupby(<span class="string">'key1'</span>)))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pieces[<span class="string">'b'</span>]</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>key1</th>
+      <th>key2</th>
+      <th>data1</th>
+      <th>data2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2</th>
+      <td>b</td>
+      <td>one</td>
+      <td>-0.114234</td>
+      <td>-0.975933</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>b</td>
+      <td>two</td>
+      <td>0.222472</td>
+      <td>-0.466721</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<p>key-&gt;group的字典</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.dtypes</span><br></pre></td></tr></table></figure>
+<pre><code>key1      object
+key2      object
+data1    float64
+data2    float64
+dtype: object
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grouped = df.groupby(df.dtypes,axis=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> dtype,group <span class="keyword">in</span> grouped:</span><br><span class="line">    print(dtype)</span><br><span class="line">    print(group)</span><br></pre></td></tr></table></figure>
+<pre><code>float64
+      data1     data2
+0  0.522993 -1.868061
+1  0.528846 -0.535036
+2 -0.114234 -0.975933
+3  0.222472 -0.466721
+4 -0.254106  0.760814
+object
+  key1 key2
+0    a  one
+1    a  two
+2    b  one
+3    b  two
+4    a  one
+</code></pre><p><em>axis=0表示沿纵轴，体现为行的变化，一行一行操作</em>  </p>
+<p><em>axis=1表示沿横轴，体现为列的变化，一列一列操作</em></p>
+<h2 id="选取一列或者列的子集"><a href="#选取一列或者列的子集" class="headerlink" title="选取一列或者列的子集"></a>选取一列或者列的子集</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.groupby(<span class="string">'key1'</span>)[<span class="string">'data1'</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;pandas.core.groupby.generic.SeriesGroupBy object at 0x000002453BB8C0A0&gt;
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> name,group <span class="keyword">in</span> df.groupby(<span class="string">'key1'</span>)[<span class="string">'data1'</span>]:</span><br><span class="line">    print(name)</span><br><span class="line">    print(group)</span><br></pre></td></tr></table></figure>
+<pre><code>a
+0    0.522993
+1    0.528846
+4   -0.254106
+Name: data1, dtype: float64
+b
+2   -0.114234
+3    0.222472
+Name: data1, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> name,group <span class="keyword">in</span> df.groupby(<span class="string">'key1'</span>)[[<span class="string">'data2'</span>]]:</span><br><span class="line">    print(name)</span><br><span class="line">    print(group)</span><br></pre></td></tr></table></figure>
+<pre><code>a
+  key1 key2     data1     data2
+0    a  one  0.522993 -1.868061
+1    a  two  0.528846 -0.535036
+4    a  one -0.254106  0.760814
+b
+  key1 key2     data1     data2
+2    b  one -0.114234 -0.975933
+3    b  two  0.222472 -0.466721
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bar = df[<span class="string">'data1'</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foo = df[[<span class="string">'data1'</span>,<span class="string">'data2'</span>]]</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">foo?</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bar?</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df.groupby([<span class="string">'key1'</span>,<span class="string">'key2'</span>])[[<span class="string">'data2'</span>]].mean()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>data2</th>
+    </tr>
+    <tr>
+      <th>key1</th>
+      <th>key2</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">a</th>
+      <th>one</th>
+      <td>0.148834</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>-1.447684</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">b</th>
+      <th>one</th>
+      <td>-0.767834</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>0.589849</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<p>注意索引的方式。索引操作传入的是列表或者数组则返回已分组的DataFrame,传入的是标量形式的单个列名则返回已分组的Series.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s_grouped =df.groupby([<span class="string">'key1'</span>,<span class="string">'key2'</span>])[<span class="string">'data2'</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s_grouped</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;pandas.core.groupby.generic.SeriesGroupBy object at 0x000002500C0EE400&gt;
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s_grouped.mean()</span><br></pre></td></tr></table></figure>
+<pre><code>key1  key2
+a     one     0.148834
+      two    -1.447684
+b     one    -0.767834
+      two     0.589849
+Name: data2, dtype: float64
+</code></pre><h2 id="通过字典或Series分组"><a href="#通过字典或Series分组" class="headerlink" title="通过字典或Series分组"></a>通过字典或Series分组</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">people = pd.DataFrame(np.random.randn(<span class="number">5</span>,<span class="number">5</span>),</span><br><span class="line">                     columns=[<span class="string">'a'</span>,<span class="string">'b'</span>,<span class="string">'c'</span>,<span class="string">'d'</span>,<span class="string">'e'</span>],</span><br><span class="line">                     index=[<span class="string">'Joe'</span>,<span class="string">'Steve'</span>,<span class="string">'Wes'</span>,<span class="string">'Jim'</span>,<span class="string">'Travis'</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">people</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>a</th>
+      <th>b</th>
+      <th>c</th>
+      <th>d</th>
+      <th>e</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Joe</th>
+      <td>1.817158</td>
+      <td>-1.383088</td>
+      <td>1.406801</td>
+      <td>0.402465</td>
+      <td>-0.237672</td>
+    </tr>
+    <tr>
+      <th>Steve</th>
+      <td>-2.652390</td>
+      <td>-0.018471</td>
+      <td>0.432279</td>
+      <td>-1.423438</td>
+      <td>0.883756</td>
+    </tr>
+    <tr>
+      <th>Wes</th>
+      <td>-0.757734</td>
+      <td>1.829031</td>
+      <td>-1.423564</td>
+      <td>0.718185</td>
+      <td>0.442015</td>
+    </tr>
+    <tr>
+      <th>Jim</th>
+      <td>-0.347648</td>
+      <td>-0.568547</td>
+      <td>-1.428059</td>
+      <td>-0.411300</td>
+      <td>-0.312649</td>
+    </tr>
+    <tr>
+      <th>Travis</th>
+      <td>0.946093</td>
+      <td>1.138911</td>
+      <td>2.899631</td>
+      <td>-0.235633</td>
+      <td>2.693666</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">people.iloc[<span class="number">2</span>:<span class="number">3</span>,[<span class="number">1</span>,<span class="number">2</span>]] = np.nan <span class="comment"># 注意切片的索引范围</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">people</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>a</th>
+      <th>b</th>
+      <th>c</th>
+      <th>d</th>
+      <th>e</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Joe</th>
+      <td>1.817158</td>
+      <td>-1.383088</td>
+      <td>1.406801</td>
+      <td>0.402465</td>
+      <td>-0.237672</td>
+    </tr>
+    <tr>
+      <th>Steve</th>
+      <td>-2.652390</td>
+      <td>-0.018471</td>
+      <td>0.432279</td>
+      <td>-1.423438</td>
+      <td>0.883756</td>
+    </tr>
+    <tr>
+      <th>Wes</th>
+      <td>-0.757734</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0.718185</td>
+      <td>0.442015</td>
+    </tr>
+    <tr>
+      <th>Jim</th>
+      <td>-0.347648</td>
+      <td>-0.568547</td>
+      <td>-1.428059</td>
+      <td>-0.411300</td>
+      <td>-0.312649</td>
+    </tr>
+    <tr>
+      <th>Travis</th>
+      <td>0.946093</td>
+      <td>1.138911</td>
+      <td>2.899631</td>
+      <td>-0.235633</td>
+      <td>2.693666</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mapping = &#123;<span class="string">'a'</span>: <span class="string">'red'</span>, <span class="string">'b'</span>: <span class="string">'red'</span>, <span class="string">'c'</span>: <span class="string">'blue'</span>,</span><br><span class="line">            <span class="string">'d'</span>: <span class="string">'blue'</span>, <span class="string">'e'</span>: <span class="string">'red'</span>, <span class="string">'f'</span> : <span class="string">'orange'</span>&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">by_column = people.groupby(mapping,axis=<span class="number">1</span>)<span class="comment">#沿横轴，体现为列的变化</span></span><br><span class="line"><span class="comment"># 这里列被映射 如 a-&gt;red</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">by_column.sum()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>blue</th>
+      <th>red</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Joe</th>
+      <td>1.809266</td>
+      <td>0.196397</td>
+    </tr>
+    <tr>
+      <th>Steve</th>
+      <td>-0.991158</td>
+      <td>-1.787105</td>
+    </tr>
+    <tr>
+      <th>Wes</th>
+      <td>0.718185</td>
+      <td>-0.315720</td>
+    </tr>
+    <tr>
+      <th>Jim</th>
+      <td>-1.839359</td>
+      <td>-1.228844</td>
+    </tr>
+    <tr>
+      <th>Travis</th>
+      <td>2.663998</td>
+      <td>4.778670</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">by_column.mean()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>blue</th>
+      <th>red</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Joe</th>
+      <td>0.904633</td>
+      <td>0.065466</td>
+    </tr>
+    <tr>
+      <th>Steve</th>
+      <td>-0.495579</td>
+      <td>-0.595702</td>
+    </tr>
+    <tr>
+      <th>Wes</th>
+      <td>0.718185</td>
+      <td>-0.157860</td>
+    </tr>
+    <tr>
+      <th>Jim</th>
+      <td>-0.919679</td>
+      <td>-0.409615</td>
+    </tr>
+    <tr>
+      <th>Travis</th>
+      <td>1.331999</td>
+      <td>1.592890</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map_series = pd.Series(mapping)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map_series</span><br></pre></td></tr></table></figure>
+<pre><code>a       red
+b       red
+c      blue
+d      blue
+e       red
+f    orange
+dtype: object
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">people.groupby(map_series,axis=<span class="number">1</span>).count()</span><br><span class="line"><span class="comment"># blue或red分类中各有几个数</span></span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>blue</th>
+      <th>red</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Joe</th>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>Steve</th>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>Wes</th>
+      <td>1</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>Jim</th>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>Travis</th>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<h2 id="通过函数进行分组"><a href="#通过函数进行分组" class="headerlink" title="通过函数进行分组"></a>通过函数进行分组</h2><p>任何被当作分组键的函数都会在各个索引值上被调用过一次，其返回值就被会用作分组名称。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">people.groupby(len).sum()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>a</th>
+      <th>b</th>
+      <th>c</th>
+      <th>d</th>
+      <th>e</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>0.711776</td>
+      <td>-1.951636</td>
+      <td>-0.021258</td>
+      <td>0.709351</td>
+      <td>-0.108306</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>-2.652390</td>
+      <td>-0.018471</td>
+      <td>0.432279</td>
+      <td>-1.423438</td>
+      <td>0.883756</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.946093</td>
+      <td>1.138911</td>
+      <td>2.899631</td>
+      <td>-0.235633</td>
+      <td>2.693666</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">people.min()</span><br></pre></td></tr></table></figure>
+<pre><code>a   -2.652390
+b   -1.383088
+c   -1.428059
+d   -1.423438
+e   -0.312649
+dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">key_list = [<span class="string">'one'</span>,<span class="string">'one'</span>,<span class="string">'one'</span>,<span class="string">'two'</span>,<span class="string">'two'</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">people.groupby([len,key_list]).min()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>a</th>
+      <th>b</th>
+      <th>c</th>
+      <th>d</th>
+      <th>e</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">3</th>
+      <th>one</th>
+      <td>-0.757734</td>
+      <td>-1.383088</td>
+      <td>1.406801</td>
+      <td>0.402465</td>
+      <td>-0.237672</td>
+    </tr>
+    <tr>
+      <th>two</th>
+      <td>-0.347648</td>
+      <td>-0.568547</td>
+      <td>-1.428059</td>
+      <td>-0.411300</td>
+      <td>-0.312649</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <th>one</th>
+      <td>-2.652390</td>
+      <td>-0.018471</td>
+      <td>0.432279</td>
+      <td>-1.423438</td>
+      <td>0.883756</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <th>two</th>
+      <td>0.946093</td>
+      <td>1.138911</td>
+      <td>2.899631</td>
+      <td>-0.235633</td>
+      <td>2.693666</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 3,5,6是index的长度,one,two是Joe-&gt;one,Steve-&gt;one.Wes-&gt;one,Jim-&gt;two,</span></span><br><span class="line"><span class="comment"># Travis-&gt;two</span></span><br></pre></td></tr></table></figure>
+<h2 id="根据索引级别分组"><a href="#根据索引级别分组" class="headerlink" title="根据索引级别分组"></a>根据索引级别分组</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">columns = pd.MultiIndex.from_arrays([[<span class="string">'US'</span>,<span class="string">'US'</span>,<span class="string">'US'</span>,<span class="string">'JP'</span>,<span class="string">'JP'</span>],</span><br><span class="line">                                    [<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">1</span>,<span class="number">3</span>]],</span><br><span class="line">                                   names=[<span class="string">'cty'</span>,<span class="string">'tenor'</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">columns</span><br></pre></td></tr></table></figure>
+<pre><code>MultiIndex([(&#39;US&#39;, 1),
+            (&#39;US&#39;, 3),
+            (&#39;US&#39;, 5),
+            (&#39;JP&#39;, 1),
+            (&#39;JP&#39;, 3)],
+           names=[&#39;cty&#39;, &#39;tenor&#39;])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hier_df = pd.DataFrame(np.random.randn(<span class="number">4</span>,<span class="number">5</span>),columns=columns)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hier_df</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th>cty</th>
+      <th colspan="3" halign="left">US</th>
+      <th colspan="2" halign="left">JP</th>
+    </tr>
+    <tr>
+      <th>tenor</th>
+      <th>1</th>
+      <th>3</th>
+      <th>5</th>
+      <th>1</th>
+      <th>3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.037744</td>
+      <td>1.011425</td>
+      <td>0.180327</td>
+      <td>1.678465</td>
+      <td>-0.382320</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-0.538263</td>
+      <td>0.990815</td>
+      <td>2.113250</td>
+      <td>-0.109434</td>
+      <td>0.619594</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-1.220552</td>
+      <td>-0.982786</td>
+      <td>-1.182591</td>
+      <td>-0.415320</td>
+      <td>-1.034449</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.002398</td>
+      <td>0.382832</td>
+      <td>0.813260</td>
+      <td>0.068007</td>
+      <td>-0.258056</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pp = pd.DataFrame(np.random.randn(<span class="number">4</span>,<span class="number">5</span>),index=columns)</span><br><span class="line"><span class="comment">#ValueError: Shape of passed values is (4, 5), indices imply (5, 5)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hier_df.groupby(level=<span class="string">'cty'</span>,axis=<span class="number">1</span>).count() <span class="comment"># axis=1针对列分组</span></span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>cty</th>
+      <th>JP</th>
+      <th>US</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<h2 id="数据聚合"><a href="#数据聚合" class="headerlink" title="数据聚合"></a>数据聚合</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>key1</th>
+      <th>key2</th>
+      <th>data1</th>
+      <th>data2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>a</td>
+      <td>one</td>
+      <td>0.445459</td>
+      <td>-0.924340</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>a</td>
+      <td>two</td>
+      <td>1.862739</td>
+      <td>-1.447684</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>b</td>
+      <td>one</td>
+      <td>1.021514</td>
+      <td>-0.767834</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>b</td>
+      <td>two</td>
+      <td>0.487886</td>
+      <td>0.589849</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>a</td>
+      <td>one</td>
+      <td>0.138156</td>
+      <td>1.222008</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grouped = df.groupby(<span class="string">'key1'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grouped[<span class="string">'data1'</span>].quantile(<span class="number">0.9</span>) <span class="comment"># 90%的样本分位数</span></span><br></pre></td></tr></table></figure>
+<pre><code>key1
+a    1.579283
+b    0.968151
+Name: data1, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">peak_to_peak</span><span class="params">(arr)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> arr.max()-arr.min()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grouped.agg(peak_to_peak) <span class="comment">#使用aggregate或agg传入自己函数</span></span><br><span class="line"><span class="comment"># aggregate 聚合</span></span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>data1</th>
+      <th>data2</th>
+    </tr>
+    <tr>
+      <th>key1</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>1.724583</td>
+      <td>2.669692</td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td>0.533629</td>
+      <td>1.357683</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grouped.describe()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th colspan="8" halign="left">data1</th>
+      <th colspan="8" halign="left">data2</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+      <th>count</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>min</th>
+      <th>25%</th>
+      <th>50%</th>
+      <th>75%</th>
+      <th>max</th>
+    </tr>
+    <tr>
+      <th>key1</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>a</th>
+      <td>3.0</td>
+      <td>0.815451</td>
+      <td>0.919901</td>
+      <td>0.138156</td>
+      <td>0.291807</td>
+      <td>0.445459</td>
+      <td>1.154099</td>
+      <td>1.862739</td>
+      <td>3.0</td>
+      <td>-0.383339</td>
+      <td>1.414682</td>
+      <td>-1.447684</td>
+      <td>-1.186012</td>
+      <td>-0.924340</td>
+      <td>0.148834</td>
+      <td>1.222008</td>
+    </tr>
+    <tr>
+      <th>b</th>
+      <td>2.0</td>
+      <td>0.754700</td>
+      <td>0.377332</td>
+      <td>0.487886</td>
+      <td>0.621293</td>
+      <td>0.754700</td>
+      <td>0.888107</td>
+      <td>1.021514</td>
+      <td>2.0</td>
+      <td>-0.088992</td>
+      <td>0.960027</td>
+      <td>-0.767834</td>
+      <td>-0.428413</td>
+      <td>-0.088992</td>
+      <td>0.250428</td>
+      <td>0.589849</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<h2 id="面向列的多函数应用"><a href="#面向列的多函数应用" class="headerlink" title="面向列的多函数应用"></a>面向列的多函数应用</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tips = pd.read_csv(<span class="string">'examples/tips.csv'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tips[<span class="string">'tip_pct'</span>] = tips[<span class="string">'tip'</span>]/tips[<span class="string">'total_bill'</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tips[:<span class="number">6</span>]</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>total_bill</th>
+      <th>tip</th>
+      <th>smoker</th>
+      <th>day</th>
+      <th>time</th>
+      <th>size</th>
+      <th>tip_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>16.99</td>
+      <td>1.01</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.059447</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>10.34</td>
+      <td>1.66</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>3</td>
+      <td>0.160542</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>21.01</td>
+      <td>3.50</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>3</td>
+      <td>0.166587</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>23.68</td>
+      <td>3.31</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.139780</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>24.59</td>
+      <td>3.61</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>4</td>
+      <td>0.146808</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>25.29</td>
+      <td>4.71</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>4</td>
+      <td>0.186240</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grouped = tips.groupby([<span class="string">'day'</span>,<span class="string">'smoker'</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grouped_pct = grouped[<span class="string">'tip_pct'</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grouped_pct.agg(<span class="string">'mean'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>day   smoker
+Fri   No        0.151650
+      Yes       0.174783
+Sat   No        0.158048
+      Yes       0.147906
+Sun   No        0.160113
+      Yes       0.187250
+Thur  No        0.160298
+      Yes       0.163863
+Name: tip_pct, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grouped_pct.agg([<span class="string">'mean'</span>,<span class="string">'std'</span>,peak_to_peak])</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>mean</th>
+      <th>std</th>
+      <th>peak_to_peak</th>
+    </tr>
+    <tr>
+      <th>day</th>
+      <th>smoker</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">Fri</th>
+      <th>No</th>
+      <td>0.151650</td>
+      <td>0.028123</td>
+      <td>0.067349</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>0.174783</td>
+      <td>0.051293</td>
+      <td>0.159925</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Sat</th>
+      <th>No</th>
+      <td>0.158048</td>
+      <td>0.039767</td>
+      <td>0.235193</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>0.147906</td>
+      <td>0.061375</td>
+      <td>0.290095</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Sun</th>
+      <th>No</th>
+      <td>0.160113</td>
+      <td>0.042347</td>
+      <td>0.193226</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>0.187250</td>
+      <td>0.154134</td>
+      <td>0.644685</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Thur</th>
+      <th>No</th>
+      <td>0.160298</td>
+      <td>0.038774</td>
+      <td>0.193350</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>0.163863</td>
+      <td>0.039389</td>
+      <td>0.151240</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grouped_pct.agg([(<span class="string">'foo'</span>,<span class="string">'mean'</span>),(<span class="string">'bar'</span>,np.std)])</span><br><span class="line"><span class="comment"># (name,function)元组组成的列表，则各元组的第一个元素就会被用作</span></span><br><span class="line"><span class="comment"># DataFrame的列名</span></span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>foo</th>
+      <th>bar</th>
+    </tr>
+    <tr>
+      <th>day</th>
+      <th>smoker</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">Fri</th>
+      <th>No</th>
+      <td>0.151650</td>
+      <td>0.028123</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>0.174783</td>
+      <td>0.051293</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Sat</th>
+      <th>No</th>
+      <td>0.158048</td>
+      <td>0.039767</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>0.147906</td>
+      <td>0.061375</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Sun</th>
+      <th>No</th>
+      <td>0.160113</td>
+      <td>0.042347</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>0.187250</td>
+      <td>0.154134</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Thur</th>
+      <th>No</th>
+      <td>0.160298</td>
+      <td>0.038774</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>0.163863</td>
+      <td>0.039389</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pp = grouped_pct.agg([(<span class="string">'foo'</span>,<span class="string">'mean'</span>),(<span class="string">'bar'</span>,np.std)])</span><br><span class="line">pp.index</span><br></pre></td></tr></table></figure>
+<pre><code>MultiIndex([( &#39;Fri&#39;,  &#39;No&#39;),
+            ( &#39;Fri&#39;, &#39;Yes&#39;),
+            ( &#39;Sat&#39;,  &#39;No&#39;),
+            ( &#39;Sat&#39;, &#39;Yes&#39;),
+            ( &#39;Sun&#39;,  &#39;No&#39;),
+            ( &#39;Sun&#39;, &#39;Yes&#39;),
+            (&#39;Thur&#39;,  &#39;No&#39;),
+            (&#39;Thur&#39;, &#39;Yes&#39;)],
+           names=[&#39;day&#39;, &#39;smoker&#39;])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">functions = [<span class="string">'count'</span>,<span class="string">'mean'</span>,<span class="string">'max'</span>]</span><br><span class="line"></span><br><span class="line">result = grouped[[<span class="string">'tip_pct'</span>,<span class="string">'total_bill'</span>]].agg(functions)</span><br><span class="line"><span class="comment"># 要传入列表，不传入列表的方法将过时</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="3" halign="left">tip_pct</th>
+      <th colspan="3" halign="left">total_bill</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>max</th>
+      <th>count</th>
+      <th>mean</th>
+      <th>max</th>
+    </tr>
+    <tr>
+      <th>day</th>
+      <th>smoker</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">Fri</th>
+      <th>No</th>
+      <td>4</td>
+      <td>0.151650</td>
+      <td>0.187735</td>
+      <td>4</td>
+      <td>18.420000</td>
+      <td>22.75</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>15</td>
+      <td>0.174783</td>
+      <td>0.263480</td>
+      <td>15</td>
+      <td>16.813333</td>
+      <td>40.17</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Sat</th>
+      <th>No</th>
+      <td>45</td>
+      <td>0.158048</td>
+      <td>0.291990</td>
+      <td>45</td>
+      <td>19.661778</td>
+      <td>48.33</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>42</td>
+      <td>0.147906</td>
+      <td>0.325733</td>
+      <td>42</td>
+      <td>21.276667</td>
+      <td>50.81</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Sun</th>
+      <th>No</th>
+      <td>57</td>
+      <td>0.160113</td>
+      <td>0.252672</td>
+      <td>57</td>
+      <td>20.506667</td>
+      <td>48.17</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>19</td>
+      <td>0.187250</td>
+      <td>0.710345</td>
+      <td>19</td>
+      <td>24.120000</td>
+      <td>45.35</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Thur</th>
+      <th>No</th>
+      <td>45</td>
+      <td>0.160298</td>
+      <td>0.266312</td>
+      <td>45</td>
+      <td>17.113111</td>
+      <td>41.19</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>17</td>
+      <td>0.163863</td>
+      <td>0.241255</td>
+      <td>17</td>
+      <td>19.190588</td>
+      <td>43.11</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result[<span class="string">'tip_pct'</span>]</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>count</th>
+      <th>mean</th>
+      <th>max</th>
+    </tr>
+    <tr>
+      <th>day</th>
+      <th>smoker</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">Fri</th>
+      <th>No</th>
+      <td>4</td>
+      <td>0.151650</td>
+      <td>0.187735</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>15</td>
+      <td>0.174783</td>
+      <td>0.263480</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Sat</th>
+      <th>No</th>
+      <td>45</td>
+      <td>0.158048</td>
+      <td>0.291990</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>42</td>
+      <td>0.147906</td>
+      <td>0.325733</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Sun</th>
+      <th>No</th>
+      <td>57</td>
+      <td>0.160113</td>
+      <td>0.252672</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>19</td>
+      <td>0.187250</td>
+      <td>0.710345</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Thur</th>
+      <th>No</th>
+      <td>45</td>
+      <td>0.160298</td>
+      <td>0.266312</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>17</td>
+      <td>0.163863</td>
+      <td>0.241255</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 对一个列或不同的列应用不同的函数</span></span><br><span class="line"><span class="comment"># 向agg传入一个从列名映射到函数的字典</span></span><br><span class="line">grouped.agg(&#123;<span class="string">'tip'</span>:np.max,<span class="string">'size'</span>:<span class="string">'sum'</span>&#125;)</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>tip</th>
+      <th>size</th>
+    </tr>
+    <tr>
+      <th>day</th>
+      <th>smoker</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">Fri</th>
+      <th>No</th>
+      <td>3.50</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>4.73</td>
+      <td>31</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Sat</th>
+      <th>No</th>
+      <td>9.00</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>10.00</td>
+      <td>104</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Sun</th>
+      <th>No</th>
+      <td>6.00</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>6.50</td>
+      <td>49</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Thur</th>
+      <th>No</th>
+      <td>6.70</td>
+      <td>112</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>5.00</td>
+      <td>40</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grouped.agg(&#123;<span class="string">'tip_pct'</span>:[<span class="string">'min'</span>,<span class="string">'max'</span>,<span class="string">'mean'</span>,<span class="string">'std'</span>],</span><br><span class="line">           <span class="string">'size'</span>:<span class="string">'sum'</span>&#125;)</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="4" halign="left">tip_pct</th>
+      <th>size</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>min</th>
+      <th>max</th>
+      <th>mean</th>
+      <th>std</th>
+      <th>sum</th>
+    </tr>
+    <tr>
+      <th>day</th>
+      <th>smoker</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">Fri</th>
+      <th>No</th>
+      <td>0.120385</td>
+      <td>0.187735</td>
+      <td>0.151650</td>
+      <td>0.028123</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>0.103555</td>
+      <td>0.263480</td>
+      <td>0.174783</td>
+      <td>0.051293</td>
+      <td>31</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Sat</th>
+      <th>No</th>
+      <td>0.056797</td>
+      <td>0.291990</td>
+      <td>0.158048</td>
+      <td>0.039767</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>0.035638</td>
+      <td>0.325733</td>
+      <td>0.147906</td>
+      <td>0.061375</td>
+      <td>104</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Sun</th>
+      <th>No</th>
+      <td>0.059447</td>
+      <td>0.252672</td>
+      <td>0.160113</td>
+      <td>0.042347</td>
+      <td>167</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>0.065660</td>
+      <td>0.710345</td>
+      <td>0.187250</td>
+      <td>0.154134</td>
+      <td>49</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Thur</th>
+      <th>No</th>
+      <td>0.072961</td>
+      <td>0.266312</td>
+      <td>0.160298</td>
+      <td>0.038774</td>
+      <td>112</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>0.090014</td>
+      <td>0.241255</td>
+      <td>0.163863</td>
+      <td>0.039389</td>
+      <td>40</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<h2 id="以“没有行索引”的形式返回聚合数据"><a href="#以“没有行索引”的形式返回聚合数据" class="headerlink" title="以“没有行索引”的形式返回聚合数据"></a>以“没有行索引”的形式返回聚合数据</h2><p>向groupby传入as_index=False来禁用分组键形成的索引</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pp = tips.groupby([<span class="string">'day'</span>,<span class="string">'smoker'</span>],as_index=<span class="keyword">False</span>).mean()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pp</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>day</th>
+      <th>smoker</th>
+      <th>total_bill</th>
+      <th>tip</th>
+      <th>size</th>
+      <th>tip_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Fri</td>
+      <td>No</td>
+      <td>18.420000</td>
+      <td>2.812500</td>
+      <td>2.250000</td>
+      <td>0.151650</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Fri</td>
+      <td>Yes</td>
+      <td>16.813333</td>
+      <td>2.714000</td>
+      <td>2.066667</td>
+      <td>0.174783</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Sat</td>
+      <td>No</td>
+      <td>19.661778</td>
+      <td>3.102889</td>
+      <td>2.555556</td>
+      <td>0.158048</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Sat</td>
+      <td>Yes</td>
+      <td>21.276667</td>
+      <td>2.875476</td>
+      <td>2.476190</td>
+      <td>0.147906</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Sun</td>
+      <td>No</td>
+      <td>20.506667</td>
+      <td>3.167895</td>
+      <td>2.929825</td>
+      <td>0.160113</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Sun</td>
+      <td>Yes</td>
+      <td>24.120000</td>
+      <td>3.516842</td>
+      <td>2.578947</td>
+      <td>0.187250</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Thur</td>
+      <td>No</td>
+      <td>17.113111</td>
+      <td>2.673778</td>
+      <td>2.488889</td>
+      <td>0.160298</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Thur</td>
+      <td>Yes</td>
+      <td>19.190588</td>
+      <td>3.030000</td>
+      <td>2.352941</td>
+      <td>0.163863</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tips.groupby([<span class="string">'day'</span>,<span class="string">'smoker'</span>]).mean()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>total_bill</th>
+      <th>tip</th>
+      <th>size</th>
+      <th>tip_pct</th>
+    </tr>
+    <tr>
+      <th>day</th>
+      <th>smoker</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">Fri</th>
+      <th>No</th>
+      <td>18.420000</td>
+      <td>2.812500</td>
+      <td>2.250000</td>
+      <td>0.151650</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>16.813333</td>
+      <td>2.714000</td>
+      <td>2.066667</td>
+      <td>0.174783</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Sat</th>
+      <th>No</th>
+      <td>19.661778</td>
+      <td>3.102889</td>
+      <td>2.555556</td>
+      <td>0.158048</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>21.276667</td>
+      <td>2.875476</td>
+      <td>2.476190</td>
+      <td>0.147906</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Sun</th>
+      <th>No</th>
+      <td>20.506667</td>
+      <td>3.167895</td>
+      <td>2.929825</td>
+      <td>0.160113</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>24.120000</td>
+      <td>3.516842</td>
+      <td>2.578947</td>
+      <td>0.187250</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Thur</th>
+      <th>No</th>
+      <td>17.113111</td>
+      <td>2.673778</td>
+      <td>2.488889</td>
+      <td>0.160298</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>19.190588</td>
+      <td>3.030000</td>
+      <td>2.352941</td>
+      <td>0.163863</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pp.groupby(<span class="string">'day'</span>).sum()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>total_bill</th>
+      <th>tip</th>
+      <th>size</th>
+      <th>tip_pct</th>
+    </tr>
+    <tr>
+      <th>day</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Fri</th>
+      <td>35.233333</td>
+      <td>5.526500</td>
+      <td>4.316667</td>
+      <td>0.326433</td>
+    </tr>
+    <tr>
+      <th>Sat</th>
+      <td>40.938444</td>
+      <td>5.978365</td>
+      <td>5.031746</td>
+      <td>0.305954</td>
+    </tr>
+    <tr>
+      <th>Sun</th>
+      <td>44.626667</td>
+      <td>6.684737</td>
+      <td>5.508772</td>
+      <td>0.347363</td>
+    </tr>
+    <tr>
+      <th>Thur</th>
+      <td>36.303699</td>
+      <td>5.703778</td>
+      <td>4.841830</td>
+      <td>0.324161</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 对结果调用reset_index可以去除行索引</span></span><br></pre></td></tr></table></figure>
+<h2 id="apply-一般性的：拆分-应用-合并”"><a href="#apply-一般性的：拆分-应用-合并”" class="headerlink" title="apply:一般性的：拆分-应用-合并”"></a>apply:一般性的：拆分-应用-合并”</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">top</span><span class="params">(df,n=<span class="number">5</span>,column=<span class="string">'tip_pct'</span>)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> df.sort_values(by=column)[-n:]</span><br><span class="line"><span class="comment"># 选取指定列具有最大值的行</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top(tips,n=<span class="number">6</span>)</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>total_bill</th>
+      <th>tip</th>
+      <th>smoker</th>
+      <th>day</th>
+      <th>time</th>
+      <th>size</th>
+      <th>tip_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>109</th>
+      <td>14.31</td>
+      <td>4.00</td>
+      <td>Yes</td>
+      <td>Sat</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.279525</td>
+    </tr>
+    <tr>
+      <th>183</th>
+      <td>23.17</td>
+      <td>6.50</td>
+      <td>Yes</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>4</td>
+      <td>0.280535</td>
+    </tr>
+    <tr>
+      <th>232</th>
+      <td>11.61</td>
+      <td>3.39</td>
+      <td>No</td>
+      <td>Sat</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.291990</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>3.07</td>
+      <td>1.00</td>
+      <td>Yes</td>
+      <td>Sat</td>
+      <td>Dinner</td>
+      <td>1</td>
+      <td>0.325733</td>
+    </tr>
+    <tr>
+      <th>178</th>
+      <td>9.60</td>
+      <td>4.00</td>
+      <td>Yes</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.416667</td>
+    </tr>
+    <tr>
+      <th>172</th>
+      <td>7.25</td>
+      <td>5.15</td>
+      <td>Yes</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.710345</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tips.groupby(<span class="string">'smoker'</span>).apply(top)</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>total_bill</th>
+      <th>tip</th>
+      <th>smoker</th>
+      <th>day</th>
+      <th>time</th>
+      <th>size</th>
+      <th>tip_pct</th>
+    </tr>
+    <tr>
+      <th>smoker</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="5" valign="top">No</th>
+      <th>88</th>
+      <td>24.71</td>
+      <td>5.85</td>
+      <td>No</td>
+      <td>Thur</td>
+      <td>Lunch</td>
+      <td>2</td>
+      <td>0.236746</td>
+    </tr>
+    <tr>
+      <th>185</th>
+      <td>20.69</td>
+      <td>5.00</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>5</td>
+      <td>0.241663</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>10.29</td>
+      <td>2.60</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.252672</td>
+    </tr>
+    <tr>
+      <th>149</th>
+      <td>7.51</td>
+      <td>2.00</td>
+      <td>No</td>
+      <td>Thur</td>
+      <td>Lunch</td>
+      <td>2</td>
+      <td>0.266312</td>
+    </tr>
+    <tr>
+      <th>232</th>
+      <td>11.61</td>
+      <td>3.39</td>
+      <td>No</td>
+      <td>Sat</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.291990</td>
+    </tr>
+    <tr>
+      <th rowspan="5" valign="top">Yes</th>
+      <th>109</th>
+      <td>14.31</td>
+      <td>4.00</td>
+      <td>Yes</td>
+      <td>Sat</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.279525</td>
+    </tr>
+    <tr>
+      <th>183</th>
+      <td>23.17</td>
+      <td>6.50</td>
+      <td>Yes</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>4</td>
+      <td>0.280535</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>3.07</td>
+      <td>1.00</td>
+      <td>Yes</td>
+      <td>Sat</td>
+      <td>Dinner</td>
+      <td>1</td>
+      <td>0.325733</td>
+    </tr>
+    <tr>
+      <th>178</th>
+      <td>9.60</td>
+      <td>4.00</td>
+      <td>Yes</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.416667</td>
+    </tr>
+    <tr>
+      <th>172</th>
+      <td>7.25</td>
+      <td>5.15</td>
+      <td>Yes</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.710345</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tips.groupby([<span class="string">'smoker'</span>,<span class="string">'day'</span>]).apply(top,n=<span class="number">1</span>,column=<span class="string">'total_bill'</span>)</span><br><span class="line"><span class="comment"># 传给apply的函数能够接受其它参数或关键字，则可以将这些内容放在函数名后面一并传入</span></span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th></th>
+      <th>total_bill</th>
+      <th>tip</th>
+      <th>smoker</th>
+      <th>day</th>
+      <th>time</th>
+      <th>size</th>
+      <th>tip_pct</th>
+    </tr>
+    <tr>
+      <th>smoker</th>
+      <th>day</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="4" valign="top">No</th>
+      <th>Fri</th>
+      <th>94</th>
+      <td>22.75</td>
+      <td>3.25</td>
+      <td>No</td>
+      <td>Fri</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.142857</td>
+    </tr>
+    <tr>
+      <th>Sat</th>
+      <th>212</th>
+      <td>48.33</td>
+      <td>9.00</td>
+      <td>No</td>
+      <td>Sat</td>
+      <td>Dinner</td>
+      <td>4</td>
+      <td>0.186220</td>
+    </tr>
+    <tr>
+      <th>Sun</th>
+      <th>156</th>
+      <td>48.17</td>
+      <td>5.00</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>6</td>
+      <td>0.103799</td>
+    </tr>
+    <tr>
+      <th>Thur</th>
+      <th>142</th>
+      <td>41.19</td>
+      <td>5.00</td>
+      <td>No</td>
+      <td>Thur</td>
+      <td>Lunch</td>
+      <td>5</td>
+      <td>0.121389</td>
+    </tr>
+    <tr>
+      <th rowspan="4" valign="top">Yes</th>
+      <th>Fri</th>
+      <th>95</th>
+      <td>40.17</td>
+      <td>4.73</td>
+      <td>Yes</td>
+      <td>Fri</td>
+      <td>Dinner</td>
+      <td>4</td>
+      <td>0.117750</td>
+    </tr>
+    <tr>
+      <th>Sat</th>
+      <th>170</th>
+      <td>50.81</td>
+      <td>10.00</td>
+      <td>Yes</td>
+      <td>Sat</td>
+      <td>Dinner</td>
+      <td>3</td>
+      <td>0.196812</td>
+    </tr>
+    <tr>
+      <th>Sun</th>
+      <th>182</th>
+      <td>45.35</td>
+      <td>3.50</td>
+      <td>Yes</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>3</td>
+      <td>0.077178</td>
+    </tr>
+    <tr>
+      <th>Thur</th>
+      <th>197</th>
+      <td>43.11</td>
+      <td>5.00</td>
+      <td>Yes</td>
+      <td>Thur</td>
+      <td>Lunch</td>
+      <td>4</td>
+      <td>0.115982</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 发挥创造力，向apply内传入强大的函数</span></span><br></pre></td></tr></table></figure>
+<h2 id="禁止分组键"><a href="#禁止分组键" class="headerlink" title="禁止分组键"></a>禁止分组键</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tips.groupby(<span class="string">'smoker'</span>, group_keys=<span class="keyword">False</span>).apply(top)</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>total_bill</th>
+      <th>tip</th>
+      <th>smoker</th>
+      <th>day</th>
+      <th>time</th>
+      <th>size</th>
+      <th>tip_pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>88</th>
+      <td>24.71</td>
+      <td>5.85</td>
+      <td>No</td>
+      <td>Thur</td>
+      <td>Lunch</td>
+      <td>2</td>
+      <td>0.236746</td>
+    </tr>
+    <tr>
+      <th>185</th>
+      <td>20.69</td>
+      <td>5.00</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>5</td>
+      <td>0.241663</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>10.29</td>
+      <td>2.60</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.252672</td>
+    </tr>
+    <tr>
+      <th>149</th>
+      <td>7.51</td>
+      <td>2.00</td>
+      <td>No</td>
+      <td>Thur</td>
+      <td>Lunch</td>
+      <td>2</td>
+      <td>0.266312</td>
+    </tr>
+    <tr>
+      <th>232</th>
+      <td>11.61</td>
+      <td>3.39</td>
+      <td>No</td>
+      <td>Sat</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.291990</td>
+    </tr>
+    <tr>
+      <th>109</th>
+      <td>14.31</td>
+      <td>4.00</td>
+      <td>Yes</td>
+      <td>Sat</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.279525</td>
+    </tr>
+    <tr>
+      <th>183</th>
+      <td>23.17</td>
+      <td>6.50</td>
+      <td>Yes</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>4</td>
+      <td>0.280535</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>3.07</td>
+      <td>1.00</td>
+      <td>Yes</td>
+      <td>Sat</td>
+      <td>Dinner</td>
+      <td>1</td>
+      <td>0.325733</td>
+    </tr>
+    <tr>
+      <th>178</th>
+      <td>9.60</td>
+      <td>4.00</td>
+      <td>Yes</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.416667</td>
+    </tr>
+    <tr>
+      <th>172</th>
+      <td>7.25</td>
+      <td>5.15</td>
+      <td>Yes</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.710345</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tips.groupby(<span class="string">'smoker'</span>).apply(top)</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>total_bill</th>
+      <th>tip</th>
+      <th>smoker</th>
+      <th>day</th>
+      <th>time</th>
+      <th>size</th>
+      <th>tip_pct</th>
+    </tr>
+    <tr>
+      <th>smoker</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="5" valign="top">No</th>
+      <th>88</th>
+      <td>24.71</td>
+      <td>5.85</td>
+      <td>No</td>
+      <td>Thur</td>
+      <td>Lunch</td>
+      <td>2</td>
+      <td>0.236746</td>
+    </tr>
+    <tr>
+      <th>185</th>
+      <td>20.69</td>
+      <td>5.00</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>5</td>
+      <td>0.241663</td>
+    </tr>
+    <tr>
+      <th>51</th>
+      <td>10.29</td>
+      <td>2.60</td>
+      <td>No</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.252672</td>
+    </tr>
+    <tr>
+      <th>149</th>
+      <td>7.51</td>
+      <td>2.00</td>
+      <td>No</td>
+      <td>Thur</td>
+      <td>Lunch</td>
+      <td>2</td>
+      <td>0.266312</td>
+    </tr>
+    <tr>
+      <th>232</th>
+      <td>11.61</td>
+      <td>3.39</td>
+      <td>No</td>
+      <td>Sat</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.291990</td>
+    </tr>
+    <tr>
+      <th rowspan="5" valign="top">Yes</th>
+      <th>109</th>
+      <td>14.31</td>
+      <td>4.00</td>
+      <td>Yes</td>
+      <td>Sat</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.279525</td>
+    </tr>
+    <tr>
+      <th>183</th>
+      <td>23.17</td>
+      <td>6.50</td>
+      <td>Yes</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>4</td>
+      <td>0.280535</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>3.07</td>
+      <td>1.00</td>
+      <td>Yes</td>
+      <td>Sat</td>
+      <td>Dinner</td>
+      <td>1</td>
+      <td>0.325733</td>
+    </tr>
+    <tr>
+      <th>178</th>
+      <td>9.60</td>
+      <td>4.00</td>
+      <td>Yes</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.416667</td>
+    </tr>
+    <tr>
+      <th>172</th>
+      <td>7.25</td>
+      <td>5.15</td>
+      <td>Yes</td>
+      <td>Sun</td>
+      <td>Dinner</td>
+      <td>2</td>
+      <td>0.710345</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<h2 id="分位数和桶分析"><a href="#分位数和桶分析" class="headerlink" title="分位数和桶分析"></a>分位数和桶分析</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 数据集的桶分析</span></span><br><span class="line">frame = pd.DataFrame(&#123;<span class="string">'data1'</span>:np.random.randn(<span class="number">1000</span>),</span><br><span class="line">                     <span class="string">'data2'</span>:np.random.randn(<span class="number">1000</span>)&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">frame.head()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>data1</th>
+      <th>data2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.274012</td>
+      <td>0.578978</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-0.766629</td>
+      <td>-1.823558</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.717553</td>
+      <td>-0.372114</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.018434</td>
+      <td>-0.754712</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2.999009</td>
+      <td>0.094784</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">frame[<span class="string">'data1'</span>][:<span class="number">100</span>].min()</span><br></pre></td></tr></table></figure>
+<pre><code>-2.126762300220399
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">quartiles = pd.cut(frame.data1,<span class="number">4</span>) <span class="comment"># 装入四个长度相等的桶中</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">q2 = pd.cut(frame.data2,<span class="number">4</span>)</span><br><span class="line">q2[:<span class="number">10</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>0      (0.512, 2.057]
+1    (-2.585, -1.033]
+2     (-1.033, 0.512]
+3     (-1.033, 0.512]
+4     (-1.033, 0.512]
+5      (2.057, 3.602]
+6     (-1.033, 0.512]
+7      (0.512, 2.057]
+8     (-1.033, 0.512]
+9     (-1.033, 0.512]
+Name: data2, dtype: category
+Categories (4, interval[float64]): [(-2.585, -1.033] &lt; (-1.033, 0.512] &lt; (0.512, 2.057] &lt; (2.057, 3.602]]
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">quartiles[:<span class="number">10</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>0      (0.0712, 1.54]
+1    (-1.397, 0.0712]
+2    (-1.397, 0.0712]
+3    (-1.397, 0.0712]
+4       (1.54, 3.008]
+5      (0.0712, 1.54]
+6    (-1.397, 0.0712]
+7      (0.0712, 1.54]
+8    (-1.397, 0.0712]
+9    (-2.871, -1.397]
+Name: data1, dtype: category
+Categories (4, interval[float64]): [(-2.871, -1.397] &lt; (-1.397, 0.0712] &lt; (0.0712, 1.54] &lt; (1.54, 3.008]]
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_stats</span><span class="params">(group)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> &#123;<span class="string">'min'</span>:group.min(),<span class="string">'max'</span>:group.max(),</span><br><span class="line">           <span class="string">'count'</span>:group.count(),<span class="string">'mean'</span>:group.mean()&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grouped = frame.data1.groupby(quartiles)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grouped.apply(get_stats).unstack() <span class="comment"># 每个区间中的详细统计</span></span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>min</th>
+      <th>max</th>
+      <th>count</th>
+      <th>mean</th>
+    </tr>
+    <tr>
+      <th>data1</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>(-2.871, -1.397]</th>
+      <td>-2.865551</td>
+      <td>-1.405197</td>
+      <td>91.0</td>
+      <td>-1.836716</td>
+    </tr>
+    <tr>
+      <th>(-1.397, 0.0712]</th>
+      <td>-1.397131</td>
+      <td>0.069608</td>
+      <td>439.0</td>
+      <td>-0.579632</td>
+    </tr>
+    <tr>
+      <th>(0.0712, 1.54]</th>
+      <td>0.071553</td>
+      <td>1.535488</td>
+      <td>411.0</td>
+      <td>0.679367</td>
+    </tr>
+    <tr>
+      <th>(1.54, 3.008]</th>
+      <td>1.542659</td>
+      <td>3.007880</td>
+      <td>59.0</td>
+      <td>1.961122</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grouped.apply(get_stats)</span><br></pre></td></tr></table></figure>
+<pre><code>data1                  
+(-2.871, -1.397]  min       -2.865551
+                  max       -1.405197
+                  count     91.000000
+                  mean      -1.836716
+(-1.397, 0.0712]  min       -1.397131
+                  max        0.069608
+                  count    439.000000
+                  mean      -0.579632
+(0.0712, 1.54]    min        0.071553
+                  max        1.535488
+                  count    411.000000
+                  mean       0.679367
+(1.54, 3.008]     min        1.542659
+                  max        3.007880
+                  count     59.000000
+                  mean       1.961122
+Name: data1, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 要根据样本分位数得到大小相等的桶，使用qcut。</span></span><br><span class="line"><span class="comment"># 传入labels = False 即可只获取分位数的编号</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grouping = pd.qcut(frame.data1,<span class="number">10</span>,labels=<span class="keyword">False</span>)</span><br><span class="line">grouped = frame.data1.groupby(grouping)</span><br><span class="line">grouped.apply(get_stats).unstack()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>min</th>
+      <th>max</th>
+      <th>count</th>
+      <th>mean</th>
+    </tr>
+    <tr>
+      <th>data1</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>-2.865551</td>
+      <td>-1.360397</td>
+      <td>100.0</td>
+      <td>-1.795399</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>-1.354868</td>
+      <td>-0.883258</td>
+      <td>100.0</td>
+      <td>-1.117458</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>-0.880117</td>
+      <td>-0.574171</td>
+      <td>100.0</td>
+      <td>-0.718617</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>-0.569056</td>
+      <td>-0.296161</td>
+      <td>100.0</td>
+      <td>-0.437495</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>-0.295593</td>
+      <td>-0.011689</td>
+      <td>100.0</td>
+      <td>-0.153035</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>-0.011371</td>
+      <td>0.210534</td>
+      <td>100.0</td>
+      <td>0.104256</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>0.213139</td>
+      <td>0.498342</td>
+      <td>100.0</td>
+      <td>0.346546</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>0.498722</td>
+      <td>0.876956</td>
+      <td>100.0</td>
+      <td>0.676115</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0.883169</td>
+      <td>1.301286</td>
+      <td>100.0</td>
+      <td>1.094697</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>1.308356</td>
+      <td>3.007880</td>
+      <td>100.0</td>
+      <td>1.733654</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">i = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> name,group <span class="keyword">in</span> grouped:</span><br><span class="line">    <span class="keyword">if</span> i &lt;<span class="number">3</span>:</span><br><span class="line">      print(name)</span><br><span class="line">      print(group)</span><br><span class="line">      i+=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<pre><code>0
+9     -0.714263
+13    -0.895357
+16     0.147339
+17    -0.321308
+28    -1.103820
+         ...   
+938   -0.190474
+942    0.334319
+946    0.996784
+950    0.558697
+980   -0.672937
+Name: data2, Length: 100, dtype: float64
+1
+31    -1.258539
+34    -0.972953
+36    -0.737853
+56    -1.178120
+59     0.334885
+         ...   
+951    0.189799
+968    0.498551
+973   -0.214217
+993   -0.604109
+994    0.001538
+Name: data2, Length: 100, dtype: float64
+2
+1     -1.823558
+2     -0.372114
+8      0.320230
+35     0.467731
+47     0.945331
+         ...   
+935   -0.678012
+953    0.155084
+958    0.670783
+961    0.691367
+965   -0.351251
+Name: data2, Length: 100, dtype: float64
+</code></pre><h2 id="用特定于分组的值填充缺失值"><a href="#用特定于分组的值填充缺失值" class="headerlink" title="用特定于分组的值填充缺失值"></a>用特定于分组的值填充缺失值</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># fillna</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s = pd.Series(np.random.randn(<span class="number">6</span>))</span><br><span class="line">s[::<span class="number">2</span>]=np.nan</span><br><span class="line">s</span><br></pre></td></tr></table></figure>
+<pre><code>0         NaN
+1    0.315723
+2         NaN
+3    0.203364
+4         NaN
+5   -0.564240
+dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">s.fillna(s.mean())</span><br></pre></td></tr></table></figure>
+<pre><code>0   -0.015051
+1    0.315723
+2   -0.015051
+3    0.203364
+4   -0.015051
+5   -0.564240
+dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">states = [<span class="string">'Ohio'</span>, <span class="string">'New York'</span>, <span class="string">'Vermont'</span>, <span class="string">'Florida'</span>,</span><br><span class="line"> <span class="string">'Oregon'</span>, <span class="string">'Nevada'</span>, <span class="string">'California'</span>, <span class="string">'Idaho'</span>]</span><br><span class="line">group_key = [<span class="string">'East'</span>] * <span class="number">4</span> + [<span class="string">'West'</span>] * <span class="number">4</span></span><br><span class="line">data = pd.Series(np.random.randn(<span class="number">8</span>), index=states)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data</span><br></pre></td></tr></table></figure>
+<pre><code>Ohio         -0.878939
+New York     -0.100664
+Vermont       0.813611
+Florida      -0.451565
+Oregon        0.830031
+Nevada       -0.052689
+California   -0.546300
+Idaho        -0.180710
+dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data[[<span class="string">'Vermont'</span>,<span class="string">'Nevada'</span>,<span class="string">'Idaho'</span>]] = np.nan</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data</span><br></pre></td></tr></table></figure>
+<pre><code>Ohio         -0.878939
+New York     -0.100664
+Vermont            NaN
+Florida      -0.451565
+Oregon        0.830031
+Nevada             NaN
+California   -0.546300
+Idaho              NaN
+dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> name,_ <span class="keyword">in</span> data.groupby(group_key):</span><br><span class="line">    print(name)</span><br><span class="line">    print(_)</span><br></pre></td></tr></table></figure>
+<pre><code>East
+Ohio       -0.878939
+New York   -0.100664
+Vermont          NaN
+Florida    -0.451565
+dtype: float64
+West
+Oregon        0.830031
+Nevada             NaN
+California   -0.546300
+Idaho              NaN
+dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.groupby(group_key).mean()</span><br></pre></td></tr></table></figure>
+<pre><code>East   -0.477056
+West    0.141865
+dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fill_mean = <span class="keyword">lambda</span> g:g.fillna(g.mean())</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.groupby(group_key).apply(fill_mean)<span class="comment">#感受和上个apply(mean())的区别</span></span><br></pre></td></tr></table></figure>
+<pre><code>Ohio         -0.878939
+New York     -0.100664
+Vermont      -0.477056
+Florida      -0.451565
+Oregon        0.830031
+Nevada        0.141865
+California   -0.546300
+Idaho         0.141865
+dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fill_values = &#123;<span class="string">'East'</span>:<span class="number">0.5</span>,<span class="string">'West'</span>:<span class="number">-1</span>&#125;</span><br><span class="line">fill_func = <span class="keyword">lambda</span> g:g.fillna(fill_values[g.name])</span><br><span class="line">data.groupby(group_key).apply(fill_func) <span class="comment"># 感受和上面的差别</span></span><br></pre></td></tr></table></figure>
+<pre><code>Ohio         -0.878939
+New York     -0.100664
+Vermont       0.500000
+Florida      -0.451565
+Oregon        0.830031
+Nevada       -1.000000
+California   -0.546300
+Idaho        -1.000000
+dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> _,__ <span class="keyword">in</span> data.groupby(group_key):</span><br><span class="line">    print(_)</span><br><span class="line">    print(__)</span><br></pre></td></tr></table></figure>
+<pre><code>East
+Ohio       -0.878939
+New York   -0.100664
+Vermont          NaN
+Florida    -0.451565
+dtype: float64
+West
+Oregon        0.830031
+Nevada             NaN
+California   -0.546300
+Idaho              NaN
+dtype: float64
+</code></pre><h2 id="随机采样和排列"><a href="#随机采样和排列" class="headerlink" title="随机采样和排列"></a>随机采样和排列</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从大数据集中随机抽取（进行替换或不替换）样本以进行蒙特卡洛模拟或</span></span><br><span class="line"><span class="comment"># 其它分析工作</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Hearts,Spades,Clubs,Diamonds</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">suits = [<span class="string">'H'</span>, <span class="string">'S'</span>, <span class="string">'C'</span>, <span class="string">'D'</span>]</span><br><span class="line">card_val = (list(range(<span class="number">1</span>, <span class="number">11</span>)) + [<span class="number">10</span>] * <span class="number">3</span>) * <span class="number">4</span></span><br><span class="line">base_names = [<span class="string">'A'</span>] + list(range(<span class="number">2</span>, <span class="number">11</span>)) + [<span class="string">'J'</span>, <span class="string">'K'</span>, <span class="string">'Q'</span>]</span><br><span class="line">cards = []</span><br><span class="line"><span class="keyword">for</span> suit <span class="keyword">in</span> [<span class="string">'H'</span>, <span class="string">'S'</span>, <span class="string">'C'</span>, <span class="string">'D'</span>]:</span><br><span class="line">    cards.extend(str(num) + suit <span class="keyword">for</span> num <span class="keyword">in</span> base_names)</span><br><span class="line"></span><br><span class="line">deck = pd.Series(card_val, index=cards)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">card_val</span><br></pre></td></tr></table></figure>
+<pre><code>[1,
+ 2,
+ 3,
+ 4,
+ 5,
+ 6,
+ 7,
+ 8,
+ 9,
+ 10,
+ 10,
+ 10,
+ 10,
+ 1,
+ 2,
+ 3,
+ 4,
+ 5,
+ 6,
+ 7,
+ 8,
+ 9,
+ 10,
+ 10,
+ 10,
+ 10,
+ 1,
+ 2,
+ 3,
+ 4,
+ 5,
+ 6,
+ 7,
+ 8,
+ 9,
+ 10,
+ 10,
+ 10,
+ 10,
+ 1,
+ 2,
+ 3,
+ 4,
+ 5,
+ 6,
+ 7,
+ 8,
+ 9,
+ 10,
+ 10,
+ 10,
+ 10]
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">base_names</span><br></pre></td></tr></table></figure>
+<pre><code>[&#39;A&#39;, 2, 3, 4, 5, 6, 7, 8, 9, 10, &#39;J&#39;, &#39;K&#39;, &#39;Q&#39;]
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deck[:<span class="number">13</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>AH      1
+2H      2
+3H      3
+4H      4
+5H      5
+6H      6
+7H      7
+8H      8
+9H      9
+10H    10
+JH     10
+KH     10
+QH     10
+dtype: int64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">draw</span><span class="params">(deck,n=<span class="number">5</span>)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> deck.sample(n)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">draw(deck)</span><br></pre></td></tr></table></figure>
+<pre><code>2S     2
+QH    10
+KD    10
+AC     1
+QS    10
+dtype: int64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从每种花色中随机抽取两张牌。</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">get_suit = <span class="keyword">lambda</span> card:card[<span class="number">-1</span>] <span class="comment">#倒数第一个字母代表了花色</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deck.groupby(get_suit).apply(draw,n=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>C  AC     1
+   6C     6
+D  7D     7
+   3D     3
+H  8H     8
+   9H     9
+S  6S     6
+   KS    10
+dtype: int64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deck.groupby(get_suit,group_keys=<span class="keyword">False</span>).apply(draw,n=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>JC     10
+4C      4
+4D      4
+6D      6
+6H      6
+9H      9
+6S      6
+10S    10
+dtype: int64
+</code></pre><h2 id="分组加权平均数和相关系数"><a href="#分组加权平均数和相关系数" class="headerlink" title="分组加权平均数和相关系数"></a>分组加权平均数和相关系数</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">df = pd.DataFrame(&#123;<span class="string">'category'</span>: [<span class="string">'a'</span>, <span class="string">'a'</span>, <span class="string">'a'</span>, <span class="string">'a'</span>,</span><br><span class="line">                                  <span class="string">'b'</span>, <span class="string">'b'</span>, <span class="string">'b'</span>, <span class="string">'b'</span>],</span><br><span class="line">                     <span class="string">'data'</span>: np.random.randn(<span class="number">8</span>),</span><br><span class="line">                     <span class="string">'weights'</span>: np.random.rand(<span class="number">8</span>)&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>category</th>
+      <th>data</th>
+      <th>weights</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>a</td>
+      <td>-1.452693</td>
+      <td>0.828892</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>a</td>
+      <td>0.430019</td>
+      <td>0.456746</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>a</td>
+      <td>0.776135</td>
+      <td>0.619806</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>a</td>
+      <td>-0.392426</td>
+      <td>0.550026</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>b</td>
+      <td>1.414351</td>
+      <td>0.540627</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>b</td>
+      <td>0.586671</td>
+      <td>0.881002</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>b</td>
+      <td>-0.793543</td>
+      <td>0.209941</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>b</td>
+      <td>0.635490</td>
+      <td>0.580947</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grouped = df.groupby(<span class="string">'category'</span>)</span><br><span class="line">get_wavg = <span class="keyword">lambda</span> g:np.average(g[<span class="string">'data'</span>],weights=g[<span class="string">'weights'</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grouped.apply(get_wavg)</span><br></pre></td></tr></table></figure>
+<pre><code>category
+a   -0.302390
+b    0.670767
+dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">close_px = pd.read_csv(<span class="string">'examples/stock_px_2.csv'</span>, parse_dates=<span class="keyword">True</span>,</span><br><span class="line">                     index_col=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">close_px.info()</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+DatetimeIndex: 2214 entries, 2003-01-02 to 2011-10-14
+Data columns (total 4 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   AAPL    2214 non-null   float64
+ 1   MSFT    2214 non-null   float64
+ 2   XOM     2214 non-null   float64
+ 3   SPX     2214 non-null   float64
+dtypes: float64(4)
+memory usage: 166.5 KB
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">close_px[<span class="number">-4</span>:]</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>AAPL</th>
+      <th>MSFT</th>
+      <th>XOM</th>
+      <th>SPX</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2011-10-11</th>
+      <td>400.29</td>
+      <td>27.00</td>
+      <td>76.27</td>
+      <td>1195.54</td>
+    </tr>
+    <tr>
+      <th>2011-10-12</th>
+      <td>402.19</td>
+      <td>26.96</td>
+      <td>77.16</td>
+      <td>1207.25</td>
+    </tr>
+    <tr>
+      <th>2011-10-13</th>
+      <td>408.43</td>
+      <td>27.18</td>
+      <td>76.37</td>
+      <td>1203.66</td>
+    </tr>
+    <tr>
+      <th>2011-10-14</th>
+      <td>422.00</td>
+      <td>27.27</td>
+      <td>78.11</td>
+      <td>1224.58</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">spx_corr = <span class="keyword">lambda</span> x:x.corrwith(x[<span class="string">'SPX'</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rets = close_px.pct_change().dropna()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">get_year = <span class="keyword">lambda</span> x:x.year</span><br><span class="line">by_year = rets.groupby(get_year)</span><br><span class="line">by_year.apply(spx_corr)</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>AAPL</th>
+      <th>MSFT</th>
+      <th>XOM</th>
+      <th>SPX</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2003</th>
+      <td>0.541124</td>
+      <td>0.745174</td>
+      <td>0.661265</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2004</th>
+      <td>0.374283</td>
+      <td>0.588531</td>
+      <td>0.557742</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2005</th>
+      <td>0.467540</td>
+      <td>0.562374</td>
+      <td>0.631010</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2006</th>
+      <td>0.428267</td>
+      <td>0.406126</td>
+      <td>0.518514</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2007</th>
+      <td>0.508118</td>
+      <td>0.658770</td>
+      <td>0.786264</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2008</th>
+      <td>0.681434</td>
+      <td>0.804626</td>
+      <td>0.828303</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2009</th>
+      <td>0.707103</td>
+      <td>0.654902</td>
+      <td>0.797921</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2010</th>
+      <td>0.710105</td>
+      <td>0.730118</td>
+      <td>0.839057</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>2011</th>
+      <td>0.691931</td>
+      <td>0.800996</td>
+      <td>0.859975</td>
+      <td>1.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">i=<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> _,__ <span class="keyword">in</span> by_year:</span><br><span class="line">    <span class="keyword">if</span> i &lt;<span class="number">3</span>:</span><br><span class="line">        print(_)</span><br><span class="line">        print(__)</span><br><span class="line">    i+=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<pre><code>2003
+                AAPL      MSFT       XOM       SPX
+2003-01-03  0.006757  0.001421  0.000684 -0.000484
+2003-01-06  0.000000  0.017975  0.024624  0.022474
+2003-01-07 -0.002685  0.019052 -0.033712 -0.006545
+2003-01-08 -0.020188 -0.028272 -0.004145 -0.014086
+2003-01-09  0.008242  0.029094  0.021159  0.019386
+...              ...       ...       ...       ...
+2003-12-24  0.030303 -0.003717  0.002080 -0.001807
+2003-12-26  0.018627  0.006063  0.005336  0.001691
+2003-12-29  0.017324  0.009272  0.013270  0.012401
+2003-12-30  0.006623  0.002297  0.002619  0.000144
+2003-12-31  0.004699 -0.005500  0.007837  0.002055
+
+[251 rows x 4 columns]
+2004
+                AAPL      MSFT       XOM       SPX
+2004-01-02 -0.004677  0.002765 -0.008929 -0.003094
+2004-01-05  0.042293  0.025276  0.023249  0.012395
+2004-01-06 -0.003607  0.003586 -0.006816  0.001292
+2004-01-07  0.022624 -0.001340 -0.007149  0.002367
+2004-01-08  0.033628 -0.001342 -0.002592  0.004963
+...              ...       ...       ...       ...
+2004-12-27 -0.013433 -0.006266 -0.021074 -0.004305
+2004-12-28  0.016149  0.003783  0.003399  0.007154
+2004-12-29  0.004051 -0.001675  0.001581 -0.000074
+2004-12-30  0.005587 -0.005034 -0.002029  0.000082
+2004-12-31 -0.006173 -0.001686  0.004519 -0.001343
+
+[252 rows x 4 columns]
+2005
+                AAPL      MSFT       XOM       SPX
+2005-01-03 -0.017081  0.000845 -0.022717 -0.008119
+2005-01-04  0.010111  0.003797 -0.006904 -0.011671
+2005-01-05  0.008758 -0.002522 -0.005098 -0.003628
+2005-01-06  0.000930 -0.000843  0.012579  0.003506
+2005-01-07  0.072491 -0.002952 -0.006441 -0.001431
+...              ...       ...       ...       ...
+2005-12-23 -0.009052  0.002096  0.000000  0.000426
+2005-12-27  0.011997 -0.006695 -0.021571 -0.009553
+2005-12-28 -0.008891 -0.002949  0.006675  0.001297
+2005-12-29 -0.028816 -0.004225 -0.000201 -0.002981
+2005-12-30  0.006158 -0.004667 -0.001206 -0.004887
+
+[252 rows x 4 columns]
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">by_year.apply(<span class="keyword">lambda</span> g:g[<span class="string">'AAPL'</span>].corr(g[<span class="string">'MSFT'</span>]))</span><br></pre></td></tr></table></figure>
+<pre><code>2003    0.480868
+2004    0.259024
+2005    0.300093
+2006    0.161735
+2007    0.417738
+2008    0.611901
+2009    0.432738
+2010    0.571946
+2011    0.581987
+dtype: float64
+</code></pre><h2 id="组级别的线性回归"><a href="#组级别的线性回归" class="headerlink" title="组级别的线性回归"></a>组级别的线性回归</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> statsmodels.api <span class="keyword">as</span> sm</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">regress</span><span class="params">(data,yvar,xvars)</span>:</span></span><br><span class="line">    Y = data[yvar]</span><br><span class="line">    X = data[xvars]</span><br><span class="line">    X[<span class="string">'intercept'</span>]=<span class="number">1.</span></span><br><span class="line">    result = sm.OLS(Y,X).fit()</span><br><span class="line">    <span class="keyword">return</span> result.params</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">by_year.apply(regress,<span class="string">'AAPL'</span>,[<span class="string">'SPX'</span>]) <span class="comment"># ['SPX']使X成为一个DataFrame</span></span><br><span class="line"><span class="comment"># 之后也在X中生成intercept列</span></span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>SPX</th>
+      <th>intercept</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2003</th>
+      <td>1.195406</td>
+      <td>0.000710</td>
+    </tr>
+    <tr>
+      <th>2004</th>
+      <td>1.363463</td>
+      <td>0.004201</td>
+    </tr>
+    <tr>
+      <th>2005</th>
+      <td>1.766415</td>
+      <td>0.003246</td>
+    </tr>
+    <tr>
+      <th>2006</th>
+      <td>1.645496</td>
+      <td>0.000080</td>
+    </tr>
+    <tr>
+      <th>2007</th>
+      <td>1.198761</td>
+      <td>0.003438</td>
+    </tr>
+    <tr>
+      <th>2008</th>
+      <td>0.968016</td>
+      <td>-0.001110</td>
+    </tr>
+    <tr>
+      <th>2009</th>
+      <td>0.879103</td>
+      <td>0.002954</td>
+    </tr>
+    <tr>
+      <th>2010</th>
+      <td>1.052608</td>
+      <td>0.001261</td>
+    </tr>
+    <tr>
+      <th>2011</th>
+      <td>0.806605</td>
+      <td>0.001514</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rets.head()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>AAPL</th>
+      <th>MSFT</th>
+      <th>XOM</th>
+      <th>SPX</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2003-01-03</th>
+      <td>0.006757</td>
+      <td>0.001421</td>
+      <td>0.000684</td>
+      <td>-0.000484</td>
+    </tr>
+    <tr>
+      <th>2003-01-06</th>
+      <td>0.000000</td>
+      <td>0.017975</td>
+      <td>0.024624</td>
+      <td>0.022474</td>
+    </tr>
+    <tr>
+      <th>2003-01-07</th>
+      <td>-0.002685</td>
+      <td>0.019052</td>
+      <td>-0.033712</td>
+      <td>-0.006545</td>
+    </tr>
+    <tr>
+      <th>2003-01-08</th>
+      <td>-0.020188</td>
+      <td>-0.028272</td>
+      <td>-0.004145</td>
+      <td>-0.014086</td>
+    </tr>
+    <tr>
+      <th>2003-01-09</th>
+      <td>0.008242</td>
+      <td>0.029094</td>
+      <td>0.021159</td>
+      <td>0.019386</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rets[[<span class="string">'SPX'</span>]].head()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>SPX</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2003-01-03</th>
+      <td>-0.000484</td>
+    </tr>
+    <tr>
+      <th>2003-01-06</th>
+      <td>0.022474</td>
+    </tr>
+    <tr>
+      <th>2003-01-07</th>
+      <td>-0.006545</td>
+    </tr>
+    <tr>
+      <th>2003-01-08</th>
+      <td>-0.014086</td>
+    </tr>
+    <tr>
+      <th>2003-01-09</th>
+      <td>0.019386</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<h2 id="透视表和交叉表"><a href="#透视表和交叉表" class="headerlink" title="透视表和交叉表"></a>透视表和交叉表</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># pivot_table 默认聚合类型为分组平均数</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tips.pivot_table(index=[<span class="string">'day'</span>,<span class="string">'smoker'</span>]) <span class="comment"># 这个可以用groupby实现</span></span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>size</th>
+      <th>tip</th>
+      <th>total_bill</th>
+    </tr>
+    <tr>
+      <th>day</th>
+      <th>smoker</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="2" valign="top">Fri</th>
+      <th>No</th>
+      <td>2.250000</td>
+      <td>2.812500</td>
+      <td>18.420000</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>2.066667</td>
+      <td>2.714000</td>
+      <td>16.813333</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Sat</th>
+      <th>No</th>
+      <td>2.555556</td>
+      <td>3.102889</td>
+      <td>19.661778</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>2.476190</td>
+      <td>2.875476</td>
+      <td>21.276667</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Sun</th>
+      <th>No</th>
+      <td>2.929825</td>
+      <td>3.167895</td>
+      <td>20.506667</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>2.578947</td>
+      <td>3.516842</td>
+      <td>24.120000</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Thur</th>
+      <th>No</th>
+      <td>2.488889</td>
+      <td>2.673778</td>
+      <td>17.113111</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>2.352941</td>
+      <td>3.030000</td>
+      <td>19.190588</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 透视表</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tips.pivot_table([<span class="string">'tip_pct'</span>,<span class="string">'size'</span>],index=[<span class="string">'time'</span>,<span class="string">'day'</span>],</span><br><span class="line">                columns=<span class="string">'smoker'</span>)</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="2" halign="left">size</th>
+      <th colspan="2" halign="left">tip_pct</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>smoker</th>
+      <th>No</th>
+      <th>Yes</th>
+      <th>No</th>
+      <th>Yes</th>
+    </tr>
+    <tr>
+      <th>time</th>
+      <th>day</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="4" valign="top">Dinner</th>
+      <th>Fri</th>
+      <td>2.000000</td>
+      <td>2.222222</td>
+      <td>0.139622</td>
+      <td>0.165347</td>
+    </tr>
+    <tr>
+      <th>Sat</th>
+      <td>2.555556</td>
+      <td>2.476190</td>
+      <td>0.158048</td>
+      <td>0.147906</td>
+    </tr>
+    <tr>
+      <th>Sun</th>
+      <td>2.929825</td>
+      <td>2.578947</td>
+      <td>0.160113</td>
+      <td>0.187250</td>
+    </tr>
+    <tr>
+      <th>Thur</th>
+      <td>2.000000</td>
+      <td>NaN</td>
+      <td>0.159744</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Lunch</th>
+      <th>Fri</th>
+      <td>3.000000</td>
+      <td>1.833333</td>
+      <td>0.187735</td>
+      <td>0.188937</td>
+    </tr>
+    <tr>
+      <th>Thur</th>
+      <td>2.500000</td>
+      <td>2.352941</td>
+      <td>0.160311</td>
+      <td>0.163863</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tips.pivot_table([<span class="string">'tip_pct'</span>,<span class="string">'size'</span>],index=[<span class="string">'time'</span>,<span class="string">'day'</span>],</span><br><span class="line">                columns=<span class="string">'smoker'</span>,margins=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="3" halign="left">size</th>
+      <th colspan="3" halign="left">tip_pct</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>smoker</th>
+      <th>No</th>
+      <th>Yes</th>
+      <th>All</th>
+      <th>No</th>
+      <th>Yes</th>
+      <th>All</th>
+    </tr>
+    <tr>
+      <th>time</th>
+      <th>day</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="4" valign="top">Dinner</th>
+      <th>Fri</th>
+      <td>2.000000</td>
+      <td>2.222222</td>
+      <td>2.166667</td>
+      <td>0.139622</td>
+      <td>0.165347</td>
+      <td>0.158916</td>
+    </tr>
+    <tr>
+      <th>Sat</th>
+      <td>2.555556</td>
+      <td>2.476190</td>
+      <td>2.517241</td>
+      <td>0.158048</td>
+      <td>0.147906</td>
+      <td>0.153152</td>
+    </tr>
+    <tr>
+      <th>Sun</th>
+      <td>2.929825</td>
+      <td>2.578947</td>
+      <td>2.842105</td>
+      <td>0.160113</td>
+      <td>0.187250</td>
+      <td>0.166897</td>
+    </tr>
+    <tr>
+      <th>Thur</th>
+      <td>2.000000</td>
+      <td>NaN</td>
+      <td>2.000000</td>
+      <td>0.159744</td>
+      <td>NaN</td>
+      <td>0.159744</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Lunch</th>
+      <th>Fri</th>
+      <td>3.000000</td>
+      <td>1.833333</td>
+      <td>2.000000</td>
+      <td>0.187735</td>
+      <td>0.188937</td>
+      <td>0.188765</td>
+    </tr>
+    <tr>
+      <th>Thur</th>
+      <td>2.500000</td>
+      <td>2.352941</td>
+      <td>2.459016</td>
+      <td>0.160311</td>
+      <td>0.163863</td>
+      <td>0.161301</td>
+    </tr>
+    <tr>
+      <th>All</th>
+      <th></th>
+      <td>2.668874</td>
+      <td>2.408602</td>
+      <td>2.569672</td>
+      <td>0.159328</td>
+      <td>0.163196</td>
+      <td>0.160803</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ALL值为平均数：不单独考虑烟民和非烟民(All列)，</span></span><br><span class="line"><span class="comment">#不单独考虑行分组两个级别中的任何单项(All行)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tips.pivot_table([<span class="string">'tip_pct'</span>,<span class="string">'size'</span>],index=[<span class="string">'time'</span>,<span class="string">'day'</span>],</span><br><span class="line">                columns=<span class="string">'smoker'</span>,aggfunc=len,margins=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead tr th {
+        text-align: left;
+    }
+
+    .dataframe thead tr:last-of-type th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th colspan="3" halign="left">size</th>
+      <th colspan="3" halign="left">tip_pct</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>smoker</th>
+      <th>No</th>
+      <th>Yes</th>
+      <th>All</th>
+      <th>No</th>
+      <th>Yes</th>
+      <th>All</th>
+    </tr>
+    <tr>
+      <th>time</th>
+      <th>day</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="4" valign="top">Dinner</th>
+      <th>Fri</th>
+      <td>3.0</td>
+      <td>9.0</td>
+      <td>12</td>
+      <td>3.0</td>
+      <td>9.0</td>
+      <td>12.0</td>
+    </tr>
+    <tr>
+      <th>Sat</th>
+      <td>45.0</td>
+      <td>42.0</td>
+      <td>87</td>
+      <td>45.0</td>
+      <td>42.0</td>
+      <td>87.0</td>
+    </tr>
+    <tr>
+      <th>Sun</th>
+      <td>57.0</td>
+      <td>19.0</td>
+      <td>76</td>
+      <td>57.0</td>
+      <td>19.0</td>
+      <td>76.0</td>
+    </tr>
+    <tr>
+      <th>Thur</th>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>1.0</td>
+      <td>NaN</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Lunch</th>
+      <th>Fri</th>
+      <td>1.0</td>
+      <td>6.0</td>
+      <td>7</td>
+      <td>1.0</td>
+      <td>6.0</td>
+      <td>7.0</td>
+    </tr>
+    <tr>
+      <th>Thur</th>
+      <td>44.0</td>
+      <td>17.0</td>
+      <td>61</td>
+      <td>44.0</td>
+      <td>17.0</td>
+      <td>61.0</td>
+    </tr>
+    <tr>
+      <th>All</th>
+      <th></th>
+      <td>151.0</td>
+      <td>93.0</td>
+      <td>244</td>
+      <td>151.0</td>
+      <td>93.0</td>
+      <td>244.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tips.pivot_table(<span class="string">'tip_pct'</span>, index=[<span class="string">'time'</span>, <span class="string">'size'</span>, <span class="string">'smoker'</span>],</span><br><span class="line">            columns=<span class="string">'day'</span>, aggfunc=<span class="string">'mean'</span>, fill_value=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>day</th>
+      <th>Fri</th>
+      <th>Sat</th>
+      <th>Sun</th>
+      <th>Thur</th>
+    </tr>
+    <tr>
+      <th>time</th>
+      <th>size</th>
+      <th>smoker</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="11" valign="top">Dinner</th>
+      <th rowspan="2" valign="top">1</th>
+      <th>No</th>
+      <td>0.000000</td>
+      <td>0.137931</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>0.000000</td>
+      <td>0.325733</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">2</th>
+      <th>No</th>
+      <td>0.139622</td>
+      <td>0.162705</td>
+      <td>0.168859</td>
+      <td>0.159744</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>0.171297</td>
+      <td>0.148668</td>
+      <td>0.207893</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">3</th>
+      <th>No</th>
+      <td>0.000000</td>
+      <td>0.154661</td>
+      <td>0.152663</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>0.000000</td>
+      <td>0.144995</td>
+      <td>0.152660</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">4</th>
+      <th>No</th>
+      <td>0.000000</td>
+      <td>0.150096</td>
+      <td>0.148143</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>0.117750</td>
+      <td>0.124515</td>
+      <td>0.193370</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">5</th>
+      <th>No</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.206928</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>0.000000</td>
+      <td>0.106572</td>
+      <td>0.065660</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <th>No</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.103799</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th rowspan="10" valign="top">Lunch</th>
+      <th rowspan="2" valign="top">1</th>
+      <th>No</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.181728</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>0.223776</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">2</th>
+      <th>No</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.166005</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>0.181969</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.158843</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">3</th>
+      <th>No</th>
+      <td>0.187735</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.084246</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.204952</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">4</th>
+      <th>No</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.138919</td>
+    </tr>
+    <tr>
+      <th>Yes</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.155410</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <th>No</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.121389</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <th>No</th>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.000000</td>
+      <td>0.173706</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># crosstab 透视表</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Nationality = [<span class="string">'USA'</span>,<span class="string">'Japan'</span>,<span class="string">'USA'</span>,<span class="string">'Japan'</span>,<span class="string">'Japan'</span>,<span class="string">'Japan'</span>,</span><br><span class="line">               <span class="string">'USA'</span>,<span class="string">'USA'</span>,<span class="string">'Japan'</span>,<span class="string">'USA'</span>]</span><br><span class="line">Handedness = [<span class="string">'Right-handed'</span>,<span class="string">'left-handed'</span>,<span class="string">'Right-handed'</span>,</span><br><span class="line">              <span class="string">'Right-handed'</span>,</span><br><span class="line">              <span class="string">'left-handed'</span>,<span class="string">'Right-handed'</span>,</span><br><span class="line">             <span class="string">'Right-handed'</span>,<span class="string">'left-handed'</span>,<span class="string">'Right-handed'</span>,</span><br><span class="line">              <span class="string">'Right-handed'</span>]</span><br><span class="line">data = pd.DataFrame(&#123;<span class="string">'Sample'</span>:list(range(<span class="number">1</span>,<span class="number">11</span>)),</span><br><span class="line">                    <span class="string">'Nationality'</span>:Nationality,</span><br><span class="line">                    <span class="string">'Handedness'</span>:Handedness&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sample</th>
+      <th>Nationality</th>
+      <th>Handedness</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>USA</td>
+      <td>Right-handed</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>Japan</td>
+      <td>left-handed</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>USA</td>
+      <td>Right-handed</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>Japan</td>
+      <td>Right-handed</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>Japan</td>
+      <td>left-handed</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>Japan</td>
+      <td>Right-handed</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>USA</td>
+      <td>Right-handed</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>USA</td>
+      <td>left-handed</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>Japan</td>
+      <td>Right-handed</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>USA</td>
+      <td>Right-handed</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pd.crosstab(data.Nationality,data.Handedness,margins=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Handedness</th>
+      <th>Right-handed</th>
+      <th>left-handed</th>
+      <th>All</th>
+    </tr>
+    <tr>
+      <th>Nationality</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Japan</th>
+      <td>3</td>
+      <td>2</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>USA</th>
+      <td>4</td>
+      <td>1</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>All</th>
+      <td>7</td>
+      <td>3</td>
+      <td>10</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pd.crosstab([tips.time, tips.day], tips.smoker, margins=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>smoker</th>
+      <th>No</th>
+      <th>Yes</th>
+      <th>All</th>
+    </tr>
+    <tr>
+      <th>time</th>
+      <th>day</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="4" valign="top">Dinner</th>
+      <th>Fri</th>
+      <td>3</td>
+      <td>9</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>Sat</th>
+      <td>45</td>
+      <td>42</td>
+      <td>87</td>
+    </tr>
+    <tr>
+      <th>Sun</th>
+      <td>57</td>
+      <td>19</td>
+      <td>76</td>
+    </tr>
+    <tr>
+      <th>Thur</th>
+      <td>1</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">Lunch</th>
+      <th>Fri</th>
+      <td>1</td>
+      <td>6</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>Thur</th>
+      <td>44</td>
+      <td>17</td>
+      <td>61</td>
+    </tr>
+    <tr>
+      <th>All</th>
+      <th></th>
+      <td>151</td>
+      <td>93</td>
+      <td>244</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<hr>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/笔记/" rel="tag"># 笔记</a>
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/10/18/Matplotlib/" rel="next" title="Matplotlib学习">
+                <i class="fa fa-chevron-left"></i> Matplotlib学习
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/10/28/时间序列/" rel="prev" title="时间序列">
+                时间序列 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="wjqsteam" />
+            
+              <p class="site-author-name" itemprop="name">wjqsteam</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#对分组进行迭代"><span class="nav-number">1.</span> <span class="nav-text">对分组进行迭代</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选取一列或者列的子集"><span class="nav-number">2.</span> <span class="nav-text">选取一列或者列的子集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过字典或Series分组"><span class="nav-number">3.</span> <span class="nav-text">通过字典或Series分组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过函数进行分组"><span class="nav-number">4.</span> <span class="nav-text">通过函数进行分组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#根据索引级别分组"><span class="nav-number">5.</span> <span class="nav-text">根据索引级别分组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据聚合"><span class="nav-number">6.</span> <span class="nav-text">数据聚合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#面向列的多函数应用"><span class="nav-number">7.</span> <span class="nav-text">面向列的多函数应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以“没有行索引”的形式返回聚合数据"><span class="nav-number">8.</span> <span class="nav-text">以“没有行索引”的形式返回聚合数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#apply-一般性的：拆分-应用-合并”"><span class="nav-number">9.</span> <span class="nav-text">apply:一般性的：拆分-应用-合并”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#禁止分组键"><span class="nav-number">10.</span> <span class="nav-text">禁止分组键</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分位数和桶分析"><span class="nav-number">11.</span> <span class="nav-text">分位数和桶分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用特定于分组的值填充缺失值"><span class="nav-number">12.</span> <span class="nav-text">用特定于分组的值填充缺失值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#随机采样和排列"><span class="nav-number">13.</span> <span class="nav-text">随机采样和排列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分组加权平均数和相关系数"><span class="nav-number">14.</span> <span class="nav-text">分组加权平均数和相关系数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#组级别的线性回归"><span class="nav-number">15.</span> <span class="nav-text">组级别的线性回归</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#透视表和交叉表"><span class="nav-number">16.</span> <span class="nav-text">透视表和交叉表</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wjqsteam</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

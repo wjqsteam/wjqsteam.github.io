@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.2',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="python中的数学工具">
+<meta name="keywords" content="笔记,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数学工具">
+<meta property="og:url" content="http://yoursite.com/2021/03/26/数学工具/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="python中的数学工具">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/images/output_7_0.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_13_0.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_15_0.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_19_0.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_27_0.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_36_0.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_40_0.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_45_0.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_53_1.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_59_1.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_65_0.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_68_0.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_73_0.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_77_1.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_119_0.svg">
+<meta property="og:updated_time" content="2021-04-07T08:58:31.285Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数学工具">
+<meta name="twitter:description" content="python中的数学工具">
+<meta name="twitter:image" content="http://yoursite.com/images/output_7_0.svg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/03/26/数学工具/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>数学工具 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/26/数学工具/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wjqsteam">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数学工具
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-03-26 00:00:00" itemprop="dateCreated datePublished" datetime="2021-03-26T00:00:00+08:00">2021-03-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-04-07 16:58:31" itemprop="dateModified" datetime="2021-04-07T16:58:31+08:00">2021-04-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>python中的数学工具</p>
+<a id="more"></a>
+<hr>
+<h1 id="数学工具"><a href="#数学工具" class="headerlink" title="数学工具"></a>数学工具</h1><h2 id="逼近法"><a href="#逼近法" class="headerlink" title="逼近法"></a>逼近法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> pylab <span class="keyword">import</span> plt,mpl</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">plt.style.use(<span class="string">'seaborn'</span>)</span><br><span class="line">mpl.rcParams[<span class="string">'font.family'</span>] = <span class="string">'serif'</span></span><br><span class="line">%matplotlib inline</span><br><span class="line">%config InlineBackend.figure_format = <span class="string">'svg'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> np.sin(x) + <span class="number">0.5</span>*x</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 用于画图</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_plot</span><span class="params">(x,y,styles,labels,axlabels)</span>:</span></span><br><span class="line">    plt.figure(figsize=(<span class="number">9</span>,<span class="number">6</span>))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(x)):</span><br><span class="line">        plt.plot(x[i],y[i],styles[i],label=labels[i])</span><br><span class="line">        plt.xlabel(axlabels[<span class="number">0</span>])</span><br><span class="line">        plt.ylabel(axlabels[<span class="number">1</span>])</span><br><span class="line">    plt.legend(loc=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x = np.linspace(<span class="number">-2</span>*np.pi,<span class="number">2</span>*np.pi,<span class="number">50</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create_plot([x],[f(x)],[<span class="string">'b'</span>],[<span class="string">'f(x)'</span>],[<span class="string">'x'</span>,<span class="string">'f(x)'</span>])</span><br></pre></td></tr></table></figure>
+<p><img src="\images\output_7_0.svg" alt="svg"></p>
+<h3 id="回归"><a href="#回归" class="headerlink" title="回归"></a>回归</h3><ol>
+<li>作为基函数的单项式</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">res = np.polyfit(x,f(x),deg=<span class="number">1</span>,full=<span class="keyword">True</span>) <span class="comment"># deg=1 线性回归</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">explain = [<span class="string">'回归参数'</span>,<span class="string">'残差'</span>,<span class="string">'有效秩'</span>,<span class="string">'奇异值'</span>,<span class="string">'相对条件数'</span>]</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range (len(res)):</span><br><span class="line">    print(explain[i],res[i])</span><br></pre></td></tr></table></figure>
+<pre><code>回归参数 [ 4.28841952e-01 -1.40254456e-16]
+残差 [21.03238686]
+有效秩 2
+奇异值 [1. 1.]
+相对条件数 1.1102230246251565e-14
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ry = np.polyval(res[<span class="number">0</span>],x) <span class="comment"># 使用回归参数求回归后的y</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create_plot([x,x],[f(x),ry],[<span class="string">'b'</span>,<span class="string">'r.'</span>],[<span class="string">'f(x)'</span>,<span class="string">'regression'</span>],[<span class="string">'x'</span>,<span class="string">'f(x)'</span>])</span><br></pre></td></tr></table></figure>
+<p><img src="\images\output_13_0.svg" alt="svg"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用5次单项式作为基函数</span></span><br><span class="line">reg = np.polyfit(x,f(x),deg=<span class="number">5</span>)</span><br><span class="line">ry = np.polyval(reg,x)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create_plot([x,x],[f(x),ry],[<span class="string">'b'</span>,<span class="string">'r.'</span>],[<span class="string">'f(x)'</span>,<span class="string">'regression'</span>],[<span class="string">'x'</span>,<span class="string">'f(x)'</span>])</span><br><span class="line">plt.title(<span class="string">'Deg=5'</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="\images\output_15_0.svg" alt="svg"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用7次的单项式</span></span><br><span class="line">reg = np.polyfit(x,f(x),deg=<span class="number">7</span>)</span><br><span class="line">ry = np.polyval(reg,x)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.allclose(f(x),ry) <span class="comment"># 检查函数和回归值是否相同(至少接近)</span></span><br></pre></td></tr></table></figure>
+<pre><code>False
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.mean((f(x)-ry)**<span class="number">2</span>) <span class="comment"># 计算均方差(MSE)</span></span><br></pre></td></tr></table></figure>
+<pre><code>0.0017769134759517593
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create_plot([x,x],[f(x),ry],[<span class="string">'b'</span>,<span class="string">'r.'</span>],[<span class="string">'f(x)'</span>,<span class="string">'regression'</span>],[<span class="string">'x'</span>,<span class="string">'f(x)'</span>])</span><br><span class="line">plt.title(<span class="string">'Deg=7'</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="\images\output_19_0.svg" alt="svg"></p>
+<ol>
+<li>单独的基函数</li>
+</ol>
+<p>一般来说，选择更好的基函数组时可以得到更好的回归结果。在这种情况下，单独的基函数必必须通过一个矩阵方法去定义。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">matrix = np.zeros((<span class="number">3</span>+<span class="number">1</span>,len(x)))</span><br><span class="line">matrix[<span class="number">3</span>,:] = x**<span class="number">3</span></span><br><span class="line">matrix[<span class="number">2</span>,:] = x**<span class="number">2</span></span><br><span class="line">matrix[<span class="number">1</span>,:] = x</span><br><span class="line">matrix[<span class="number">0</span>,:] = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reg = np.linalg.lstsq(matrix.T,f(x),rcond=<span class="keyword">None</span>)[<span class="number">0</span>] <span class="comment"># 回归步骤</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reg.round(<span class="number">4</span>) <span class="comment"># 最优回归参数</span></span><br></pre></td></tr></table></figure>
+<pre><code>array([ 0.    ,  0.5628, -0.    , -0.0054])
+</code></pre><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.dot?</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ry = np.dot(reg,matrix) <span class="comment"># 函数值的回归估算</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create_plot([x,x],[f(x),ry],[<span class="string">'b'</span>,<span class="string">'r.'</span>],[<span class="string">'f(x)'</span>,<span class="string">'regression'</span>],[<span class="string">'x'</span>,<span class="string">'f(x)'</span>])</span><br></pre></td></tr></table></figure>
+<p><img src="\images\output_27_0.svg" alt="svg"></p>
+<p>我们知道函数中有一个sin部分，因此在基函数中包含一个正弦函数是有意义的。简单起见，替换最高次的多项式。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">matrix[<span class="number">3</span>,:] = np.sin(x)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">matrix</span><br></pre></td></tr></table></figure>
+<pre><code>array([[ 1.00000000e+00,  1.00000000e+00,  1.00000000e+00,
+         1.00000000e+00,  1.00000000e+00,  1.00000000e+00,
+         1.00000000e+00,  1.00000000e+00,  1.00000000e+00,
+         1.00000000e+00,  1.00000000e+00,  1.00000000e+00,
+         1.00000000e+00,  1.00000000e+00,  1.00000000e+00,
+         1.00000000e+00,  1.00000000e+00,  1.00000000e+00,
+         1.00000000e+00,  1.00000000e+00,  1.00000000e+00,
+         1.00000000e+00,  1.00000000e+00,  1.00000000e+00,
+         1.00000000e+00,  1.00000000e+00,  1.00000000e+00,
+         1.00000000e+00,  1.00000000e+00,  1.00000000e+00,
+         1.00000000e+00,  1.00000000e+00,  1.00000000e+00,
+         1.00000000e+00,  1.00000000e+00,  1.00000000e+00,
+         1.00000000e+00,  1.00000000e+00,  1.00000000e+00,
+         1.00000000e+00,  1.00000000e+00,  1.00000000e+00,
+         1.00000000e+00,  1.00000000e+00,  1.00000000e+00,
+         1.00000000e+00,  1.00000000e+00,  1.00000000e+00,
+         1.00000000e+00,  1.00000000e+00],
+       [-6.28318531e+00, -6.02672876e+00, -5.77027222e+00,
+        -5.51381568e+00, -5.25735913e+00, -5.00090259e+00,
+        -4.74444605e+00, -4.48798951e+00, -4.23153296e+00,
+        -3.97507642e+00, -3.71861988e+00, -3.46216333e+00,
+        -3.20570679e+00, -2.94925025e+00, -2.69279370e+00,
+        -2.43633716e+00, -2.17988062e+00, -1.92342407e+00,
+        -1.66696753e+00, -1.41051099e+00, -1.15405444e+00,
+        -8.97597901e-01, -6.41141358e-01, -3.84684815e-01,
+        -1.28228272e-01,  1.28228272e-01,  3.84684815e-01,
+         6.41141358e-01,  8.97597901e-01,  1.15405444e+00,
+         1.41051099e+00,  1.66696753e+00,  1.92342407e+00,
+         2.17988062e+00,  2.43633716e+00,  2.69279370e+00,
+         2.94925025e+00,  3.20570679e+00,  3.46216333e+00,
+         3.71861988e+00,  3.97507642e+00,  4.23153296e+00,
+         4.48798951e+00,  4.74444605e+00,  5.00090259e+00,
+         5.25735913e+00,  5.51381568e+00,  5.77027222e+00,
+         6.02672876e+00,  6.28318531e+00],
+       [ 3.94784176e+01,  3.63214596e+01,  3.32960415e+01,
+         3.04021633e+01,  2.76398251e+01,  2.50090267e+01,
+         2.25097683e+01,  2.01420498e+01,  1.79058712e+01,
+         1.58012325e+01,  1.38281338e+01,  1.19865749e+01,
+         1.02765560e+01,  8.69807701e+00,  7.25113793e+00,
+         5.93573876e+00,  4.75187950e+00,  3.69956017e+00,
+         2.77878075e+00,  1.98954125e+00,  1.33184166e+00,
+         8.05681992e-01,  4.11062241e-01,  1.47982407e-01,
+         1.64424896e-02,  1.64424896e-02,  1.47982407e-01,
+         4.11062241e-01,  8.05681992e-01,  1.33184166e+00,
+         1.98954125e+00,  2.77878075e+00,  3.69956017e+00,
+         4.75187950e+00,  5.93573876e+00,  7.25113793e+00,
+         8.69807701e+00,  1.02765560e+01,  1.19865749e+01,
+         1.38281338e+01,  1.58012325e+01,  1.79058712e+01,
+         2.01420498e+01,  2.25097683e+01,  2.50090267e+01,
+         2.76398251e+01,  3.04021633e+01,  3.32960415e+01,
+         3.63214596e+01,  3.94784176e+01],
+       [ 2.44929360e-16,  2.53654584e-01,  4.90717552e-01,
+         6.95682551e-01,  8.55142763e-01,  9.58667853e-01,
+         9.99486216e-01,  9.74927912e-01,  8.86599306e-01,
+         7.40277997e-01,  5.45534901e-01,  3.15108218e-01,
+         6.40702200e-02, -1.91158629e-01, -4.33883739e-01,
+        -6.48228395e-01, -8.20172255e-01, -9.38468422e-01,
+        -9.95379113e-01, -9.87181783e-01, -9.14412623e-01,
+        -7.81831482e-01, -5.98110530e-01, -3.75267005e-01,
+        -1.27877162e-01,  1.27877162e-01,  3.75267005e-01,
+         5.98110530e-01,  7.81831482e-01,  9.14412623e-01,
+         9.87181783e-01,  9.95379113e-01,  9.38468422e-01,
+         8.20172255e-01,  6.48228395e-01,  4.33883739e-01,
+         1.91158629e-01, -6.40702200e-02, -3.15108218e-01,
+        -5.45534901e-01, -7.40277997e-01, -8.86599306e-01,
+        -9.74927912e-01, -9.99486216e-01, -9.58667853e-01,
+        -8.55142763e-01, -6.95682551e-01, -4.90717552e-01,
+        -2.53654584e-01, -2.44929360e-16]])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reg = np.linalg.lstsq(matrix.T,f(x),rcond=<span class="keyword">None</span>)[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reg.round(<span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>array([0. , 0.5, 0. , 1. ])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ry = np.dot(reg,matrix)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.allclose(f(x),ry)</span><br></pre></td></tr></table></figure>
+<pre><code>True
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.mean((f(x)-ry)**<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>3.345571424993955e-31
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create_plot([x,x],[f(x),ry],[<span class="string">'b'</span>,<span class="string">'r.'</span>],[<span class="string">'f(x)'</span>,<span class="string">'regression'</span>],[<span class="string">'x'</span>,<span class="string">'f(x)'</span>])</span><br></pre></td></tr></table></figure>
+<p><img src="\images\output_36_0.svg" alt="svg"></p>
+<ol>
+<li>有噪声的数据</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">xn = np.linspace(<span class="number">-2</span> * np.pi,<span class="number">2</span>*np.pi,<span class="number">50</span>)</span><br><span class="line">xn = xn + <span class="number">0.15</span>*np.random.standard_normal(len(xn))</span><br><span class="line">yn = f(xn) + <span class="number">0.25</span>*np.random.standard_normal(len(xn))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reg = np.polyfit(xn,yn,<span class="number">7</span>)</span><br><span class="line">ry = np.polyval(reg,xn)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create_plot([x,x,xn],[f(x),ry,yn],[<span class="string">'b'</span>,<span class="string">'r.'</span>,<span class="string">'g.'</span>],[<span class="string">'f(x)'</span>,<span class="string">'regression'</span>,<span class="string">'yn'</span>],[<span class="string">'x'</span>,<span class="string">'f(x)'</span>,<span class="string">'yn'</span>])</span><br></pre></td></tr></table></figure>
+<p><img src="\images\output_40_0.svg" alt="svg"></p>
+<ol>
+<li>未排序数据</li>
+</ol>
+<p>回归可以无缝地处理未排序的数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xu = np.random.rand(<span class="number">50</span>)*<span class="number">4</span>*np.pi<span class="number">-2</span>*np.pi</span><br><span class="line">yu = f(xu)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(xu[:<span class="number">10</span>].round(<span class="number">2</span>))</span><br><span class="line">print(yu[:<span class="number">10</span>].round(<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+<pre><code>[ 0.65  4.91 -1.77 -2.19  4.96  2.77  4.26  1.49 -0.31  3.47]
+[ 0.93  1.47 -1.87 -1.91  1.51  1.75  1.23  1.74 -0.46  1.41]
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">reg = np.polyfit(xu,yu,<span class="number">5</span>)</span><br><span class="line">ry = np.polyval(reg,xu)</span><br><span class="line">create_plot([xu,xu],[yu,ry],[<span class="string">'b.'</span>,<span class="string">'ro'</span>],[<span class="string">'f(x)'</span>,<span class="string">'regression'</span>],[<span class="string">'x'</span>,<span class="string">'f(x)'</span>])</span><br></pre></td></tr></table></figure>
+<p><img src="\images\output_45_0.svg" alt="svg"></p>
+<ol>
+<li>多维</li>
+</ol>
+<p>最小二乘法的优势的一个优点在于，不需要太多的修改就可以用于多维的情况。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fm</span><span class="params">(p)</span>:</span></span><br><span class="line">    x,y=p</span><br><span class="line">    <span class="keyword">return</span> np.sin(x)+<span class="number">0.25</span>*x+np.sqrt(y)+<span class="number">0.05</span>*y**<span class="number">2</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x = np.linspace(<span class="number">0</span>,<span class="number">10</span>,<span class="number">20</span>)</span><br><span class="line">y = np.linspace(<span class="number">0</span>,<span class="number">10</span>,<span class="number">20</span>)</span><br><span class="line">X,Y = np.meshgrid(x,y) <span class="comment"># 从一维ndarray对象生成二维ndarray对象(网格)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Z = fm((X,Y))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = X.flatten()</span><br><span class="line">y = Y.flatten() <span class="comment"># 从二维ndarray对象得到一维ndarray对象</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> mpl_toolkits.mplot3d <span class="keyword">import</span> Axes3D</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fig = plt.figure(figsize=(<span class="number">10</span>,<span class="number">6</span>))</span><br><span class="line">ax = fig.gca(projection=<span class="string">'3d'</span>)</span><br><span class="line">surf = ax.plot_surface(X,Y,Z,rstride=<span class="number">2</span>,cstride=<span class="number">2</span>,cmap=<span class="string">'coolwarm'</span>,linewidth=<span class="number">0.5</span>,antialiased=<span class="keyword">True</span>)</span><br><span class="line">ax.set_xlabel(<span class="string">'x'</span>)</span><br><span class="line">ax.set_ylabel(<span class="string">'y'</span>)</span><br><span class="line">ax.set_zlabel(<span class="string">'f(x,y)'</span>)</span><br><span class="line">fig.colorbar(surf,shrink=<span class="number">0.5</span>,aspect=<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;matplotlib.colorbar.Colorbar at 0x1861b155550&gt;
+</code></pre><p><img src="\images\output_53_1.svg" alt="svg"></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fig.gca?</span><br></pre></td></tr></table></figure>
+<p>为了获得好的回归结果，将应用基本函数集</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">matrix = np.zeros((len(x),<span class="number">6</span>+<span class="number">1</span>))</span><br><span class="line">matrix[:, <span class="number">6</span>] = np.sqrt(y)</span><br><span class="line">matrix[:, <span class="number">5</span>] = np.sin(x)</span><br><span class="line">matrix[:, <span class="number">4</span>] = y**<span class="number">2</span></span><br><span class="line">matrix[:, <span class="number">3</span>] = x**<span class="number">2</span></span><br><span class="line">matrix[:, <span class="number">2</span>] = y</span><br><span class="line">matrix[:, <span class="number">1</span>] = x</span><br><span class="line">matrix[:, <span class="number">0</span>] = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">reg = np.linalg.lstsq(matrix,fm((x,y)),rcond=<span class="keyword">None</span>)[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RZ = np.dot(matrix,reg).reshape((<span class="number">20</span>,<span class="number">20</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fig = plt.figure(figsize=(<span class="number">10</span>,<span class="number">6</span>))</span><br><span class="line">ax = fig.gca(projection=<span class="string">'3d'</span>)</span><br><span class="line"><span class="comment"># 绘制原始曲面</span></span><br><span class="line">surf1 = ax.plot_surface(X,Y,Z,rstride=<span class="number">2</span>,cstride=<span class="number">2</span>,cmap=<span class="string">'coolwarm'</span>,linewidth=<span class="number">0.5</span>,antialiased=<span class="keyword">True</span>)</span><br><span class="line"><span class="comment"># 绘制回归曲面</span></span><br><span class="line">surf2 = ax.plot_wireframe(X,Y,RZ,rstride=<span class="number">2</span>,cstride=<span class="number">2</span>,label=<span class="string">'regression'</span>)</span><br><span class="line">ax.set_xlabel(<span class="string">'x'</span>)</span><br><span class="line">ax.set_ylabel(<span class="string">'y'</span>)</span><br><span class="line">ax.set_zlabel(<span class="string">'f(x,y)'</span>)</span><br><span class="line">ax.legend()</span><br><span class="line">fig.colorbar(surf,shrink=<span class="number">0.5</span>,aspect=<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;matplotlib.colorbar.Colorbar at 0x1861c038880&gt;
+</code></pre><p><img src="\images\output_59_1.svg" alt="svg"></p>
+<h3 id="插值"><a href="#插值" class="headerlink" title="插值"></a>插值</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scipy.interpolate <span class="keyword">as</span> spi</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;frozen importlib._bootstrap&gt;:219: RuntimeWarning: numpy.ufunc size changed, may indicate binary incompatibility. Expected 192 from C header, got 216 from PyObject
+&lt;frozen importlib._bootstrap&gt;:219: RuntimeWarning: numpy.ufunc size changed, may indicate binary incompatibility. Expected 192 from C header, got 216 from PyObject
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">x = np.linspace(<span class="number">-2</span>*np.pi,<span class="number">2</span>*np.pi,<span class="number">25</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> np.sin(x)+<span class="number">0.5</span>*x</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ipo = spi.splrep(x,f(x),k=<span class="number">1</span>) <span class="comment"># 线性样条插值 k:样条拟合顺序</span></span><br><span class="line">iy = spi.splev(x,ipo)</span><br><span class="line">np.allclose(f(x),iy)</span><br></pre></td></tr></table></figure>
+<pre><code>True
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create_plot([x,x],[f(x),iy],[<span class="string">'b'</span>,<span class="string">'ro'</span>],[<span class="string">'f(x)'</span>,<span class="string">'interpolation'</span>],[<span class="string">'x'</span>,<span class="string">'f(x)'</span>])</span><br></pre></td></tr></table></figure>
+<p><img src="\images\output_65_0.svg" alt="svg"></p>
+<p>选取更小的区间，而函数在该区间的原始数据点上不是连续可微分的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xd = np.linspace(<span class="number">1.0</span>,<span class="number">3.0</span>,<span class="number">50</span>)</span><br><span class="line">iyd = spi.splev(xd,ipo)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create_plot([xd,xd],[f(xd),iyd],[<span class="string">'b'</span>,<span class="string">'ro'</span>],[<span class="string">'f(x)'</span>,<span class="string">'interpolation'</span>],[<span class="string">'x'</span>,<span class="string">'f(x)'</span>])</span><br></pre></td></tr></table></figure>
+<p><img src="\images\output_68_0.svg" alt="svg"></p>
+<p>使用3次样条插值能明显改善结果</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ipo = spi.splrep(x,f(x),k=<span class="number">3</span>)</span><br><span class="line">iyd = spi.splev(xd,ipo)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.allclose(f(xd),iyd) <span class="comment"># 仍然不完美</span></span><br></pre></td></tr></table></figure>
+<pre><code>False
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.mean((f(xd)-iyd)**<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>1.1349319851436252e-08
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create_plot([xd,xd],[f(xd),iyd],[<span class="string">'b'</span>,<span class="string">'ro'</span>],[<span class="string">'f(x)'</span>,<span class="string">'interpolation'</span>],[<span class="string">'x'</span>,<span class="string">'f(x)'</span>])</span><br><span class="line"><span class="comment"># 从效果上好于之前</span></span><br></pre></td></tr></table></figure>
+<p><img src="\images\output_73_0.svg" alt="svg"></p>
+<h2 id="凸优化"><a href="#凸优化" class="headerlink" title="凸优化"></a>凸优化</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fm</span><span class="params">(p)</span>:</span></span><br><span class="line">    x,y=p</span><br><span class="line">    <span class="keyword">return</span> (np.sin(x)+<span class="number">0.05</span>*x**<span class="number">2</span>+np.sin(y)+<span class="number">0.05</span>*y**<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x = np.linspace(<span class="number">-10</span>,<span class="number">10</span>,<span class="number">50</span>)</span><br><span class="line">y = np.linspace(<span class="number">-10</span>,<span class="number">10</span>,<span class="number">50</span>)</span><br><span class="line">X,Y = np.meshgrid(x,y)</span><br><span class="line">Z = fm((X,Y))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fig = plt.figure(figsize=(<span class="number">10</span>,<span class="number">6</span>))</span><br><span class="line">ax = fig.gca(projection=<span class="string">'3d'</span>)</span><br><span class="line">surf = ax.plot_surface(X,Y,Z,rstride=<span class="number">2</span>,cstride=<span class="number">2</span>,cmap=<span class="string">'coolwarm'</span>,linewidth=<span class="number">0.5</span>,antialiased=<span class="keyword">True</span>)</span><br><span class="line">ax.set_xlabel(<span class="string">'x'</span>)</span><br><span class="line">ax.set_ylabel(<span class="string">'y'</span>)</span><br><span class="line">ax.set_zlabel(<span class="string">'f(x,y)'</span>)</span><br><span class="line">fig.colorbar(surf,shrink=<span class="number">0.5</span>,aspect=<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;matplotlib.colorbar.Colorbar at 0x186174d0c10&gt;
+</code></pre><p><img src="\images\output_77_1.svg" alt="svg"></p>
+<p>该函数有多个局部极小值，从这个特定的图形表现中无法真正确认全局最小值是否存在</p>
+<h3 id="全局优化"><a href="#全局优化" class="headerlink" title="全局优化"></a>全局优化</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scipy.optimize <span class="keyword">as</span> sco</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;frozen importlib._bootstrap&gt;:219: RuntimeWarning: numpy.ufunc size changed, may indicate binary incompatibility. Expected 192 from C header, got 216 from PyObject
+&lt;frozen importlib._bootstrap&gt;:219: RuntimeWarning: numpy.ufunc size changed, may indicate binary incompatibility. Expected 192 from C header, got 216 from PyObject
+&lt;frozen importlib._bootstrap&gt;:219: RuntimeWarning: numpy.ufunc size changed, may indicate binary incompatibility. Expected 192 from C header, got 216 from PyObject
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fo</span><span class="params">(p)</span>:</span></span><br><span class="line">    x,y=p</span><br><span class="line">    z = np.sin(x)+<span class="number">0.05</span>*x**<span class="number">2</span>+np.sin(y)+<span class="number">0.05</span>*y**<span class="number">2</span></span><br><span class="line">    <span class="keyword">if</span> output == <span class="keyword">True</span>:</span><br><span class="line">        print(<span class="string">'%8.4f | %8.4f | %8.4f'</span> % (x,y,z))</span><br><span class="line">    <span class="keyword">return</span> z</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">output = <span class="keyword">True</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sco.brute(fo,((<span class="number">-10</span>,<span class="number">10.1</span>,<span class="number">5</span>),(<span class="number">-10</span>,<span class="number">10.1</span>,<span class="number">5</span>)),finish=<span class="keyword">None</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>-10.0000 | -10.0000 |  11.0880
+-10.0000 |  -5.0000 |   7.7529
+-10.0000 |   0.0000 |   5.5440
+-10.0000 |   5.0000 |   5.8351
+-10.0000 |  10.0000 |  10.0000
+ -5.0000 | -10.0000 |   7.7529
+ -5.0000 |  -5.0000 |   4.4178
+ -5.0000 |   0.0000 |   2.2089
+ -5.0000 |   5.0000 |   2.5000
+ -5.0000 |  10.0000 |   6.6649
+  0.0000 | -10.0000 |   5.5440
+  0.0000 |  -5.0000 |   2.2089
+  0.0000 |   0.0000 |   0.0000
+  0.0000 |   5.0000 |   0.2911
+  0.0000 |  10.0000 |   4.4560
+  5.0000 | -10.0000 |   5.8351
+  5.0000 |  -5.0000 |   2.5000
+  5.0000 |   0.0000 |   0.2911
+  5.0000 |   5.0000 |   0.5822
+  5.0000 |  10.0000 |   4.7471
+ 10.0000 | -10.0000 |  10.0000
+ 10.0000 |  -5.0000 |   6.6649
+ 10.0000 |   0.0000 |   4.4560
+ 10.0000 |   5.0000 |   4.7471
+ 10.0000 |  10.0000 |   8.9120
+
+
+
+
+
+array([0., 0.])
+</code></pre><p>最优参数值为x=y=0</p>
+<p>下面进行优化以获得更好的结果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">output=<span class="keyword">False</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opt1 = sco.brute(fo,((<span class="number">-10</span>,<span class="number">10.1</span>,<span class="number">0.1</span>),(<span class="number">-10</span>,<span class="number">10.1</span>,<span class="number">0.1</span>)),finish=<span class="keyword">None</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opt1</span><br></pre></td></tr></table></figure>
+<pre><code>array([-1.4, -1.4])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fm(opt1)</span><br></pre></td></tr></table></figure>
+<pre><code>-1.7748994599769203
+</code></pre><p>最小参数值为x=y=1.4,最小函数值为-1.7749</p>
+<h3 id="局部优化"><a href="#局部优化" class="headerlink" title="局部优化"></a>局部优化</h3><p><code>sco.fmin(函数,起始参数值,输入参数宽容度,函数值宽容度,最大迭代次数,函数调用次数)</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">output = <span class="keyword">True</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opt2 = sco.fmin(fo,opt1,xtol=<span class="number">0.001</span>,ftol=<span class="number">0.001</span>,maxiter=<span class="number">15</span>,maxfun=<span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+<pre><code> -1.4000 |  -1.4000 |  -1.7749
+ -1.4700 |  -1.4000 |  -1.7743
+ -1.4000 |  -1.4700 |  -1.7743
+ -1.3300 |  -1.4700 |  -1.7696
+ -1.4350 |  -1.4175 |  -1.7756
+ -1.4350 |  -1.3475 |  -1.7722
+ -1.4088 |  -1.4394 |  -1.7755
+ -1.4438 |  -1.4569 |  -1.7751
+ -1.4328 |  -1.4427 |  -1.7756
+ -1.4591 |  -1.4208 |  -1.7752
+ -1.4213 |  -1.4347 |  -1.7757
+ -1.4235 |  -1.4096 |  -1.7755
+ -1.4305 |  -1.4344 |  -1.7757
+ -1.4168 |  -1.4516 |  -1.7753
+ -1.4305 |  -1.4260 |  -1.7757
+ -1.4396 |  -1.4257 |  -1.7756
+ -1.4259 |  -1.4325 |  -1.7757
+ -1.4259 |  -1.4241 |  -1.7757
+ -1.4304 |  -1.4177 |  -1.7757
+ -1.4270 |  -1.4288 |  -1.7757
+Warning: Maximum number of function evaluations has been exceeded.
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opt2</span><br></pre></td></tr></table></figure>
+<pre><code>array([-1.42702972, -1.42876755])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fm(opt2)</span><br></pre></td></tr></table></figure>
+<pre><code>-1.7757246992239009
+</code></pre><p>在许多凸优化问题中，建议在局部优化之前进行全局优化。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">output = <span class="keyword">False</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sco.fmin(fo,(<span class="number">2.0</span>,<span class="number">2.0</span>),maxiter=<span class="number">250</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Optimization terminated successfully.
+         Current function value: 0.015826
+         Iterations: 46
+         Function evaluations: 86
+
+
+
+
+
+array([4.2710728 , 4.27106945])
+</code></pre><p>以上可以看出结果并不准确了。</p>
+<h3 id="有约束优化"><a href="#有约束优化" class="headerlink" title="有约束优化"></a>有约束优化</h3><p>预期效用最大化问题:</p>
+<script type="math/tex; mode=display">
+max_{a,b}E(u(w_1))=p\sqrt{w_{1u}}+(1-p)\sqrt{w_{1d}}\\
+w_1 = a\times r_a+b\times r_b \\
+w_0 \ge a\times q_a + b \times q_b \\
+a,b \ge 0</script><p>代入数值，对负数的预期效用最小化进行更改</p>
+<script type="math/tex; mode=display">
+min_{a.b}-E(u(w_i))=-(0.5\cdot\sqrt {w_{1u}}+0.5\cdot\sqrt {w_{1d}}) \\
+w_{1u}=a\cdot15+b\cdot5 \\
+w_{1d}=a\cdot 5+b\cdot12 \\
+100\ge a\cdot10+b\cdot 10 \\
+a,b\ge0</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Eu</span><span class="params">(p)</span>:</span> <span class="comment"># 目标函数</span></span><br><span class="line">    s,b=p</span><br><span class="line">    <span class="keyword">return</span> -(<span class="number">0.5</span>*math.sqrt(s*<span class="number">15</span>+b*<span class="number">5</span>)+<span class="number">0.5</span>*math.sqrt(s*<span class="number">5</span>+b*<span class="number">12</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cons = (&#123;<span class="string">'type'</span>:<span class="string">'ineq'</span>,<span class="string">'fun'</span>:<span class="keyword">lambda</span> p:<span class="number">100</span>-p[<span class="number">0</span>]*<span class="number">10</span>-p[<span class="number">1</span>]*<span class="number">10</span>&#125;) <span class="comment"># 不等式约束</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bnds = ((<span class="number">0</span>,<span class="number">1000</span>),(<span class="number">0</span>,<span class="number">1000</span>))<span class="comment"># 参数边界值</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result = sco.minimize(Eu,[<span class="number">5</span>,<span class="number">5</span>],method=<span class="string">'SLSQP'</span>,bounds=bnds,constraints=cons)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result</span><br></pre></td></tr></table></figure>
+<pre><code>     fun: -9.700883611487832
+     jac: array([-0.48508096, -0.48489535])
+ message: &#39;Optimization terminated successfully&#39;
+    nfev: 16
+     nit: 5
+    njev: 5
+  status: 0
+ success: True
+       x: array([8.02547122, 1.97452878])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 最优参数值</span></span><br><span class="line">result[<span class="string">'x'</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>array([8.02547122, 1.97452878])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 最有函数值</span></span><br><span class="line">-result[<span class="string">'fun'</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>9.700883611487832
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.dot(result[<span class="string">'x'</span>],[<span class="number">10</span>,<span class="number">10</span>]) <span class="comment"># 验证预算约束是有约束力的：投入了所有财富</span></span><br></pre></td></tr></table></figure>
+<pre><code>99.99999999999999
+</code></pre><h2 id="积分"><a href="#积分" class="headerlink" title="积分"></a>积分</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scipy.integrate <span class="keyword">as</span> sci</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> np.sin(x)+<span class="number">0.5</span>*x</span><br></pre></td></tr></table></figure>
+<p>求积分</p>
+<script type="math/tex; mode=display">
+\int_{0.5}^{9.5}f(x)dx=\int_{0.5}^{9.5}sin(x)+0.5xdx</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">x = np.linspace(<span class="number">0</span>,<span class="number">10</span>)</span><br><span class="line">y = f(x)</span><br><span class="line">a=<span class="number">0.5</span></span><br><span class="line">b=<span class="number">9.5</span></span><br><span class="line">Ix = np.linspace(a,b)</span><br><span class="line">Iy = f(Ix)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> matplotlib.patches <span class="keyword">import</span> Polygon</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">fig,ax = plt.subplots(figsize=(<span class="number">10</span>,<span class="number">6</span>))</span><br><span class="line">plt.plot(x,y,<span class="string">'b'</span>,linewidth=<span class="number">2</span>)</span><br><span class="line">plt.ylim(bottom=<span class="number">0</span>)</span><br><span class="line">verts = [(a,<span class="number">0</span>)] + list(zip(Ix,Iy)) + [(b,<span class="number">0</span>)]</span><br><span class="line">poly = Polygon(verts,facecolor=<span class="string">'0.7'</span>,edgecolor=<span class="string">'0.5'</span>)</span><br><span class="line">ax.add_patch(poly)</span><br><span class="line">plt.text(<span class="number">0.75</span>*(a+b),<span class="number">1.5</span>,<span class="string">r"$\int_a^b f(x)dx$"</span>,horizontalalignment=<span class="string">'center'</span>,fontsize=<span class="number">20</span>)</span><br><span class="line">plt.figtext(<span class="number">0.9</span>,<span class="number">0.075</span>,<span class="string">'$x$'</span>)</span><br><span class="line">plt.figtext(<span class="number">0.075</span>,<span class="number">0.9</span>,<span class="string">'%$f(x)$'</span>)</span><br><span class="line">ax.set_xticks((a,b))</span><br><span class="line">ax.set_xticklabels((<span class="string">'$a$'</span>,<span class="string">'$b$'</span>))</span><br><span class="line">ax.set_yticks([f(a),f(b)]);</span><br></pre></td></tr></table></figure>
+<p><img src="\images\output_119_0.svg" alt="svg"></p>
+<h3 id="数值积分"><a href="#数值积分" class="headerlink" title="数值积分"></a>数值积分</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 固定高斯求积</span></span><br><span class="line">sci.fixed_quad(f,a,b)[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>24.366995967084602
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 自适应求积</span></span><br><span class="line">sci.quad(f,a,b)[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>24.374754718086752
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 龙贝格积分</span></span><br><span class="line">sci.romberg(f,a,b)</span><br></pre></td></tr></table></figure>
+<pre><code>24.374754718086713
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xi = np.linspace(<span class="number">0.5</span>,<span class="number">9.5</span>,<span class="number">25</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 梯形法则</span></span><br><span class="line">sci.trapz(f(xi),xi)</span><br></pre></td></tr></table></figure>
+<pre><code>24.352733271544516
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 辛普森法则</span></span><br><span class="line">sci.simps(f(xi),xi)</span><br></pre></td></tr></table></figure>
+<pre><code>24.37496418455075
+</code></pre><h3 id="通过模拟求积分"><a href="#通过模拟求积分" class="headerlink" title="通过模拟求积分"></a>通过模拟求积分</h3><p>蒙特卡洛模拟的简单例子</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">20</span>):</span><br><span class="line">    np.random.seed(<span class="number">1000</span>)</span><br><span class="line">    x = np.random.random(i*<span class="number">10</span>)*(b-a)+a</span><br><span class="line">    print(np.mean(f(x))*(b-a))</span><br></pre></td></tr></table></figure>
+<pre><code>24.804762279331463
+26.522918898332378
+26.265547519223976
+26.02770339943824
+24.99954181440844
+23.881810141621663
+23.527912274843253
+23.507857658961207
+23.67236746066989
+23.679410416062886
+24.424401707879305
+24.239005346819056
+24.115396924962802
+24.424191987566726
+23.924933080533783
+24.19484212027875
+24.117348378249833
+24.100690929662274
+23.76905109847816
+</code></pre><hr>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/笔记/" rel="tag"># 笔记</a>
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/11/02/pythondaily/" rel="next" title="python批量行处理的小应用">
+                <i class="fa fa-chevron-left"></i> python批量行处理的小应用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="wjqsteam" />
+            
+              <p class="site-author-name" itemprop="name">wjqsteam</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数学工具"><span class="nav-number">1.</span> <span class="nav-text">数学工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#逼近法"><span class="nav-number">1.1.</span> <span class="nav-text">逼近法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#回归"><span class="nav-number">1.1.1.</span> <span class="nav-text">回归</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插值"><span class="nav-number">1.1.2.</span> <span class="nav-text">插值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#凸优化"><span class="nav-number">1.2.</span> <span class="nav-text">凸优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#全局优化"><span class="nav-number">1.2.1.</span> <span class="nav-text">全局优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#局部优化"><span class="nav-number">1.2.2.</span> <span class="nav-text">局部优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有约束优化"><span class="nav-number">1.2.3.</span> <span class="nav-text">有约束优化</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#积分"><span class="nav-number">1.3.</span> <span class="nav-text">积分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数值积分"><span class="nav-number">1.3.1.</span> <span class="nav-text">数值积分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过模拟求积分"><span class="nav-number">1.3.2.</span> <span class="nav-text">通过模拟求积分</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wjqsteam</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

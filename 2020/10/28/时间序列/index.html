@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.2',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="python进行时间序列分析">
+<meta name="keywords" content="笔记,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="时间序列">
+<meta property="og:url" content="http://yoursite.com/2020/10/28/时间序列/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="python进行时间序列分析">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-07T08:47:26.255Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="时间序列">
+<meta name="twitter:description" content="python进行时间序列分析">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/10/28/时间序列/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>时间序列 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/28/时间序列/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wjqsteam">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">时间序列
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-10-28 00:00:00" itemprop="dateCreated datePublished" datetime="2020-10-28T00:00:00+08:00">2020-10-28</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-04-07 16:47:26" itemprop="dateModified" datetime="2021-04-07T16:47:26+08:00">2021-04-07</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>python进行时间序列分析</p>
+<a id="more"></a>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding = utf-8</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</span><br><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> timedelta</span><br><span class="line"><span class="keyword">from</span> dateutil.parser <span class="keyword">import</span> parse <span class="comment"># 常见日期格式转换</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> pandas.tseries.offsets <span class="keyword">import</span> Hour, Minute,Day, MonthEnd</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">now = datetime.now()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">now</span><br></pre></td></tr></table></figure>
+<pre><code>datetime.datetime(2020, 10, 26, 19, 26, 54, 151273)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">now.year,now.month,now.day</span><br></pre></td></tr></table></figure>
+<pre><code>(2020, 10, 26)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delta = datetime(<span class="number">2020</span>,<span class="number">10</span>,<span class="number">26</span>) - datetime(<span class="number">2016</span>,<span class="number">6</span>,<span class="number">30</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delta</span><br></pre></td></tr></table></figure>
+<pre><code>datetime.timedelta(days=1579)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delta.days</span><br></pre></td></tr></table></figure>
+<pre><code>1579
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">delta.seconds</span><br></pre></td></tr></table></figure>
+<pre><code>0
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start = datetime(<span class="number">2011</span>,<span class="number">1</span>,<span class="number">7</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start + timedelta(<span class="number">12</span>) <span class="comment"># 天</span></span><br></pre></td></tr></table></figure>
+<pre><code>datetime.datetime(2011, 1, 19, 0, 0)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start - <span class="number">2</span>*timedelta(<span class="number">12</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>datetime.datetime(2010, 12, 14, 0, 0)
+</code></pre><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">timedelta?</span><br></pre></td></tr></table></figure>
+<h2 id="字符串和datetime的相互转换"><a href="#字符串和datetime的相互转换" class="headerlink" title="字符串和datetime的相互转换"></a>字符串和datetime的相互转换</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stamp = datetime(<span class="number">2011</span>,<span class="number">1</span>,<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str(stamp)</span><br></pre></td></tr></table></figure>
+<pre><code>&#39;2011-01-03 00:00:00&#39;
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stamp.strftime(<span class="string">'%Y-%m-%d-%H'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>&#39;2011-01-03-00&#39;
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">value = <span class="string">'2011-01-03'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">datetime.strptime(value,<span class="string">'%Y-%m-%d'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>datetime.datetime(2011, 1, 3, 0, 0)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">datestrs = [<span class="string">'7/6/2011'</span>,<span class="string">'8/6/2011'</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[datetime.strptime(x, <span class="string">'%m/%d/%Y'</span>) <span class="keyword">for</span> x <span class="keyword">in</span> datestrs]</span><br></pre></td></tr></table></figure>
+<pre><code>[datetime.datetime(2011, 7, 6, 0, 0), datetime.datetime(2011, 8, 6, 0, 0)]
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parse(<span class="string">'2011-01-03'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>datetime.datetime(2011, 1, 3, 0, 0)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parse(<span class="string">'Jan 31, 1997 10:45 PM'</span>)<span class="comment"># 24小时</span></span><br></pre></td></tr></table></figure>
+<pre><code>datetime.datetime(1997, 1, 31, 22, 45)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parse(<span class="string">'6/12/2011'</span>,dayfirst = <span class="keyword">True</span>) <span class="comment"># 针对日在月前面的情况</span></span><br></pre></td></tr></table></figure>
+<pre><code>datetime.datetime(2011, 12, 6, 0, 0)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">datestrs = [<span class="string">'2011-07-06 12:00:00'</span>,<span class="string">'2011-08-06 00:00:00'</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pd.to_datetime(datestrs) <span class="comment"># pandas方法</span></span><br></pre></td></tr></table></figure>
+<pre><code>DatetimeIndex([&#39;2011-07-06 12:00:00&#39;, &#39;2011-08-06 00:00:00&#39;], dtype=&#39;datetime64[ns]&#39;, freq=None)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idx = pd.to_datetime(datestrs+[<span class="keyword">None</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idx</span><br></pre></td></tr></table></figure>
+<pre><code>DatetimeIndex([&#39;2011-07-06 12:00:00&#39;, &#39;2011-08-06 00:00:00&#39;, &#39;NaT&#39;], dtype=&#39;datetime64[ns]&#39;, freq=None)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idx[<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>NaT
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pd.isnull(idx)</span><br></pre></td></tr></table></figure>
+<pre><code>array([False, False,  True])
+</code></pre><h2 id="时间序列基础"><a href="#时间序列基础" class="headerlink" title="时间序列基础"></a>时间序列基础</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dates = [datetime(<span class="number">2011</span>, <span class="number">1</span>, <span class="number">2</span>), datetime(<span class="number">2011</span>, <span class="number">1</span>, <span class="number">5</span>),</span><br><span class="line">         datetime(<span class="number">2011</span>, <span class="number">1</span>, <span class="number">7</span>), datetime(<span class="number">2011</span>, <span class="number">1</span>, <span class="number">8</span>),</span><br><span class="line">        datetime(<span class="number">2011</span>, <span class="number">1</span>, <span class="number">10</span>), datetime(<span class="number">2011</span>, <span class="number">1</span>, <span class="number">12</span>)]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts = pd.Series(np.random.randn(<span class="number">6</span>),index=dates)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts</span><br></pre></td></tr></table></figure>
+<pre><code>2011-01-02    1.151271
+2011-01-05   -1.137021
+2011-01-07   -0.037318
+2011-01-08   -0.603951
+2011-01-10    0.312161
+2011-01-12   -0.537009
+dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.index</span><br></pre></td></tr></table></figure>
+<pre><code>DatetimeIndex([&#39;2011-01-02&#39;, &#39;2011-01-05&#39;, &#39;2011-01-07&#39;, &#39;2011-01-08&#39;,
+               &#39;2011-01-10&#39;, &#39;2011-01-12&#39;],
+              dtype=&#39;datetime64[ns]&#39;, freq=None)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts + ts[::<span class="number">2</span>] <span class="comment"># 不同索引的时间序列之间的算术运算会自动按日期对齐</span></span><br></pre></td></tr></table></figure>
+<pre><code>2011-01-02    2.302542
+2011-01-05         NaN
+2011-01-07   -0.074636
+2011-01-08         NaN
+2011-01-10    0.624321
+2011-01-12         NaN
+dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.index.dtype</span><br></pre></td></tr></table></figure>
+<pre><code>dtype(&#39;&lt;M8[ns]&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stamp = ts.index[<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">stamp <span class="comment"># DatetimeIndex中的各个标量值是pandas的timestamp对象</span></span><br><span class="line"><span class="comment"># 可随时自动转换为datetime对象</span></span><br></pre></td></tr></table></figure>
+<pre><code>Timestamp(&#39;2011-01-02 00:00:00&#39;)
+</code></pre><h3 id="索引、选取和子集构造"><a href="#索引、选取和子集构造" class="headerlink" title="索引、选取和子集构造"></a>索引、选取和子集构造</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stamp = ts.index[<span class="number">2</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts[stamp]</span><br></pre></td></tr></table></figure>
+<pre><code>-0.037317913857370474
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts[<span class="string">'1/10/2011'</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>0.3121606161844407
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts[<span class="string">'20110110'</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>0.3121606161844407
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">longer_ts = pd.Series(np.random.randn(<span class="number">1000</span>),</span><br><span class="line">                     index=pd.date_range(<span class="string">'1/1/2000'</span>,periods=<span class="number">1000</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">longer_ts.head()</span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-01   -1.251011
+2000-01-02    0.410328
+2000-01-03    1.091699
+2000-01-04    1.426792
+2000-01-05    1.474390
+Freq: D, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">longer_ts[<span class="string">'2001'</span>] <span class="comment"># 用年切片</span></span><br></pre></td></tr></table></figure>
+<pre><code>2001-01-01   -0.351310
+2001-01-02   -1.604970
+2001-01-03   -0.582018
+2001-01-04    0.333714
+2001-01-05   -1.417637
+                ...   
+2001-12-27   -0.152119
+2001-12-28    0.196472
+2001-12-29   -0.429292
+2001-12-30    0.678986
+2001-12-31    0.290927
+Freq: D, Length: 365, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">longer_ts[<span class="string">'2001-05'</span>]</span><br></pre></td></tr></table></figure>
+<pre><code>2001-05-01    0.057979
+2001-05-02   -0.982267
+2001-05-03   -0.984629
+2001-05-04   -0.178495
+2001-05-05    1.174092
+2001-05-06    0.300121
+2001-05-07   -0.537203
+2001-05-08   -0.718927
+2001-05-09    0.723844
+2001-05-10   -2.227715
+2001-05-11    0.575807
+2001-05-12   -0.339174
+2001-05-13   -1.160304
+2001-05-14    0.870077
+2001-05-15   -1.617837
+2001-05-16    0.803064
+2001-05-17    1.030774
+2001-05-18   -0.710084
+2001-05-19    0.066470
+2001-05-20   -0.268365
+2001-05-21    0.651012
+2001-05-22   -1.242711
+2001-05-23   -0.174045
+2001-05-24   -0.976774
+2001-05-25   -2.671155
+2001-05-26    0.809164
+2001-05-27   -0.994782
+2001-05-28   -0.328437
+2001-05-29    0.239170
+2001-05-30   -0.994613
+2001-05-31    2.841349
+Freq: D, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts[datetime(<span class="number">2011</span>,<span class="number">1</span>,<span class="number">7</span>):]</span><br></pre></td></tr></table></figure>
+<pre><code>2011-01-07   -0.037318
+2011-01-08   -0.603951
+2011-01-10    0.312161
+2011-01-12   -0.537009
+dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts</span><br></pre></td></tr></table></figure>
+<pre><code>2011-01-02    1.151271
+2011-01-05   -1.137021
+2011-01-07   -0.037318
+2011-01-08   -0.603951
+2011-01-10    0.312161
+2011-01-12   -0.537009
+dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts[<span class="string">'20110106'</span>:<span class="string">'20110111'</span>] <span class="comment">#用不存在序列中的时间范围切片</span></span><br></pre></td></tr></table></figure>
+<pre><code>2011-01-07   -0.037318
+2011-01-08   -0.603951
+2011-01-10    0.312161
+dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 对DataFrame也是有效的</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dates = pd.date_range(<span class="string">'1/1/2000'</span>, periods=<span class="number">100</span>, freq=<span class="string">'W-WED'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">long_df = pd.DataFrame(np.random.randn(<span class="number">100</span>, <span class="number">4</span>),</span><br><span class="line">                         index=dates,</span><br><span class="line">                          columns=[<span class="string">'Colorado'</span>, <span class="string">'Texas'</span>,</span><br><span class="line">                                    <span class="string">'New York'</span>, <span class="string">'Ohio'</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">long_df.loc[<span class="string">'5-2001'</span>]</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Colorado</th>
+      <th>Texas</th>
+      <th>New York</th>
+      <th>Ohio</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2001-05-02</th>
+      <td>-0.286814</td>
+      <td>0.044443</td>
+      <td>-0.227390</td>
+      <td>-0.181071</td>
+    </tr>
+    <tr>
+      <th>2001-05-09</th>
+      <td>0.859554</td>
+      <td>0.008271</td>
+      <td>-0.782204</td>
+      <td>-1.440653</td>
+    </tr>
+    <tr>
+      <th>2001-05-16</th>
+      <td>-1.341711</td>
+      <td>0.758915</td>
+      <td>-0.751981</td>
+      <td>0.049120</td>
+    </tr>
+    <tr>
+      <th>2001-05-23</th>
+      <td>-0.920134</td>
+      <td>1.048434</td>
+      <td>1.628656</td>
+      <td>0.449769</td>
+    </tr>
+    <tr>
+      <th>2001-05-30</th>
+      <td>0.585841</td>
+      <td>0.628563</td>
+      <td>1.995615</td>
+      <td>-0.959816</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<h3 id="带有重复索引的时间序列"><a href="#带有重复索引的时间序列" class="headerlink" title="带有重复索引的时间序列"></a>带有重复索引的时间序列</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dates = pd.DatetimeIndex([<span class="string">'1/1/2000'</span>, <span class="string">'1/2/2000'</span>, <span class="string">'1/2/2000'</span>,</span><br><span class="line">                              <span class="string">'1/2/2000'</span>, <span class="string">'1/3/2000'</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dup_ts = pd.Series(np.arange(<span class="number">5</span>), index=dates)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dup_ts</span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-01    0
+2000-01-02    1
+2000-01-02    2
+2000-01-02    3
+2000-01-03    4
+dtype: int32
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dup_ts.index.is_unique</span><br></pre></td></tr></table></figure>
+<pre><code>False
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dup_ts[<span class="string">'20000103'</span>] <span class="comment">#标量</span></span><br></pre></td></tr></table></figure>
+<pre><code>4
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dup_ts[<span class="string">'20000102'</span>] <span class="comment"># 切片</span></span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-02    1
+2000-01-02    2
+2000-01-02    3
+dtype: int32
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grouped = dup_ts.groupby(level=<span class="number">0</span>) <span class="comment"># 按每种标签分组</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grouped.mean()</span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-01    0
+2000-01-02    2
+2000-01-03    4
+dtype: int32
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grouped.count()</span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-01    1
+2000-01-02    3
+2000-01-03    1
+dtype: int64
+</code></pre><h3 id="日期的范围、频率以及移动"><a href="#日期的范围、频率以及移动" class="headerlink" title="日期的范围、频率以及移动"></a>日期的范围、频率以及移动</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">index = pd.date_range(<span class="string">'2012-04-01'</span>,<span class="string">'2012-06-01'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">index</span><br></pre></td></tr></table></figure>
+<pre><code>DatetimeIndex([&#39;2012-04-01&#39;, &#39;2012-04-02&#39;, &#39;2012-04-03&#39;, &#39;2012-04-04&#39;,
+               &#39;2012-04-05&#39;, &#39;2012-04-06&#39;, &#39;2012-04-07&#39;, &#39;2012-04-08&#39;,
+               &#39;2012-04-09&#39;, &#39;2012-04-10&#39;, &#39;2012-04-11&#39;, &#39;2012-04-12&#39;,
+               &#39;2012-04-13&#39;, &#39;2012-04-14&#39;, &#39;2012-04-15&#39;, &#39;2012-04-16&#39;,
+               &#39;2012-04-17&#39;, &#39;2012-04-18&#39;, &#39;2012-04-19&#39;, &#39;2012-04-20&#39;,
+               &#39;2012-04-21&#39;, &#39;2012-04-22&#39;, &#39;2012-04-23&#39;, &#39;2012-04-24&#39;,
+               &#39;2012-04-25&#39;, &#39;2012-04-26&#39;, &#39;2012-04-27&#39;, &#39;2012-04-28&#39;,
+               &#39;2012-04-29&#39;, &#39;2012-04-30&#39;, &#39;2012-05-01&#39;, &#39;2012-05-02&#39;,
+               &#39;2012-05-03&#39;, &#39;2012-05-04&#39;, &#39;2012-05-05&#39;, &#39;2012-05-06&#39;,
+               &#39;2012-05-07&#39;, &#39;2012-05-08&#39;, &#39;2012-05-09&#39;, &#39;2012-05-10&#39;,
+               &#39;2012-05-11&#39;, &#39;2012-05-12&#39;, &#39;2012-05-13&#39;, &#39;2012-05-14&#39;,
+               &#39;2012-05-15&#39;, &#39;2012-05-16&#39;, &#39;2012-05-17&#39;, &#39;2012-05-18&#39;,
+               &#39;2012-05-19&#39;, &#39;2012-05-20&#39;, &#39;2012-05-21&#39;, &#39;2012-05-22&#39;,
+               &#39;2012-05-23&#39;, &#39;2012-05-24&#39;, &#39;2012-05-25&#39;, &#39;2012-05-26&#39;,
+               &#39;2012-05-27&#39;, &#39;2012-05-28&#39;, &#39;2012-05-29&#39;, &#39;2012-05-30&#39;,
+               &#39;2012-05-31&#39;, &#39;2012-06-01&#39;],
+              dtype=&#39;datetime64[ns]&#39;, freq=&#39;D&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pd.date_range(start=<span class="string">'2012-04-01'</span>,periods=<span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>DatetimeIndex([&#39;2012-04-01&#39;, &#39;2012-04-02&#39;, &#39;2012-04-03&#39;, &#39;2012-04-04&#39;,
+               &#39;2012-04-05&#39;, &#39;2012-04-06&#39;, &#39;2012-04-07&#39;, &#39;2012-04-08&#39;,
+               &#39;2012-04-09&#39;, &#39;2012-04-10&#39;, &#39;2012-04-11&#39;, &#39;2012-04-12&#39;,
+               &#39;2012-04-13&#39;, &#39;2012-04-14&#39;, &#39;2012-04-15&#39;, &#39;2012-04-16&#39;,
+               &#39;2012-04-17&#39;, &#39;2012-04-18&#39;, &#39;2012-04-19&#39;, &#39;2012-04-20&#39;],
+              dtype=&#39;datetime64[ns]&#39;, freq=&#39;D&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pd.date_range(end=<span class="string">'2012-06-01'</span>,periods=<span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>DatetimeIndex([&#39;2012-05-13&#39;, &#39;2012-05-14&#39;, &#39;2012-05-15&#39;, &#39;2012-05-16&#39;,
+               &#39;2012-05-17&#39;, &#39;2012-05-18&#39;, &#39;2012-05-19&#39;, &#39;2012-05-20&#39;,
+               &#39;2012-05-21&#39;, &#39;2012-05-22&#39;, &#39;2012-05-23&#39;, &#39;2012-05-24&#39;,
+               &#39;2012-05-25&#39;, &#39;2012-05-26&#39;, &#39;2012-05-27&#39;, &#39;2012-05-28&#39;,
+               &#39;2012-05-29&#39;, &#39;2012-05-30&#39;, &#39;2012-05-31&#39;, &#39;2012-06-01&#39;],
+              dtype=&#39;datetime64[ns]&#39;, freq=&#39;D&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pd.date_range(<span class="string">'2000-01-01'</span>,<span class="string">'2000-12-01'</span>,freq=<span class="string">'BM'</span>) <span class="comment"># bussiness end of month</span></span><br></pre></td></tr></table></figure>
+<pre><code>DatetimeIndex([&#39;2000-01-31&#39;, &#39;2000-02-29&#39;, &#39;2000-03-31&#39;, &#39;2000-04-28&#39;,
+               &#39;2000-05-31&#39;, &#39;2000-06-30&#39;, &#39;2000-07-31&#39;, &#39;2000-08-31&#39;,
+               &#39;2000-09-29&#39;, &#39;2000-10-31&#39;, &#39;2000-11-30&#39;],
+              dtype=&#39;datetime64[ns]&#39;, freq=&#39;BM&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pd.date_range(<span class="string">'2012-05-02 12:56:31'</span>, periods=<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>DatetimeIndex([&#39;2012-05-02 12:56:31&#39;, &#39;2012-05-03 12:56:31&#39;,
+               &#39;2012-05-04 12:56:31&#39;, &#39;2012-05-05 12:56:31&#39;,
+               &#39;2012-05-06 12:56:31&#39;],
+              dtype=&#39;datetime64[ns]&#39;, freq=&#39;D&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pd.date_range(<span class="string">'2012-05-02 12:56:31'</span>, periods=<span class="number">5</span>, normalize=<span class="keyword">True</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>DatetimeIndex([&#39;2012-05-02&#39;, &#39;2012-05-03&#39;, &#39;2012-05-04&#39;, &#39;2012-05-05&#39;,
+               &#39;2012-05-06&#39;],
+              dtype=&#39;datetime64[ns]&#39;, freq=&#39;D&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hour = Hour()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hour <span class="comment"># 日期偏移量对象</span></span><br></pre></td></tr></table></figure>
+<pre><code>&lt;Hour&gt;
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">four_hours = Hour(<span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">four_hours</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;4 * Hours&gt;
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pd.date_range(<span class="string">'2000-01-01'</span>,<span class="string">'2000-01-03 23:59'</span>,freq=<span class="string">'4h'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>DatetimeIndex([&#39;2000-01-01 00:00:00&#39;, &#39;2000-01-01 04:00:00&#39;,
+               &#39;2000-01-01 08:00:00&#39;, &#39;2000-01-01 12:00:00&#39;,
+               &#39;2000-01-01 16:00:00&#39;, &#39;2000-01-01 20:00:00&#39;,
+               &#39;2000-01-02 00:00:00&#39;, &#39;2000-01-02 04:00:00&#39;,
+               &#39;2000-01-02 08:00:00&#39;, &#39;2000-01-02 12:00:00&#39;,
+               &#39;2000-01-02 16:00:00&#39;, &#39;2000-01-02 20:00:00&#39;,
+               &#39;2000-01-03 00:00:00&#39;, &#39;2000-01-03 04:00:00&#39;,
+               &#39;2000-01-03 08:00:00&#39;, &#39;2000-01-03 12:00:00&#39;,
+               &#39;2000-01-03 16:00:00&#39;, &#39;2000-01-03 20:00:00&#39;],
+              dtype=&#39;datetime64[ns]&#39;, freq=&#39;4H&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hour(<span class="number">2</span>) + Minute(<span class="number">30</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;150 * Minutes&gt;
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pd.date_range(<span class="string">'20000101'</span>,periods=<span class="number">10</span>,freq=<span class="string">'1h30min'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>DatetimeIndex([&#39;2000-01-01 00:00:00&#39;, &#39;2000-01-01 01:30:00&#39;,
+               &#39;2000-01-01 03:00:00&#39;, &#39;2000-01-01 04:30:00&#39;,
+               &#39;2000-01-01 06:00:00&#39;, &#39;2000-01-01 07:30:00&#39;,
+               &#39;2000-01-01 09:00:00&#39;, &#39;2000-01-01 10:30:00&#39;,
+               &#39;2000-01-01 12:00:00&#39;, &#39;2000-01-01 13:30:00&#39;],
+              dtype=&#39;datetime64[ns]&#39;, freq=&#39;90T&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># WOM: week of month 每月第几个星期几</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rng = pd.date_range(<span class="string">'20120101'</span>,<span class="string">'20120901'</span>,freq=<span class="string">'WOM-3FRI'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rng</span><br></pre></td></tr></table></figure>
+<pre><code>DatetimeIndex([&#39;2012-01-20&#39;, &#39;2012-02-17&#39;, &#39;2012-03-16&#39;, &#39;2012-04-20&#39;,
+               &#39;2012-05-18&#39;, &#39;2012-06-15&#39;, &#39;2012-07-20&#39;, &#39;2012-08-17&#39;],
+              dtype=&#39;datetime64[ns]&#39;, freq=&#39;WOM-3FRI&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list(rng)</span><br></pre></td></tr></table></figure>
+<pre><code>[Timestamp(&#39;2012-01-20 00:00:00&#39;, freq=&#39;WOM-3FRI&#39;),
+ Timestamp(&#39;2012-02-17 00:00:00&#39;, freq=&#39;WOM-3FRI&#39;),
+ Timestamp(&#39;2012-03-16 00:00:00&#39;, freq=&#39;WOM-3FRI&#39;),
+ Timestamp(&#39;2012-04-20 00:00:00&#39;, freq=&#39;WOM-3FRI&#39;),
+ Timestamp(&#39;2012-05-18 00:00:00&#39;, freq=&#39;WOM-3FRI&#39;),
+ Timestamp(&#39;2012-06-15 00:00:00&#39;, freq=&#39;WOM-3FRI&#39;),
+ Timestamp(&#39;2012-07-20 00:00:00&#39;, freq=&#39;WOM-3FRI&#39;),
+ Timestamp(&#39;2012-08-17 00:00:00&#39;, freq=&#39;WOM-3FRI&#39;)]
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ts = pd.Series(np.random.randn(<span class="number">4</span>),</span><br><span class="line"> index=pd.date_range(<span class="string">'1/1/2000'</span>, periods=<span class="number">4</span>, freq=<span class="string">'M'</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts</span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-31    1.030715
+2000-02-29    0.500262
+2000-03-31   -1.012098
+2000-04-30   -1.292731
+Freq: M, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.shift(<span class="number">2</span>) <span class="comment"># 向后移动数据，保持索引不变</span></span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-31         NaN
+2000-02-29         NaN
+2000-03-31    1.030715
+2000-04-30    0.500262
+Freq: M, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.shift(<span class="number">-2</span>) <span class="comment"># 向前移动2格数据，索引不变</span></span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-31   -1.012098
+2000-02-29   -1.292731
+2000-03-31         NaN
+2000-04-30         NaN
+Freq: M, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.shift(<span class="number">2</span>,freq=<span class="string">'M'</span>) <span class="comment">#每个时间戳增加两个月</span></span><br></pre></td></tr></table></figure>
+<pre><code>2000-03-31    1.030715
+2000-04-30    0.500262
+2000-05-31   -1.012098
+2000-06-30   -1.292731
+Freq: M, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.shift(<span class="number">3</span>, freq=<span class="string">'D'</span>) <span class="comment"># 每个时间戳增加3天</span></span><br></pre></td></tr></table></figure>
+<pre><code>2000-02-03    1.030715
+2000-03-03    0.500262
+2000-04-03   -1.012098
+2000-05-03   -1.292731
+dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.shift(<span class="number">1</span>, freq=<span class="string">'90T'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-31 01:30:00    1.030715
+2000-02-29 01:30:00    0.500262
+2000-03-31 01:30:00   -1.012098
+2000-04-30 01:30:00   -1.292731
+Freq: M, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">now = datetime(<span class="number">2020</span>,<span class="number">10</span>,<span class="number">26</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">now+<span class="number">3</span>*Day()</span><br></pre></td></tr></table></figure>
+<pre><code>Timestamp(&#39;2020-10-29 00:00:00&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">now + MonthEnd() <span class="comment"># 锚点漂移量 作为增量将原日期滚动到符合频率规则的下一个日期</span></span><br></pre></td></tr></table></figure>
+<pre><code>Timestamp(&#39;2020-10-31 00:00:00&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">now + MonthEnd(<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Timestamp(&#39;2020-11-30 00:00:00&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">offset = MonthEnd()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">offset.rollforward(now) <span class="comment">#时间增加</span></span><br></pre></td></tr></table></figure>
+<pre><code>Timestamp(&#39;2020-10-31 00:00:00&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">offset.rollback(now) <span class="comment"># 时间减少</span></span><br></pre></td></tr></table></figure>
+<pre><code>Timestamp(&#39;2020-09-30 00:00:00&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ts = pd.Series(np.random.randn(<span class="number">20</span>),</span><br><span class="line">  index=pd.date_range(<span class="string">'1/15/2000'</span>, periods=<span class="number">20</span>, freq=<span class="string">'4d'</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts</span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-15    0.171497
+2000-01-19   -0.203790
+2000-01-23   -0.020526
+2000-01-27    1.227912
+2000-01-31   -0.667792
+2000-02-04   -0.638215
+2000-02-08    0.445571
+2000-02-12    0.215086
+2000-02-16   -1.178115
+2000-02-20    0.996882
+2000-02-24    0.940553
+2000-02-28    0.725804
+2000-03-03    0.987421
+2000-03-07   -0.282621
+2000-03-11   -1.518694
+2000-03-15    1.765308
+2000-03-19    0.082712
+2000-03-23    0.057699
+2000-03-27    0.333253
+2000-03-31   -0.179918
+Freq: 4D, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.groupby(offset.rollback).mean()</span><br></pre></td></tr></table></figure>
+<pre><code>1999-12-31    0.293773
+2000-01-31    0.104972
+2000-02-29    0.203583
+2000-03-31   -0.179918
+dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.groupby(offset.rollforward).mean()</span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-31    0.101460
+2000-02-29    0.215367
+2000-03-31    0.155645
+dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.resample(<span class="string">'M'</span>).mean()</span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-31    0.101460
+2000-02-29    0.215367
+2000-03-31    0.155645
+Freq: M, dtype: float64
+</code></pre><h3 id="时区处理"><a href="#时区处理" class="headerlink" title="时区处理"></a>时区处理</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pytz</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#略</span></span><br></pre></td></tr></table></figure>
+<h3 id="时期及其算术运算"><a href="#时期及其算术运算" class="headerlink" title="时期及其算术运算"></a>时期及其算术运算</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p = pd.Period(<span class="number">2007</span>,freq=<span class="string">'A-DEC'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p <span class="comment"># 时间区间类型</span></span><br></pre></td></tr></table></figure>
+<pre><code>Period(&#39;2007&#39;, &#39;A-DEC&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p+<span class="number">5</span></span><br></pre></td></tr></table></figure>
+<pre><code>Period(&#39;2012&#39;, &#39;A-DEC&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p<span class="number">-2</span></span><br></pre></td></tr></table></figure>
+<pre><code>Period(&#39;2005&#39;, &#39;A-DEC&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pd.Period(<span class="string">'2014'</span>,freq=<span class="string">'A-DEC'</span>) - p <span class="comment">#相同频率period对象相减</span></span><br></pre></td></tr></table></figure>
+<pre><code>&lt;7 * YearEnds: month=12&gt;
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rng = pd.period_range(<span class="string">'2001-01-01'</span>,<span class="string">'2001-06-30'</span>,freq=<span class="string">'M'</span>)</span><br><span class="line"><span class="comment"># period_range 创建规则的时期范围</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rng</span><br></pre></td></tr></table></figure>
+<pre><code>PeriodIndex([&#39;2001-01&#39;, &#39;2001-02&#39;, &#39;2001-03&#39;, &#39;2001-04&#39;, &#39;2001-05&#39;, &#39;2001-06&#39;], dtype=&#39;period[M]&#39;, freq=&#39;M&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pd.Series(np.random.randn(<span class="number">6</span>),index=rng)</span><br></pre></td></tr></table></figure>
+<pre><code>2001-01    0.303639
+2001-02    1.644858
+2001-03    0.687079
+2001-04    0.262464
+2001-05    0.428447
+2001-06    0.170262
+Freq: M, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">values = [<span class="string">'2001Q3'</span>,<span class="string">'2002Q2'</span>,<span class="string">'2003Q1'</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">index = pd.PeriodIndex(values,freq=<span class="string">'Q-DEC'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">index</span><br></pre></td></tr></table></figure>
+<pre><code>PeriodIndex([&#39;2001Q3&#39;, &#39;2002Q2&#39;, &#39;2003Q1&#39;], dtype=&#39;period[Q-DEC]&#39;, freq=&#39;Q-DEC&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 时期的频率转换</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p = pd.Period(<span class="string">'2007'</span>,freq=<span class="string">'A-DEC'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p <span class="comment"># period是整个1年的时间段，这里是从20070101-20071231</span></span><br></pre></td></tr></table></figure>
+<pre><code>Period(&#39;2007&#39;, &#39;A-DEC&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p.asfreq(<span class="string">'M'</span>,how=<span class="string">'start'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Period(&#39;2007-01&#39;, &#39;M&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p.asfreq(<span class="string">'M'</span>,how=<span class="string">'end'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Period(&#39;2007-12&#39;, &#39;M&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p = pd.Period(<span class="string">'2007'</span>,freq=<span class="string">'A-JUN'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p</span><br></pre></td></tr></table></figure>
+<pre><code>Period(&#39;2007&#39;, &#39;A-JUN&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p.asfreq(<span class="string">'M'</span>,<span class="string">'start'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Period(&#39;2006-07&#39;, &#39;M&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p.asfreq(<span class="string">'M'</span>,<span class="string">'end'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Period(&#39;2007-06&#39;, &#39;M&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p = pd.Period(<span class="string">'Aug-2007'</span>,<span class="string">'M'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p.asfreq(<span class="string">'A-JUN'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Period(&#39;2008&#39;, &#39;A-JUN&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rng = pd.period_range(<span class="string">'2006'</span>,<span class="string">'2009'</span>,freq=<span class="string">'A-DEC'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts = pd.Series(np.random.randn(len(rng)),index=rng)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts</span><br></pre></td></tr></table></figure>
+<pre><code>2006   -0.270623
+2007    1.288628
+2008    0.686905
+2009   -1.196226
+Freq: A-DEC, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.asfreq(<span class="string">'M'</span>,how=<span class="string">'start'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>2006-01   -0.270623
+2007-01    1.288628
+2008-01    0.686905
+2009-01   -1.196226
+Freq: M, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.asfreq(<span class="string">'B'</span>,how=<span class="string">'end'</span>) <span class="comment"># B工作日 end 最后一个 每年最后一个工作日</span></span><br></pre></td></tr></table></figure>
+<pre><code>2006-12-29   -0.270623
+2007-12-31    1.288628
+2008-12-31    0.686905
+2009-12-31   -1.196226
+Freq: B, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 按季度计算的时期频率</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p = pd.Period(<span class="string">'2012Q4'</span>,freq=<span class="string">'Q-JAN'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p</span><br></pre></td></tr></table></figure>
+<pre><code>Period(&#39;2012Q4&#39;, &#39;Q-JAN&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p.asfreq(<span class="string">'D'</span>,<span class="string">'start'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Period(&#39;2011-11-01&#39;, &#39;D&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p.asfreq(<span class="string">'D'</span>,<span class="string">'end'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Period(&#39;2012-01-31&#39;, &#39;D&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">p4pm = (p.asfreq(<span class="string">'B'</span>,<span class="string">'e'</span>)<span class="number">-1</span>).asfreq(<span class="string">'T'</span>,<span class="string">'s'</span>)+<span class="number">16</span>*<span class="number">55</span></span><br><span class="line"><span class="comment"># 该季度倒数第二个工作日下午2点40的时间戳</span></span><br><span class="line"><span class="comment"># B: business e:end s:start T:time 16*55 下午2点40</span></span><br><span class="line">p4pm</span><br></pre></td></tr></table></figure>
+<pre><code>Period(&#39;2012-01-30 14:40&#39;, &#39;T&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p.asfreq()</span><br></pre></td></tr></table></figure>
+<pre><code>Period(&#39;2012-01-30 16:00&#39;, &#39;T&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p4pm.to_timestamp()</span><br></pre></td></tr></table></figure>
+<pre><code>Timestamp(&#39;2012-01-30 16:00:00&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rng = pd.period_range(<span class="string">'2011Q3'</span>,<span class="string">'2012Q4'</span>,freq=<span class="string">'Q-JAN'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts = pd.Series(np.arange(len(rng)),index=rng)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts <span class="comment"># 1月为结束的财季</span></span><br></pre></td></tr></table></figure>
+<pre><code>2011Q3    0
+2011Q4    1
+2012Q1    2
+2012Q2    3
+2012Q3    4
+2012Q4    5
+Freq: Q-JAN, dtype: int32
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">new_rng = (rng.asfreq(<span class="string">'B'</span>,<span class="string">'e'</span>)<span class="number">-1</span>).asfreq(<span class="string">'T'</span>,<span class="string">'s'</span>)+<span class="number">16</span>*<span class="number">60</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.index = new_rng.to_timestamp</span><br></pre></td></tr></table></figure>
+<pre><code>---------------------------------------------------------------------------
+
+TypeError                                 Traceback (most recent call last)
+
+&lt;ipython-input-54-67ee24d75ce5&gt; in &lt;module&gt;
+----&gt; 1 ts.index = new_rng.to_timestamp
+
+
+C:\Softwares\Anaconda3\lib\site-packages\pandas\core\generic.py in __setattr__(self, name, value)
+   5285         try:
+   5286             object.__getattribute__(self, name)
+-&gt; 5287             return object.__setattr__(self, name, value)
+   5288         except AttributeError:
+   5289             pass
+
+
+pandas\_libs\properties.pyx in pandas._libs.properties.AxisProperty.__set__()
+
+
+C:\Softwares\Anaconda3\lib\site-packages\pandas\core\series.py in _set_axis(self, axis, labels, fastpath)
+    380
+    381         if not fastpath:
+--&gt; 382             labels = ensure_index(labels)
+    383
+    384         is_all_dates = labels.is_all_dates
+
+
+C:\Softwares\Anaconda3\lib\site-packages\pandas\core\indexes\base.py in ensure_index(index_like, copy)
+   5356             index_like = copy(index_like)
+   5357
+-&gt; 5358     return Index(index_like)
+   5359
+   5360
+
+
+C:\Softwares\Anaconda3\lib\site-packages\pandas\core\indexes\base.py in __new__(cls, data, dtype, copy, name, tupleize_cols, **kwargs)
+    436                     )
+    437             # other iterable of some kind
+--&gt; 438             subarr = com.asarray_tuplesafe(data, dtype=object)
+    439             return Index(subarr, dtype=dtype, copy=copy, name=name, **kwargs)
+    440
+
+
+C:\Softwares\Anaconda3\lib\site-packages\pandas\core\common.py in asarray_tuplesafe(values, dtype)
+    220
+    221     if not (isinstance(values, (list, tuple)) or hasattr(values, &quot;__array__&quot;)):
+--&gt; 222         values = list(values)
+    223     elif isinstance(values, ABCIndexClass):
+    224         return values.values
+
+
+TypeError: &#39;method&#39; object is not iterable
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将Timestamp转换为Period（及其反向过程)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rng = pd.date_range(<span class="string">'2000-01-01'</span>,periods=<span class="number">3</span>,freq=<span class="string">'M'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts = pd.Series(np.random.randn(<span class="number">3</span>),index=rng)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts</span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-31   -0.139326
+2000-02-29    0.578688
+2000-03-31    1.912272
+Freq: M, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pts = ts.to_period() <span class="comment"># freq为M的period</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pts</span><br></pre></td></tr></table></figure>
+<pre><code>2000-01   -0.139326
+2000-02    0.578688
+2000-03    1.912272
+Freq: M, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rng = pd.date_range(<span class="string">'1/29/2000'</span>,periods=<span class="number">6</span>,freq=<span class="string">'D'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts2 = pd.Series(np.random.randn(<span class="number">6</span>),index=rng)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts2</span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-29   -1.957990
+2000-01-30    0.218093
+2000-01-31   -2.639639
+2000-02-01    0.612597
+2000-02-02   -0.467745
+2000-02-03    0.826045
+Freq: D, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts2.to_period(<span class="string">'M'</span>) <span class="comment">#指定转换为的频率，允许重复日期</span></span><br></pre></td></tr></table></figure>
+<pre><code>2000-01   -1.957990
+2000-01    0.218093
+2000-01   -2.639639
+2000-02    0.612597
+2000-02   -0.467745
+2000-02    0.826045
+Freq: M, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pts = ts2.to_period(<span class="string">'D'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pts</span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-29   -1.957990
+2000-01-30    0.218093
+2000-01-31   -2.639639
+2000-02-01    0.612597
+2000-02-02   -0.467745
+2000-02-03    0.826045
+Freq: D, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pts.to_timestamp(how=<span class="string">'end'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-29 23:59:59.999999999   -1.957990
+2000-01-30 23:59:59.999999999    0.218093
+2000-01-31 23:59:59.999999999   -2.639639
+2000-02-01 23:59:59.999999999    0.612597
+2000-02-02 23:59:59.999999999   -0.467745
+2000-02-03 23:59:59.999999999    0.826045
+Freq: D, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 通过数组创建PeriodIndex</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data = pd.read_csv(<span class="string">'examples/macrodata.csv'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.info()</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 203 entries, 0 to 202
+Data columns (total 14 columns):
+ #   Column    Non-Null Count  Dtype  
+---  ------    --------------  -----  
+ 0   year      203 non-null    float64
+ 1   quarter   203 non-null    float64
+ 2   realgdp   203 non-null    float64
+ 3   realcons  203 non-null    float64
+ 4   realinv   203 non-null    float64
+ 5   realgovt  203 non-null    float64
+ 6   realdpi   203 non-null    float64
+ 7   cpi       203 non-null    float64
+ 8   m1        203 non-null    float64
+ 9   tbilrate  203 non-null    float64
+ 10  unemp     203 non-null    float64
+ 11  pop       203 non-null    float64
+ 12  infl      203 non-null    float64
+ 13  realint   203 non-null    float64
+dtypes: float64(14)
+memory usage: 22.3 KB
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.head()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>year</th>
+      <th>quarter</th>
+      <th>realgdp</th>
+      <th>realcons</th>
+      <th>realinv</th>
+      <th>realgovt</th>
+      <th>realdpi</th>
+      <th>cpi</th>
+      <th>m1</th>
+      <th>tbilrate</th>
+      <th>unemp</th>
+      <th>pop</th>
+      <th>infl</th>
+      <th>realint</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1959.0</td>
+      <td>1.0</td>
+      <td>2710.349</td>
+      <td>1707.4</td>
+      <td>286.898</td>
+      <td>470.045</td>
+      <td>1886.9</td>
+      <td>28.98</td>
+      <td>139.7</td>
+      <td>2.82</td>
+      <td>5.8</td>
+      <td>177.146</td>
+      <td>0.00</td>
+      <td>0.00</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1959.0</td>
+      <td>2.0</td>
+      <td>2778.801</td>
+      <td>1733.7</td>
+      <td>310.859</td>
+      <td>481.301</td>
+      <td>1919.7</td>
+      <td>29.15</td>
+      <td>141.7</td>
+      <td>3.08</td>
+      <td>5.1</td>
+      <td>177.830</td>
+      <td>2.34</td>
+      <td>0.74</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1959.0</td>
+      <td>3.0</td>
+      <td>2775.488</td>
+      <td>1751.8</td>
+      <td>289.226</td>
+      <td>491.260</td>
+      <td>1916.4</td>
+      <td>29.35</td>
+      <td>140.5</td>
+      <td>3.82</td>
+      <td>5.3</td>
+      <td>178.657</td>
+      <td>2.74</td>
+      <td>1.09</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1959.0</td>
+      <td>4.0</td>
+      <td>2785.204</td>
+      <td>1753.7</td>
+      <td>299.356</td>
+      <td>484.052</td>
+      <td>1931.3</td>
+      <td>29.37</td>
+      <td>140.0</td>
+      <td>4.33</td>
+      <td>5.6</td>
+      <td>179.386</td>
+      <td>0.27</td>
+      <td>4.06</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1960.0</td>
+      <td>1.0</td>
+      <td>2847.699</td>
+      <td>1770.5</td>
+      <td>331.722</td>
+      <td>462.199</td>
+      <td>1955.5</td>
+      <td>29.54</td>
+      <td>139.6</td>
+      <td>3.50</td>
+      <td>5.2</td>
+      <td>180.007</td>
+      <td>2.31</td>
+      <td>1.19</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.year</span><br></pre></td></tr></table></figure>
+<pre><code>0      1959.0
+1      1959.0
+2      1959.0
+3      1959.0
+4      1960.0
+        ...  
+198    2008.0
+199    2008.0
+200    2009.0
+201    2009.0
+202    2009.0
+Name: year, Length: 203, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.quarter</span><br></pre></td></tr></table></figure>
+<pre><code>0      1.0
+1      2.0
+2      3.0
+3      4.0
+4      1.0
+      ...
+198    3.0
+199    4.0
+200    1.0
+201    2.0
+202    3.0
+Name: quarter, Length: 203, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">index = pd.PeriodIndex(year =data.year,quarter = data.quarter,</span><br><span class="line">                      freq=<span class="string">'Q-DEC'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">index</span><br></pre></td></tr></table></figure>
+<pre><code>PeriodIndex([&#39;1959Q1&#39;, &#39;1959Q2&#39;, &#39;1959Q3&#39;, &#39;1959Q4&#39;, &#39;1960Q1&#39;, &#39;1960Q2&#39;,
+             &#39;1960Q3&#39;, &#39;1960Q4&#39;, &#39;1961Q1&#39;, &#39;1961Q2&#39;,
+             ...
+             &#39;2007Q2&#39;, &#39;2007Q3&#39;, &#39;2007Q4&#39;, &#39;2008Q1&#39;, &#39;2008Q2&#39;, &#39;2008Q3&#39;,
+             &#39;2008Q4&#39;, &#39;2009Q1&#39;, &#39;2009Q2&#39;, &#39;2009Q3&#39;],
+            dtype=&#39;period[Q-DEC]&#39;, length=203, freq=&#39;Q-DEC&#39;)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.index = index</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.infl <span class="comment"># 这样就合并了源数据列表中的年份和季度</span></span><br></pre></td></tr></table></figure>
+<pre><code>1959Q1    0.00
+1959Q2    2.34
+1959Q3    2.74
+1959Q4    0.27
+1960Q1    2.31
+          ...
+2008Q3   -3.16
+2008Q4   -8.79
+2009Q1    0.94
+2009Q2    3.37
+2009Q3    3.56
+Freq: Q-DEC, Name: infl, Length: 203, dtype: float64
+</code></pre><h3 id="重采样-resampling-和频率转换"><a href="#重采样-resampling-和频率转换" class="headerlink" title="重采样(resampling)和频率转换"></a>重采样(resampling)和频率转换</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rng = pd.date_range(<span class="string">'2000-01-01'</span>,periods = <span class="number">100</span>,freq=<span class="string">'D'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts = pd.Series(np.random.randn(len(rng)),index=rng)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts</span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-01   -0.235508
+2000-01-02    1.352181
+2000-01-03   -0.238733
+2000-01-04    1.785066
+2000-01-05    0.310856
+                ...   
+2000-04-05   -0.640197
+2000-04-06    0.434957
+2000-04-07   -1.468204
+2000-04-08   -0.869706
+2000-04-09    0.384623
+Freq: D, Length: 100, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.resample(<span class="string">'M'</span>).mean() <span class="comment"># 按月降采样</span></span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-31    0.221333
+2000-02-29   -0.090918
+2000-03-31   -0.039784
+2000-04-30   -0.321018
+Freq: M, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.resample(<span class="string">'M'</span>,kind=<span class="string">'period'</span>).mean() <span class="comment"># 聚合到period</span></span><br></pre></td></tr></table></figure>
+<pre><code>2000-01    0.221333
+2000-02   -0.090918
+2000-03   -0.039784
+2000-04   -0.321018
+Freq: M, dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 降采样</span></span><br><span class="line"><span class="comment"># 各区间哪边是闭合的、如何标记各个聚合面元，用区间的开头还是末尾</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rng = pd.date_range(<span class="string">'2000-01-01'</span>,periods=<span class="number">12</span>,freq=<span class="string">'T'</span>) <span class="comment">#分钟</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts = pd.Series(np.arange(<span class="number">12</span>),index=rng)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts</span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-01 00:00:00     0
+2000-01-01 00:01:00     1
+2000-01-01 00:02:00     2
+2000-01-01 00:03:00     3
+2000-01-01 00:04:00     4
+2000-01-01 00:05:00     5
+2000-01-01 00:06:00     6
+2000-01-01 00:07:00     7
+2000-01-01 00:08:00     8
+2000-01-01 00:09:00     9
+2000-01-01 00:10:00    10
+2000-01-01 00:11:00    11
+Freq: T, dtype: int32
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.resample(<span class="string">'5min'</span>,closed=<span class="string">'right'</span>).sum() <span class="comment"># 右闭合</span></span><br></pre></td></tr></table></figure>
+<pre><code>1999-12-31 23:55:00     0
+2000-01-01 00:00:00    15
+2000-01-01 00:05:00    40
+2000-01-01 00:10:00    11
+Freq: 5T, dtype: int32
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.resample(<span class="string">'5min'</span>,closed=<span class="string">'left'</span>).sum() <span class="comment"># 左闭合</span></span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-01 00:00:00    10
+2000-01-01 00:05:00    35
+2000-01-01 00:10:00    21
+Freq: 5T, dtype: int32
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ts.resample(<span class="string">'5min'</span>, closed=<span class="string">'right'</span>, label=<span class="string">'right'</span>).sum()</span><br><span class="line"><span class="comment"># 更改序列的标记</span></span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-01 00:00:00     0
+2000-01-01 00:05:00    15
+2000-01-01 00:10:00    40
+2000-01-01 00:15:00    11
+Freq: 5T, dtype: int32
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.resample(<span class="string">'5min'</span>, closed=<span class="string">'left'</span>, label=<span class="string">'left'</span>).sum()</span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-01 00:00:00    10
+2000-01-01 00:05:00    35
+2000-01-01 00:10:00    21
+Freq: 5T, dtype: int32
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ts.resample(<span class="string">'5min'</span>, closed=<span class="string">'left'</span>,</span><br><span class="line">           label=<span class="string">'right'</span>, loffset=<span class="string">'-1s'</span>).sum()</span><br></pre></td></tr></table></figure>
+<pre><code>2000-01-01 00:04:59    10
+2000-01-01 00:09:59    35
+2000-01-01 00:14:59    21
+Freq: 5T, dtype: int32
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># OHLC重采样</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ts.resample(<span class="string">'5min'</span>).ohlc()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>open</th>
+      <th>high</th>
+      <th>low</th>
+      <th>close</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2000-01-01 00:00:00</th>
+      <td>0</td>
+      <td>4</td>
+      <td>0</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 00:05:00</th>
+      <td>5</td>
+      <td>9</td>
+      <td>5</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>2000-01-01 00:10:00</th>
+      <td>10</td>
+      <td>11</td>
+      <td>10</td>
+      <td>11</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 升采样和插值</span></span><br></pre></td></tr></table></figure>
+<hr>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/笔记/" rel="tag"># 笔记</a>
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/10/23/数据分组聚合/" rel="next" title="数据分组聚合">
+                <i class="fa fa-chevron-left"></i> 数据分组聚合
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/11/02/pythondaily/" rel="prev" title="python批量行处理的小应用">
+                python批量行处理的小应用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="wjqsteam" />
+            
+              <p class="site-author-name" itemprop="name">wjqsteam</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#字符串和datetime的相互转换"><span class="nav-number">1.</span> <span class="nav-text">字符串和datetime的相互转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间序列基础"><span class="nav-number">2.</span> <span class="nav-text">时间序列基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#索引、选取和子集构造"><span class="nav-number">2.1.</span> <span class="nav-text">索引、选取和子集构造</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#带有重复索引的时间序列"><span class="nav-number">2.2.</span> <span class="nav-text">带有重复索引的时间序列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#日期的范围、频率以及移动"><span class="nav-number">2.3.</span> <span class="nav-text">日期的范围、频率以及移动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#时区处理"><span class="nav-number">2.4.</span> <span class="nav-text">时区处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#时期及其算术运算"><span class="nav-number">2.5.</span> <span class="nav-text">时期及其算术运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重采样-resampling-和频率转换"><span class="nav-number">2.6.</span> <span class="nav-text">重采样(resampling)和频率转换</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wjqsteam</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
