@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.2',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="统计学相关:正态检验、投资组合优化、资本市场线">
+<meta name="keywords" content="笔记,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="统计学(一)">
+<meta property="og:url" content="http://yoursite.com/2021/04/15/统计学/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="统计学相关:正态检验、投资组合优化、资本市场线">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/images/output_11_1.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_19_1.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_21_1.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_25_1.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_29_2.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_40_1.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_43_1.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_46_0.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_47_0.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_52_1.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_64_1.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_88_1.svg">
+<meta property="og:image" content="http://yoursite.com/images/output_100_1.svg">
+<meta property="og:updated_time" content="2021-04-15T14:31:21.720Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="统计学(一)">
+<meta name="twitter:description" content="统计学相关:正态检验、投资组合优化、资本市场线">
+<meta name="twitter:image" content="http://yoursite.com/images/output_11_1.svg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/04/15/统计学/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>统计学(一) | Hexo</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/15/统计学/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wjqsteam">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">统计学(一)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-04-15 00:00:00 / 修改时间：22:31:21" itemprop="dateCreated datePublished" datetime="2021-04-15T00:00:00+08:00">2021-04-15</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>统计学相关:正态检验、投资组合优化、资本市场线</p>
+<a id="more"></a>
+<hr>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> pylab <span class="keyword">import</span> mpl</span><br><span class="line">mpl.rcParams[<span class="string">'font.sans-serif'</span>] = [<span class="string">'KaiTi'</span>]</span><br><span class="line">mpl.rcParams[<span class="string">'axes.unicode_minus'</span>] = <span class="keyword">False</span></span><br><span class="line">%config InlineBackend.figure_format = <span class="string">'svg'</span></span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br></pre></td></tr></table></figure>
+<h1 id="统计学"><a href="#统计学" class="headerlink" title="统计学"></a>统计学</h1><h2 id="正态性检验"><a href="#正态性检验" class="headerlink" title="正态性检验"></a>正态性检验</h2><h3 id="基准案例"><a href="#基准案例" class="headerlink" title="基准案例"></a>基准案例</h3><p>从几何布朗运动起</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> scipy.stats <span class="keyword">as</span> scs</span><br><span class="line"><span class="keyword">import</span> statsmodels.api <span class="keyword">as</span> sm</span><br><span class="line"><span class="keyword">from</span> pylab <span class="keyword">import</span> mpl</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plt.style.use(<span class="string">'seaborn'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen_paths</span><span class="params">(S0,r,sigma,T,M,I)</span>:</span></span><br><span class="line">    dt = T/M</span><br><span class="line">    paths = np.zeros((M+<span class="number">1</span>,I))</span><br><span class="line">    paths[<span class="number">0</span>] = S0</span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> range(<span class="number">1</span>,M+<span class="number">1</span>):</span><br><span class="line">        rand = np.random.standard_normal(I)</span><br><span class="line">        rand = (rand-rand.mean())/rand.std()</span><br><span class="line">        paths[t] = paths[t<span class="number">-1</span>] * np.exp((r<span class="number">-0.5</span>*sigma**<span class="number">2</span>)*dt+sigma*math.sqrt(dt)*rand)</span><br><span class="line">    <span class="keyword">return</span> paths</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">S0 = <span class="number">100.</span></span><br><span class="line">r = <span class="number">0.05</span></span><br><span class="line">sigma = <span class="number">0.2</span></span><br><span class="line">T = <span class="number">1.0</span></span><br><span class="line">M = <span class="number">50</span></span><br><span class="line">I = <span class="number">250000</span></span><br><span class="line">np.random.seed(<span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">paths = gen_paths(S0,r,sigma,T,M,I)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">S0 * math.exp(r*T)</span><br></pre></td></tr></table></figure>
+<pre><code>105.12710963760242
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">paths[<span class="number">-1</span>].mean()</span><br></pre></td></tr></table></figure>
+<pre><code>105.12645392478755
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">plt.figure()</span><br><span class="line">plt.plot(paths[:,:<span class="number">10</span>])</span><br><span class="line">plt.xlabel(<span class="string">'time steps'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'index level'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Text(0, 0.5, &#39;index level&#39;)
+</code></pre><p><img src="\images\output_11_1.svg" alt="svg"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">log_returns = np.log(paths[<span class="number">1</span>:]/paths[:<span class="number">-1</span>]) <span class="comment"># 对数收益率 # 索引包头不包尾</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">log_returns[:,<span class="number">0</span>].round(<span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>array([-0.022 ,  0.0075,  0.0743, -0.0024, -0.059 ,  0.0018,  0.0261,
+        0.0289,  0.0136,  0.0156, -0.0051, -0.0171, -0.0516,  0.0095,
+        0.0057,  0.0663, -0.0006,  0.0306,  0.0004, -0.0042,  0.0177,
+       -0.0411,  0.0241,  0.0011,  0.0314, -0.0112, -0.0095,  0.0167,
+        0.0128,  0.0047, -0.0645, -0.0053, -0.0463,  0.0288, -0.0214,
+       -0.0059, -0.0079,  0.0386, -0.0266,  0.0305, -0.0049, -0.0123,
+       -0.0094, -0.0153, -0.0324, -0.0269, -0.0127, -0.0178,  0.0104,
+       -0.0009])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_statistics</span><span class="params">(array)</span>:</span></span><br><span class="line">    sta = scs.describe(array)</span><br><span class="line">    print(<span class="string">'%14s %15s'</span> %(<span class="string">'statistic'</span>, <span class="string">'value'</span>))</span><br><span class="line">    print(<span class="number">30</span>*<span class="string">'-'</span>)</span><br><span class="line">    print(<span class="string">'%14s %15.5f'</span> % (<span class="string">'size'</span>,sta[<span class="number">0</span>]))</span><br><span class="line">    print(<span class="string">'%14s %15.5f'</span> % (<span class="string">'min'</span>,sta[<span class="number">1</span>][<span class="number">0</span>]))</span><br><span class="line">    print(<span class="string">'%14s %15.5f'</span> % (<span class="string">'max'</span>,sta[<span class="number">1</span>][<span class="number">1</span>]))</span><br><span class="line">    print(<span class="string">'%14s %15.5f'</span> % (<span class="string">'mean'</span>,sta[<span class="number">2</span>]))</span><br><span class="line">    print(<span class="string">'%14s %15.5f'</span> % (<span class="string">'std'</span>,np.sqrt(sta[<span class="number">3</span>])))</span><br><span class="line">    print(<span class="string">'%14s %15.5f'</span> % (<span class="string">'skew'</span>,sta[<span class="number">4</span>]))</span><br><span class="line">    print(<span class="string">'%14s %15.5f'</span> % (<span class="string">'kurtosis'</span>,sta[<span class="number">5</span>]))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print_statistics(log_returns.flatten())</span><br></pre></td></tr></table></figure>
+<pre><code>     statistic           value
+------------------------------
+          size  12500000.00000
+           min        -0.15664
+           max         0.15371
+          mean         0.00060
+           std         0.02828
+          skew         0.00055
+      kurtosis         0.00085
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">log_returns.mean()*M+<span class="number">0.5</span>*sigma**<span class="number">2</span> <span class="comment"># 按照伊藤公式校正的年化对数收益率均值</span></span><br></pre></td></tr></table></figure>
+<pre><code>0.05000000000000006
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">log_returns.std() * math.sqrt(M) <span class="comment"># 年化波动率，也就是对数收益率均值</span></span><br></pre></td></tr></table></figure>
+<pre><code>0.20000000000000015
+</code></pre><p>本例中的数据集包含1250万个数据点，其值主要处于-0.15和0.15之间。我们可以假设预期平均年化收益为0.05，标准差为0.2。下面作图比较对数收益率和正态密度函数的直方图。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">plt.figure()</span><br><span class="line">plt.hist(log_returns.flatten(),bins=<span class="number">70</span>,density=<span class="keyword">True</span>,label=<span class="string">'frequency'</span>,color=<span class="string">'b'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'log return'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'frequency'</span>)</span><br><span class="line">x = np.linspace(plt.axis()[<span class="number">0</span>],plt.axis()[<span class="number">1</span>])</span><br><span class="line">plt.plot(x,scs.norm.pdf(x,loc=r/M,scale=sigma/np.sqrt(M)),<span class="string">'r'</span>,lw=<span class="number">2</span>,label=<span class="string">'pdf'</span>)</span><br><span class="line">plt.legend()</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;matplotlib.legend.Legend at 0x17c5b69c700&gt;
+</code></pre><p><img src="\images\output_19_1.svg" alt="svg"></p>
+<p>对比频率分布(直方图)与理论化PDF不是图形化检验正态性的唯一方法。所谓的分位数-分位数(quantile-quantile,QQ)图也很适合于这一任务。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sm.qqplot(log_returns.flatten()[::<span class="number">5000</span>],line=<span class="string">'s'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'theoretical quantiles'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'sample quantiles'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Text(0, 0.5, &#39;sample quantiles&#39;)
+</code></pre><p><img src="\images\output_21_1.svg" alt="svg"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">normality_tests</span><span class="params">(arr)</span>:</span></span><br><span class="line">    print(<span class="string">'Skew of data set %14.3f'</span> % scs.skew(arr))</span><br><span class="line">    print(<span class="string">'Skew test p-value %14.3f'</span> % scs.skewtest(arr)[<span class="number">1</span>])</span><br><span class="line">    print(<span class="string">'Kurt of data set %14.3f'</span> % scs.kurtosis(arr))</span><br><span class="line">    print(<span class="string">'Kurt test p-value %14.3f'</span> % scs.kurtosistest(arr)[<span class="number">1</span>])</span><br><span class="line">    print(<span class="string">'Norm test p-value %14.3f'</span> % scs.normaltest(arr)[<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">normality_tests(log_returns.flatten()) <span class="comment"># 测试通过,p值为0.05或者更高</span></span><br></pre></td></tr></table></figure>
+<pre><code>Skew of data set          0.001
+Skew test p-value          0.430
+Kurt of data set          0.001
+Kurt test p-value          0.541
+Norm test p-value          0.607
+</code></pre><p>最后，我们来检查期末值是否呈正态分布。这也归结于正态性检验，因为我们只需要应用对数函数来转换数据以得到正态分布数据(也可能得不到)。下图绘制了正态分布的期末值和转换后的值(“对数指数水平”)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">f,(ax1,ax2) = plt.subplots(<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">ax1.hist(paths[<span class="number">-1</span>],bins=<span class="number">30</span>)</span><br><span class="line">ax1.set_xlabel(<span class="string">'index level'</span>)</span><br><span class="line">ax1.set_ylabel(<span class="string">'frequency'</span>)</span><br><span class="line">ax1.set_title(<span class="string">'regular data'</span>)</span><br><span class="line">ax2.hist(np.log(paths[<span class="number">-1</span>]),bins=<span class="number">30</span>)</span><br><span class="line">ax2.set_xlabel(<span class="string">'log index level'</span>)</span><br><span class="line">ax2.set_title(<span class="string">'log data'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>Text(0.5, 1.0, &#39;log data&#39;)
+</code></pre><p><img src="\images\output_25_1.svg" alt="svg"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print_statistics(paths[<span class="number">-1</span>])</span><br></pre></td></tr></table></figure>
+<pre><code>     statistic           value
+------------------------------
+          size    250000.00000
+           min        42.74870
+           max       233.58435
+          mean       105.12645
+           std        21.23174
+          skew         0.61116
+      kurtosis         0.65182
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print_statistics(np.log(paths[<span class="number">-1</span>]))</span><br></pre></td></tr></table></figure>
+<pre><code>     statistic           value
+------------------------------
+          size    250000.00000
+           min         3.75534
+           max         5.45354
+          mean         4.63517
+           std         0.19998
+          skew        -0.00092
+      kurtosis        -0.00327
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">normality_tests(np.log(paths[<span class="number">-1</span>]))</span><br></pre></td></tr></table></figure>
+<pre><code>Skew of data set         -0.001
+Skew test p-value          0.851
+Kurt of data set         -0.003
+Kurt test p-value          0.744
+Norm test p-value          0.931
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">plt.figure()</span><br><span class="line">log_data = np.log(paths[<span class="number">-1</span>])</span><br><span class="line">plt.hist(log_data,bins=<span class="number">70</span>,density=<span class="keyword">True</span>,label=<span class="string">'observed'</span>,color=<span class="string">'b'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'index level'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'frequency'</span>)</span><br><span class="line">x = np.linspace(plt.axis()[<span class="number">0</span>],plt.axis()[<span class="number">1</span>])</span><br><span class="line">print(plt.axis()[:])</span><br><span class="line">plt.plot(x,scs.norm.pdf(x,log_data.mean(),log_data.std()),<span class="string">'r'</span>,lw=<span class="number">2.0</span>,label=<span class="string">'pdf'</span>)</span><br><span class="line">plt.legend()</span><br></pre></td></tr></table></figure>
+<pre><code>(3.670428582367573, 5.53845345885886, 0.0, 2.1259631228569913)
+
+
+
+
+
+&lt;matplotlib.legend.Legend at 0x17c5d4d9f70&gt;
+</code></pre><p><img src="\images\output_29_2.svg" alt="svg"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sm.qqplot(log_data,line=<span class="string">'s'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'theoretical quantiles'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'sample quantiles'</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="真实数据"><a href="#真实数据" class="headerlink" title="真实数据"></a>真实数据</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">raw = pd.read_csv(<span class="string">'tr_eikon_eod_data.csv'</span>,index_col=<span class="number">0</span>,parse_dates=<span class="keyword">True</span>).dropna()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">raw.head()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>AAPL.O</th>
+      <th>MSFT.O</th>
+      <th>INTC.O</th>
+      <th>AMZN.O</th>
+      <th>GS.N</th>
+      <th>SPY</th>
+      <th>.SPX</th>
+      <th>.VIX</th>
+      <th>EUR=</th>
+      <th>XAU=</th>
+      <th>GDX</th>
+      <th>GLD</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2010-01-04</th>
+      <td>30.572827</td>
+      <td>30.950</td>
+      <td>20.88</td>
+      <td>133.90</td>
+      <td>173.08</td>
+      <td>113.33</td>
+      <td>1132.99</td>
+      <td>20.04</td>
+      <td>1.4411</td>
+      <td>1120.00</td>
+      <td>47.71</td>
+      <td>109.80</td>
+    </tr>
+    <tr>
+      <th>2010-01-05</th>
+      <td>30.625684</td>
+      <td>30.960</td>
+      <td>20.87</td>
+      <td>134.69</td>
+      <td>176.14</td>
+      <td>113.63</td>
+      <td>1136.52</td>
+      <td>19.35</td>
+      <td>1.4368</td>
+      <td>1118.65</td>
+      <td>48.17</td>
+      <td>109.70</td>
+    </tr>
+    <tr>
+      <th>2010-01-06</th>
+      <td>30.138541</td>
+      <td>30.770</td>
+      <td>20.80</td>
+      <td>132.25</td>
+      <td>174.26</td>
+      <td>113.71</td>
+      <td>1137.14</td>
+      <td>19.16</td>
+      <td>1.4412</td>
+      <td>1138.50</td>
+      <td>49.34</td>
+      <td>111.51</td>
+    </tr>
+    <tr>
+      <th>2010-01-07</th>
+      <td>30.082827</td>
+      <td>30.452</td>
+      <td>20.60</td>
+      <td>130.00</td>
+      <td>177.67</td>
+      <td>114.19</td>
+      <td>1141.69</td>
+      <td>19.06</td>
+      <td>1.4318</td>
+      <td>1131.90</td>
+      <td>49.10</td>
+      <td>110.82</td>
+    </tr>
+    <tr>
+      <th>2010-01-08</th>
+      <td>30.282827</td>
+      <td>30.660</td>
+      <td>20.83</td>
+      <td>133.52</td>
+      <td>174.31</td>
+      <td>114.57</td>
+      <td>1144.98</td>
+      <td>18.13</td>
+      <td>1.4412</td>
+      <td>1136.10</td>
+      <td>49.84</td>
+      <td>111.37</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">symbols = [<span class="string">'SPY'</span>,<span class="string">'GLD'</span>,<span class="string">'AAPL.O'</span>,<span class="string">'MSFT.O'</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data = raw[symbols]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data = data.dropna()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.info()</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+DatetimeIndex: 2138 entries, 2010-01-04 to 2018-06-29
+Data columns (total 4 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   SPY     2138 non-null   float64
+ 1   GLD     2138 non-null   float64
+ 2   AAPL.O  2138 non-null   float64
+ 3   MSFT.O  2138 non-null   float64
+dtypes: float64(4)
+memory usage: 163.5 KB
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data.head()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>SPY</th>
+      <th>GLD</th>
+      <th>AAPL.O</th>
+      <th>MSFT.O</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2010-01-04</th>
+      <td>113.33</td>
+      <td>109.80</td>
+      <td>30.572827</td>
+      <td>30.950</td>
+    </tr>
+    <tr>
+      <th>2010-01-05</th>
+      <td>113.63</td>
+      <td>109.70</td>
+      <td>30.625684</td>
+      <td>30.960</td>
+    </tr>
+    <tr>
+      <th>2010-01-06</th>
+      <td>113.71</td>
+      <td>111.51</td>
+      <td>30.138541</td>
+      <td>30.770</td>
+    </tr>
+    <tr>
+      <th>2010-01-07</th>
+      <td>114.19</td>
+      <td>110.82</td>
+      <td>30.082827</td>
+      <td>30.452</td>
+    </tr>
+    <tr>
+      <th>2010-01-08</th>
+      <td>114.57</td>
+      <td>111.37</td>
+      <td>30.282827</td>
+      <td>30.660</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(data/data.iloc[<span class="number">0</span>]*<span class="number">100</span>).plot() <span class="comment"># 归一化</span></span><br></pre></td></tr></table></figure>
+<pre><code>&lt;matplotlib.axes._subplots.AxesSubplot at 0x17c6990c7c0&gt;
+</code></pre><p><img src="\images\output_40_1.svg" alt="svg"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">log_returns = np.log(data/data.shift(<span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">log_returns.head()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>SPY</th>
+      <th>GLD</th>
+      <th>AAPL.O</th>
+      <th>MSFT.O</th>
+    </tr>
+    <tr>
+      <th>Date</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2010-01-04</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2010-01-05</th>
+      <td>0.002644</td>
+      <td>-0.000911</td>
+      <td>0.001727</td>
+      <td>0.000323</td>
+    </tr>
+    <tr>
+      <th>2010-01-06</th>
+      <td>0.000704</td>
+      <td>0.016365</td>
+      <td>-0.016034</td>
+      <td>-0.006156</td>
+    </tr>
+    <tr>
+      <th>2010-01-07</th>
+      <td>0.004212</td>
+      <td>-0.006207</td>
+      <td>-0.001850</td>
+      <td>-0.010389</td>
+    </tr>
+    <tr>
+      <th>2010-01-08</th>
+      <td>0.003322</td>
+      <td>0.004951</td>
+      <td>0.006626</td>
+      <td>0.006807</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">log_returns.hist(bins=<span class="number">50</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>array([[&lt;matplotlib.axes._subplots.AxesSubplot object at 0x0000017C695E4E20&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x0000017C69C60CA0&gt;],
+       [&lt;matplotlib.axes._subplots.AxesSubplot object at 0x0000017C69D5E670&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x0000017C5CA4D1C0&gt;]],
+      dtype=object)
+</code></pre><p><img src="\images\output_43_1.svg" alt="svg"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> sym <span class="keyword">in</span> symbols:</span><br><span class="line">    print(<span class="string">'\nResult for symbol &#123;&#125;'</span>.format(sym))</span><br><span class="line">    print(<span class="number">30</span>*<span class="string">'-'</span>)</span><br><span class="line">    log_data=np.array(log_returns[sym].dropna())</span><br><span class="line">    print_statistics(log_data)</span><br></pre></td></tr></table></figure>
+<pre><code>Result for symbol SPY
+------------------------------
+     statistic           value
+------------------------------
+          size      2137.00000
+           min        -0.06734
+           max         0.04545
+          mean         0.00041
+           std         0.00933
+          skew        -0.52189
+      kurtosis         4.52432
+
+Result for symbol GLD
+------------------------------
+     statistic           value
+------------------------------
+          size      2137.00000
+           min        -0.09191
+           max         0.04795
+          mean         0.00004
+           std         0.01020
+          skew        -0.59934
+      kurtosis         5.68423
+
+Result for symbol AAPL.O
+------------------------------
+     statistic           value
+------------------------------
+          size      2137.00000
+           min        -0.13187
+           max         0.08502
+          mean         0.00084
+           std         0.01591
+          skew        -0.23510
+      kurtosis         4.78964
+
+Result for symbol MSFT.O
+------------------------------
+     statistic           value
+------------------------------
+          size      2137.00000
+           min        -0.12103
+           max         0.09941
+          mean         0.00054
+           std         0.01421
+          skew        -0.09117
+      kurtosis         7.29106
+</code></pre><p>大尾巴现象</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sm.qqplot(log_returns[<span class="string">'SPY'</span>].dropna(),line=<span class="string">'s'</span>)</span><br><span class="line">plt.title(<span class="string">'SPY'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'theoretical quantiles'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'sample quantiles'</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="\images\output_46_0.svg" alt="svg"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sm.qqplot(log_returns[<span class="string">'MSFT.O'</span>].dropna(),line=<span class="string">'s'</span>)</span><br><span class="line">plt.title(<span class="string">'MSFT.O'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'theoretical quantiles'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'sample quantiles'</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="\images\output_47_0.svg" alt="svg"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> sym <span class="keyword">in</span> symbols:</span><br><span class="line">    print(<span class="string">'\nResults for symbol &#123;&#125;'</span>.format(sym))</span><br><span class="line">    print(<span class="number">32</span>*<span class="string">'-'</span>)</span><br><span class="line">    log_data = np.array(log_returns[sym].dropna())</span><br><span class="line">    normality_tests(log_data)</span><br></pre></td></tr></table></figure>
+<pre><code>Results for symbol SPY
+--------------------------------
+Skew of data set         -0.522
+Skew test p-value          0.000
+Kurt of data set          4.524
+Kurt test p-value          0.000
+Norm test p-value          0.000
+
+Results for symbol GLD
+--------------------------------
+Skew of data set         -0.599
+Skew test p-value          0.000
+Kurt of data set          5.684
+Kurt test p-value          0.000
+Norm test p-value          0.000
+
+Results for symbol AAPL.O
+--------------------------------
+Skew of data set         -0.235
+Skew test p-value          0.000
+Kurt of data set          4.790
+Kurt test p-value          0.000
+Norm test p-value          0.000
+
+Results for symbol MSFT.O
+--------------------------------
+Skew of data set         -0.091
+Skew test p-value          0.085
+Kurt of data set          7.291
+Kurt test p-value          0.000
+Norm test p-value          0.000
+</code></pre><h2 id="投资组合优化"><a href="#投资组合优化" class="headerlink" title="投资组合优化"></a>投资组合优化</h2><p>均值-方差投资组合理论(MPT)是金融理论的重要基础。</p>
+<h3 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h3><p>MPT的基本思路是通过分散投资实现投资组合风险最小化，或者在指定风险水平下的组合收益最大化。通过合理地组合实现足够大量地资产并让资产多样化，可以实现预期的结果。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">symbols = [<span class="string">'AAPL.O'</span>,<span class="string">'MSFT.O'</span>,<span class="string">'SPY'</span>,<span class="string">'GLD'</span>]</span><br><span class="line">noa = len(symbols)</span><br><span class="line">data = raw[symbols]</span><br><span class="line">rets = np.log(data/data.shift(<span class="number">1</span>))</span><br><span class="line">rets.hist(bins=<span class="number">40</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>array([[&lt;matplotlib.axes._subplots.AxesSubplot object at 0x0000017C69BE9040&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x0000017C5E9B3D30&gt;],
+       [&lt;matplotlib.axes._subplots.AxesSubplot object at 0x0000017C5F20DBB0&gt;,
+        &lt;matplotlib.axes._subplots.AxesSubplot object at 0x0000017C5F379430&gt;]],
+      dtype=object)
+</code></pre><p><img src="\images\output_52_1.svg" alt="svg"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rets.mean() *<span class="number">252</span> <span class="comment"># 年化平均收益率</span></span><br></pre></td></tr></table></figure>
+<pre><code>AAPL.O    0.212359
+MSFT.O    0.136648
+SPY       0.102928
+GLD       0.009141
+dtype: float64
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rets.cov() * <span class="number">252</span> <span class="comment"># 年化协方差矩阵</span></span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>AAPL.O</th>
+      <th>MSFT.O</th>
+      <th>SPY</th>
+      <th>GLD</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>AAPL.O</th>
+      <td>0.063773</td>
+      <td>0.023427</td>
+      <td>0.021039</td>
+      <td>0.001513</td>
+    </tr>
+    <tr>
+      <th>MSFT.O</th>
+      <td>0.023427</td>
+      <td>0.050917</td>
+      <td>0.022244</td>
+      <td>-0.000347</td>
+    </tr>
+    <tr>
+      <th>SPY</th>
+      <td>0.021039</td>
+      <td>0.022244</td>
+      <td>0.021939</td>
+      <td>0.000062</td>
+    </tr>
+    <tr>
+      <th>GLD</th>
+      <td>0.001513</td>
+      <td>-0.000347</td>
+      <td>0.000062</td>
+      <td>0.026209</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<h3 id="基本理论"><a href="#基本理论" class="headerlink" title="基本理论"></a>基本理论</h3><p>假定投资者不允许在某种金融工具上建立空头头寸。只允许多头头寸意味着投资者的财富将在可用资产中分配，所有头寸均为多头头寸，且头寸的总和为100%。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">weights = np.random.random(noa)</span><br><span class="line">weights /= np.sum(weights)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">weights</span><br></pre></td></tr></table></figure>
+<pre><code>array([0.07650728, 0.06021919, 0.63364218, 0.22963135])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">weights.sum()</span><br></pre></td></tr></table></figure>
+<pre><code>1.0
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.sum(rets.mean()*weights)*<span class="number">252</span> <span class="comment"># 给定投资组合权重下的年化收益率</span></span><br></pre></td></tr></table></figure>
+<pre><code>0.09179459482057793
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.dot(weights.T,np.dot(rets.cov()*<span class="number">252</span>,weights)) <span class="comment"># 给定权重下的年华投资组合方差</span></span><br></pre></td></tr></table></figure>
+<pre><code>0.014763288666485574
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">port_ret</span><span class="params">(weights)</span>:</span> <span class="comment">#返回组合年收益</span></span><br><span class="line">    <span class="keyword">return</span> np.sum(rets.mean()*weights)*<span class="number">252</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">port_vol</span><span class="params">(weights)</span>:</span> <span class="comment"># 返回年标准差</span></span><br><span class="line">    <span class="keyword">return</span> np.sqrt(np.dot(weights.T,np.dot(rets.cov()*<span class="number">252</span>,weights)))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">prets = []</span><br><span class="line">pvols = []</span><br><span class="line"><span class="keyword">for</span> p <span class="keyword">in</span> range(<span class="number">2500</span>):</span><br><span class="line">    weights = np.random.random(noa)</span><br><span class="line">    weights /= np.sum(weights)</span><br><span class="line">    prets.append(port_ret(weights))</span><br><span class="line">    pvols.append(port_vol(weights))</span><br><span class="line">prets = np.array(prets)</span><br><span class="line">pvols = np.array(pvols)</span><br></pre></td></tr></table></figure>
+<p>下图假定无风险利率为0，计算夏普比率</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">plt.figure()</span><br><span class="line">plt.scatter(pvols,prets,c=prets/pvols,marker=<span class="string">'o'</span>,cmap=<span class="string">'coolwarm'</span>)</span><br><span class="line">plt.xlabel(<span class="string">'expected volatility'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'expected return'</span>)</span><br><span class="line">plt.colorbar(label=<span class="string">'Sharpe ratio'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;matplotlib.colorbar.Colorbar at 0x17c5db17160&gt;
+</code></pre><p><img src="\images\output_64_1.svg" alt="svg"></p>
+<h3 id="最优投资组合"><a href="#最优投资组合" class="headerlink" title="最优投资组合"></a>最优投资组合</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scipy.optimize <span class="keyword">as</span> sco</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">min_func_sharpe</span><span class="params">(weights)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> -port_ret(weights) / port_vol(weights)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cons = (&#123;<span class="string">'type'</span>:<span class="string">'eq'</span>,<span class="string">'fun'</span>:<span class="keyword">lambda</span> x:np.sum(x)<span class="number">-1</span>&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bnds = tuple((<span class="number">0</span>,<span class="number">1</span>) <span class="keyword">for</span> x <span class="keyword">in</span> range(noa))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eweights = np.array(noa*[<span class="number">1.</span>/noa])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eweights</span><br></pre></td></tr></table></figure>
+<pre><code>array([0.25, 0.25, 0.25, 0.25])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opts = sco.minimize(min_func_sharpe,eweights,method=<span class="string">'SLSQP'</span>,bounds=bnds,constraints=cons)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opts</span><br></pre></td></tr></table></figure>
+<pre><code>     fun: -0.8976673894060793
+     jac: array([ 8.96826386e-05,  8.30665231e-05, -2.45951116e-04,  1.93193555e-05])
+ message: &#39;Optimization terminated successfully&#39;
+    nfev: 30
+     nit: 6
+    njev: 6
+  status: 0
+ success: True
+       x: array([0.51191353, 0.19126413, 0.25454108, 0.04228127])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opts[<span class="string">'x'</span>].round(<span class="number">3</span>) <span class="comment"># 最优投资组合权重</span></span><br></pre></td></tr></table></figure>
+<pre><code>array([0.512, 0.191, 0.255, 0.042])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">port_ret(opts[<span class="string">'x'</span>]).round(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>0.161
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">port_vol(opts[<span class="string">'x'</span>]).round(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>0.18
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">port_ret(opts[<span class="string">'x'</span>]) / port_vol(opts[<span class="string">'x'</span>]) <span class="comment"># 最大夏普指数</span></span><br></pre></td></tr></table></figure>
+<pre><code>0.8976673894060793
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">optv = sco.minimize(port_vol,eweights,method=<span class="string">'SLSQP'</span>,bounds=bnds,constraints=cons)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">optv</span><br></pre></td></tr></table></figure>
+<pre><code>     fun: 0.1094215526341138
+     jac: array([0.11098004, 0.10948556, 0.10939826, 0.10944918])
+ message: &#39;Optimization terminated successfully&#39;
+    nfev: 45
+     nit: 9
+    njev: 9
+  status: 0
+ success: True
+       x: array([1.62630326e-18, 1.06170720e-03, 5.43263079e-01, 4.55675214e-01])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">optv[<span class="string">'x'</span>].round(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>array([0.   , 0.001, 0.543, 0.456])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">port_vol(optv[<span class="string">'x'</span>]).round(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>0.109
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">port_ret(optv[<span class="string">'x'</span>]).round(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>0.06
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">port_ret(optv[<span class="string">'x'</span>]) / port_vol(optv[<span class="string">'x'</span>])</span><br></pre></td></tr></table></figure>
+<pre><code>0.5504173653075622
+</code></pre><h3 id="有效边界"><a href="#有效边界" class="headerlink" title="有效边界"></a>有效边界</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cons = (&#123;<span class="string">'type'</span>:<span class="string">'eq'</span>,<span class="string">'fun'</span>:<span class="keyword">lambda</span> x:port_ret(x)-tret&#125;,</span><br><span class="line">       &#123;<span class="string">'type'</span>:<span class="string">'eq'</span>,<span class="string">'fun'</span>:<span class="keyword">lambda</span> x:np.sum(x)<span class="number">-1</span>&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bnds = tuple((<span class="number">0</span>,<span class="number">1</span>) <span class="keyword">for</span> x <span class="keyword">in</span> weights)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">trets = np.linspace(<span class="number">0.05</span>,<span class="number">0.2</span>,<span class="number">50</span>)</span><br><span class="line">tvols = []</span><br><span class="line"><span class="keyword">for</span> tret <span class="keyword">in</span> trets:</span><br><span class="line">    res = sco.minimize(port_vol,eweights,method=<span class="string">'SLSQP'</span>,bounds=bnds,constraints=cons)</span><br><span class="line">    tvols.append(res[<span class="string">'fun'</span>])</span><br><span class="line">tvols = np.array(tvols)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">plt.scatter(pvols,prets,c=prets/pvols,marker=<span class="string">'.'</span>,alpha=<span class="number">0.8</span>,cmap=<span class="string">'coolwarm'</span>) <span class="comment"># 随机市场组合点</span></span><br><span class="line">plt.plot(tvols,trets,<span class="string">'b'</span>,lw=<span class="number">2.0</span>) <span class="comment"># 边界</span></span><br><span class="line">plt.plot(port_vol(opts[<span class="string">'x'</span>]),port_ret(opts[<span class="string">'x'</span>]),<span class="string">'y*'</span>,markersize=<span class="number">15</span>) <span class="comment"># 最大夏普指数</span></span><br><span class="line">plt.plot(port_vol(optv[<span class="string">'x'</span>]),port_ret(optv[<span class="string">'x'</span>]),<span class="string">'r*'</span>,markersize=<span class="number">15</span>) <span class="comment"># 最小方差点</span></span><br><span class="line">plt.xlabel(<span class="string">'expected volatility'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'expected return'</span>)</span><br><span class="line">plt.colorbar(label=<span class="string">'Sharpe ratio'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;matplotlib.colorbar.Colorbar at 0x17c6199e460&gt;
+</code></pre><p><img src="\images\output_88_1.svg" alt="svg"></p>
+<h3 id="资本市场线"><a href="#资本市场线" class="headerlink" title="资本市场线"></a>资本市场线</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scipy.interpolate <span class="keyword">as</span> sci</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ind = np.argmin(tvols) <span class="comment"># ind是tvols中最小值的索引</span></span><br><span class="line">evols = tvols[ind:]</span><br><span class="line">erets = trets[ind:]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tck = sci.splrep(evols,erets) <span class="comment"># 这些值上的三次样条插值</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> sci.splev(x,tck,der=<span class="number">0</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">df</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> sci.splev(x,tck,der=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>现在要得出的是线性函数$t(x)=a+b\cdot x$,这代表着穿过风险-收益空间中无风险资产并且与有效边界相切的一条直线，也就是要满足以下条件:</p>
+<script type="math/tex; mode=display">
+t(x)=a+b\cdot x \\
+t(0) = r_f \Leftrightarrow a=r_f \\
+t(x) =f(x) \Leftrightarrow a+b \cdot x = f(x) \\
+t'(x)=f'(x) \Leftrightarrow b = f'(x)</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">equations</span><span class="params">(p,rf=<span class="number">0.01</span>)</span>:</span></span><br><span class="line">    eq1 = rf-p[<span class="number">0</span>]</span><br><span class="line">    eq2 = rf+p[<span class="number">1</span>]*p[<span class="number">2</span>]-f(p[<span class="number">2</span>])</span><br><span class="line">    eq3 = p[<span class="number">1</span>] - df(p[<span class="number">2</span>])</span><br><span class="line">    <span class="keyword">return</span> eq1,eq2,eq3</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opt = sco.fsolve(equations,[<span class="number">0.01</span>,<span class="number">0.5</span>,<span class="number">0.15</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opt</span><br></pre></td></tr></table></figure>
+<pre><code>array([0.01      , 0.84470952, 0.19525392])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.round(equations(opt),<span class="number">6</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>array([ 0.,  0., -0.])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f(<span class="number">0.15</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>array(0.13286222)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">plt.figure()</span><br><span class="line">plt.scatter(pvols,prets,c=(prets<span class="number">-0.01</span>)/pvols,marker=<span class="string">'.'</span>,cmap=<span class="string">'coolwarm'</span>)</span><br><span class="line">plt.plot(evols,erets,<span class="string">'b'</span>,lw=<span class="number">4.0</span>)</span><br><span class="line">cx = np.linspace(<span class="number">0.0</span>,<span class="number">0.3</span>)</span><br><span class="line">plt.plot(cx,opt[<span class="number">0</span>]+opt[<span class="number">1</span>]*cx,<span class="string">'r'</span>,lw=<span class="number">1.5</span>)</span><br><span class="line">plt.plot(opt[<span class="number">2</span>],f(opt[<span class="number">2</span>]),<span class="string">'y*'</span>,markersize=<span class="number">15.0</span>)</span><br><span class="line">plt.grid(<span class="keyword">True</span>)</span><br><span class="line">plt.axhline(<span class="number">0</span>,color=<span class="string">'k'</span>,ls=<span class="string">'--'</span>,lw=<span class="number">2.0</span>)</span><br><span class="line">plt.axvline(<span class="number">0</span>,color=<span class="string">'k'</span>,ls=<span class="string">'--'</span>,lw=<span class="number">2.0</span>)</span><br><span class="line">plt.xlabel(<span class="string">'expected volatility'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'expected return'</span>)</span><br><span class="line">plt.colorbar(label=<span class="string">'Sharpe ratio'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;matplotlib.colorbar.Colorbar at 0x17c69bc7af0&gt;
+</code></pre><p><img src="\images\output_100_1.svg" alt="svg"></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/笔记/" rel="tag"># 笔记</a>
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/03/26/数学工具/" rel="next" title="数学工具">
+                <i class="fa fa-chevron-left"></i> 数学工具
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="wjqsteam" />
+            
+              <p class="site-author-name" itemprop="name">wjqsteam</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#统计学"><span class="nav-number">1.</span> <span class="nav-text">统计学</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#正态性检验"><span class="nav-number">1.1.</span> <span class="nav-text">正态性检验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基准案例"><span class="nav-number">1.1.1.</span> <span class="nav-text">基准案例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#真实数据"><span class="nav-number">1.1.2.</span> <span class="nav-text">真实数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#投资组合优化"><span class="nav-number">1.2.</span> <span class="nav-text">投资组合优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据"><span class="nav-number">1.2.1.</span> <span class="nav-text">数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本理论"><span class="nav-number">1.2.2.</span> <span class="nav-text">基本理论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最优投资组合"><span class="nav-number">1.2.3.</span> <span class="nav-text">最优投资组合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有效边界"><span class="nav-number">1.2.4.</span> <span class="nav-text">有效边界</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#资本市场线"><span class="nav-number">1.2.5.</span> <span class="nav-text">资本市场线</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wjqsteam</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
