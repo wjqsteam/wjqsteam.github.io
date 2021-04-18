@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.2',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="根据《Python金融实战案例精粹》第五章的内容制作的讲稿,用于在金融随机模拟课上演示。包含Scipy、StatsModels、arch、datetime模块的简单应用。">
+<meta name="keywords" content="笔记,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据分析第五章讲稿">
+<meta property="og:url" content="http://yoursite.com/2021/04/13/第五章讲稿/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="根据《Python金融实战案例精粹》第五章的内容制作的讲稿,用于在金融随机模拟课上演示。包含Scipy、StatsModels、arch、datetime模块的简单应用。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/images/第五章Scipy讲稿/output_10_0.svg">
+<meta property="og:image" content="http://yoursite.com/images/第五章Scipy讲稿/output_26_0.svg">
+<meta property="og:image" content="http://yoursite.com/images/第五章Scipy讲稿/output_41_0.svg">
+<meta property="og:image" content="http://yoursite.com/images/第五章Scipy讲稿/output_42_0.svg">
+<meta property="og:image" content="http://yoursite.com/images/第五章Scipy讲稿/求解方程组.jpg">
+<meta property="og:image" content="http://yoursite.com/images/第五章Scipy讲稿/求解最优值.jpg">
+<meta property="og:image" content="http://yoursite.com/images/第五章Scipy讲稿/output_76_0.svg">
+<meta property="og:image" content="http://yoursite.com/images/第五章Scipy讲稿/output_92_0.svg">
+<meta property="og:image" content="http://yoursite.com/images/第五章Scipy讲稿/output_112_0.svg">
+<meta property="og:image" content="http://yoursite.com/images/第五章Scipy讲稿/output_127_0.svg">
+<meta property="og:image" content="http://yoursite.com/images/第五章Scipy讲稿/output_145_1.svg">
+<meta property="og:updated_time" content="2021-04-18T09:00:01.957Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据分析第五章讲稿">
+<meta name="twitter:description" content="根据《Python金融实战案例精粹》第五章的内容制作的讲稿,用于在金融随机模拟课上演示。包含Scipy、StatsModels、arch、datetime模块的简单应用。">
+<meta name="twitter:image" content="http://yoursite.com/images/第五章Scipy讲稿/output_10_0.svg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/04/13/第五章讲稿/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>数据分析第五章讲稿 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/13/第五章讲稿/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wjqsteam">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据分析第五章讲稿
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-04-13 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-13T00:00:00+08:00">2021-04-13</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-04-18 17:00:01" itemprop="dateModified" datetime="2021-04-18T17:00:01+08:00">2021-04-18</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>根据《Python金融实战案例精粹》第五章的内容制作的讲稿,用于在金融随机模拟课上演示。<br><br>包含<code>Scipy</code>、<code>StatsModels</code>、<code>arch</code>、<code>datetime</code>模块的简单应用。</p>
+<a id="more"></a>
+<hr>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> pylab <span class="keyword">import</span> mpl</span><br><span class="line">mpl.rcParams[<span class="string">'font.sans-serif'</span>] = [<span class="string">'KaiTi'</span>]</span><br><span class="line">mpl.rcParams[<span class="string">'axes.unicode_minus'</span>] = <span class="keyword">False</span></span><br><span class="line">%config InlineBackend.figure_format = <span class="string">'svg'</span></span><br></pre></td></tr></table></figure>
+<h2 id="积分运算"><a href="#积分运算" class="headerlink" title="积分运算"></a>积分运算</h2><p>假定你是该公司的一名金融工程师，正在运用统计方法对A股市场2家大型的上市汽车企业股票——上汽集团(证券代码600104)和广汽集团(证券代码601238)<br>进行分析,并测算股价位于具体价格区间的概率。<br><br>假设这2家公司A股股价均服从对数正态分布。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">证券简称</th>
+<th style="text-align:center">证券代码</th>
+<th style="text-align:center">股价均值</th>
+<th style="text-align:center">股价标准差</th>
+<th style="text-align:center">均值</th>
+<th style="text-align:center">标准差</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">上汽集团</td>
+<td style="text-align:center">600104</td>
+<td style="text-align:center">27.21</td>
+<td style="text-align:center">5.16</td>
+<td style="text-align:center">3.2328</td>
+<td style="text-align:center">0.1881</td>
+</tr>
+<tr>
+<td style="text-align:center">广汽集团</td>
+<td style="text-align:center">601238</td>
+<td style="text-align:center">21.19</td>
+<td style="text-align:center">5.58</td>
+<td style="text-align:center">3.0288</td>
+<td style="text-align:center">0.1111</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="任务1"><a href="#任务1" class="headerlink" title="任务1"></a>任务1</h3><p>通过python分别定义当随机变量是上汽集团股价、广汽集团股价并且服从对数正态分布的2个概率密度函数；同时，假定股票价格均处于10元每股到50元每股的区间时，对这两个概率密度函数的计算结果可视化。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lognorm_SQ</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="string">'''建立上汽集团股价所服从对数正态分布的概率密度函数</span></span><br><span class="line"><span class="string">    x: 代表了服从对数正态分布的随机变量，并且大于0;</span></span><br><span class="line"><span class="string">    mu: 代表了x的自然对数所服从正态分布的均值;</span></span><br><span class="line"><span class="string">    sigma: 代表了x的自然对数所服从正态分布的标准差。</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="keyword">from</span> numpy <span class="keyword">import</span> exp,log,sqrt,pi</span><br><span class="line">    mu = <span class="number">3.2328</span></span><br><span class="line">    sigma = <span class="number">0.1881</span></span><br><span class="line">    y = exp(-(log(x)-mu)**<span class="number">2</span>/(<span class="number">2</span>*sigma**<span class="number">2</span>))/(sqrt(<span class="number">2</span>*pi)*x*sigma)</span><br><span class="line">    <span class="keyword">return</span> y</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">lognorm_GQ</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="string">'''建立广汽集团股价所服从对数正态分布的概率密度函数</span></span><br><span class="line"><span class="string">    x: 代表了服从对数正态分布的随机变量，并且大于0;</span></span><br><span class="line"><span class="string">    mu: 代表了x的自然对数所服从正态分布的均值;</span></span><br><span class="line"><span class="string">    sigma: 代表了x的自然对数所服从正态分布的标准差。</span></span><br><span class="line"><span class="string">    '''</span></span><br><span class="line">    <span class="keyword">from</span> numpy <span class="keyword">import</span> exp,log,sqrt,pi</span><br><span class="line">    mu = <span class="number">3.0288</span></span><br><span class="line">    sigma = <span class="number">0.1111</span></span><br><span class="line">    y = exp(-(log(x)-mu)**<span class="number">2</span>/(<span class="number">2</span>*sigma**<span class="number">2</span>))/(sqrt(<span class="number">2</span>*pi)*x*sigma)</span><br><span class="line">    <span class="keyword">return</span> y</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">price = np.linspace(<span class="number">10.0</span>,<span class="number">50.0</span>,<span class="number">200</span>) <span class="comment"># 生成股价的数组</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">plt.figure()</span><br><span class="line">plt.plot(price,lognorm_SQ(x=price),<span class="string">'r-'</span>,label=<span class="string">u'上汽集团'</span>,lw=<span class="number">2.5</span>)</span><br><span class="line">plt.plot(price,lognorm_GQ(x=price),<span class="string">'b-'</span>,label=<span class="string">u'广汽集团'</span>,lw=<span class="number">2.5</span>)</span><br><span class="line">plt.xticks(fontsize=<span class="number">14</span>)</span><br><span class="line">plt.xlabel(<span class="string">u'股票价格'</span>,fontsize=<span class="number">14</span>)</span><br><span class="line">plt.yticks(fontsize=<span class="number">14</span>)</span><br><span class="line">plt.ylabel(<span class="string">u'概率密度值'</span>,fontsize=<span class="number">14</span>,rotation=<span class="number">90</span>)</span><br><span class="line">plt.title(<span class="string">u'上汽集团和广汽集团股价服从的对数正态分布图'</span>,fontsize=<span class="number">14</span>)</span><br><span class="line">plt.legend(loc=<span class="number">0</span>,fontsize=<span class="number">14</span>)</span><br><span class="line">plt.grid()</span><br></pre></td></tr></table></figure>
+<p><img src="\images\第五章Scipy讲稿\output_10_0.svg" alt="svg"></p>
+<h3 id="任务2"><a href="#任务2" class="headerlink" title="任务2"></a>任务2</h3><p>针对任务1定义的对数正态分布概率密度函数,计算当上汽集团股价位于15到30元区间的概率。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scipy.integrate <span class="keyword">as</span> sci</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SQ_quad = sci.quad(func=lognorm_SQ,a=<span class="number">15</span>,b=<span class="number">30</span>) <span class="comment"># 自适应</span></span><br><span class="line">SQ_fixed_quad = sci.fixed_quad(func=lognorm_SQ,a=<span class="number">15</span>,b=<span class="number">30</span>) <span class="comment"># 固定高斯</span></span><br><span class="line">SQ_quadrature = sci.quadrature(func=lognorm_SQ,a=<span class="number">15</span>,b=<span class="number">30</span>) <span class="comment"># 自适应高斯</span></span><br><span class="line">SQ_romberg = sci.romberg(function=lognorm_SQ,a=<span class="number">15</span>,b=<span class="number">30</span>) <span class="comment"># 自适应龙贝格</span></span><br><span class="line">print(<span class="string">'自适应求积分计算上汽集团股价15到30元的概率'</span>,SQ_quad[<span class="number">0</span>])</span><br><span class="line">print(<span class="string">'固定高斯求积分计算上汽集团股价15到30元的概率'</span>,SQ_fixed_quad[<span class="number">0</span>])</span><br><span class="line">print(<span class="string">'自适应高斯求积分计算上汽集团股价15到30元的概率'</span>,SQ_quadrature[<span class="number">0</span>])</span><br><span class="line">print(<span class="string">'自适应龙贝格求积分计算上汽集团股价15到30元的概率'</span>,SQ_romberg)</span><br></pre></td></tr></table></figure>
+<pre><code>自适应求积分计算上汽集团股价15到30元的概率 0.8120369540631466
+固定高斯求积分计算上汽集团股价15到30元的概率 0.81210187166967
+自适应高斯求积分计算上汽集团股价15到30元的概率 0.8120369540401883
+自适应龙贝格求积分计算上汽集团股价15到30元的概率 0.8120369540611752
+</code></pre><p>以上结果基本一致.</p>
+<h3 id="任务3"><a href="#任务3" class="headerlink" title="任务3"></a>任务3</h3><p>针对任务1定义的对数正态分布概率密度函数,计算当广汽集团股价位于15到30元区间的概率.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GQ_quad = sci.quad(func=lognorm_GQ,a=<span class="number">15</span>,b=<span class="number">30</span>) <span class="comment"># 自适应</span></span><br><span class="line">GQ_fixed_quad = sci.fixed_quad(func=lognorm_GQ,a=<span class="number">15</span>,b=<span class="number">30</span>) <span class="comment"># 固定高斯</span></span><br><span class="line">GQ_quadrature = sci.quadrature(func=lognorm_GQ,a=<span class="number">15</span>,b=<span class="number">30</span>) <span class="comment"># 自适应高斯</span></span><br><span class="line">GQ_romberg = sci.romberg(function=lognorm_GQ,a=<span class="number">15</span>,b=<span class="number">30</span>) <span class="comment"># 自适应龙贝格</span></span><br><span class="line">print(<span class="string">'自适应求积分计算广汽集团股价15到30元的概率'</span>,GQ_quad[<span class="number">0</span>])</span><br><span class="line">print(<span class="string">'固定高斯求积分计算广汽集团股价15到30元的概率'</span>,GQ_fixed_quad[<span class="number">0</span>])</span><br><span class="line">print(<span class="string">'自适应高斯求积分计算广汽集团股价15到30元的概率'</span>,GQ_quadrature[<span class="number">0</span>])</span><br><span class="line">print(<span class="string">'自适应龙贝格求积分计算广汽集团股价15到30元的概率'</span>,GQ_romberg)</span><br></pre></td></tr></table></figure>
+<pre><code>自适应求积分计算广汽集团股价15到30元的概率 0.9976542786994163
+固定高斯求积分计算广汽集团股价15到30元的概率 0.9843567604263211
+自适应高斯求积分计算广汽集团股价15到30元的概率 0.9976542765221287
+自适应龙贝格求积分计算广汽集团股价15到30元的概率 0.9976542786954494
+</code></pre><h2 id="插值计算"><a href="#插值计算" class="headerlink" title="插值计算"></a>插值计算</h2><p>你准备通过2019年4月30日对外公布的Shibor各期限利率,运用插值法计算出2个月、4个月、5各月、7个月、8个月、10个月、11个月这几个新期限<br>的Shibor利率，绘制出一条类似于Libor包含15个期限品种的新Shibor利率曲线，进而构建更加完整的Shibor利率期限结构，以满足银行内部利率产品定价的需要。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">日期</th>
+<th style="text-align:center">Shibor(隔夜)</th>
+<th style="text-align:center">Shibor(1周)</th>
+<th style="text-align:center">Shibor(2周)</th>
+<th style="text-align:center">Shibor(1个月)</th>
+<th style="text-align:center">Shibor(3个月)</th>
+<th>Shibor(6个月)</th>
+<th>Shibor(9个月)</th>
+<th>Shibor(1年)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">2019/4/30</td>
+<td style="text-align:center">2.086%</td>
+<td style="text-align:center">2.683%</td>
+<td style="text-align:center">2.860%</td>
+<td style="text-align:center">2.856%</td>
+<td style="text-align:center">2.930%</td>
+<td>2.963%</td>
+<td>3.044%</td>
+<td>3.159%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="任务1-1"><a href="#任务1-1" class="headerlink" title="任务1"></a>任务1</h3><p>将表中的Shibor利率和期限分别以列表方式输入python中，同时生成与Libor利率期限品种相同的一个新的期限列表；然后，依次运用最临近插值法、阶梯插值法(0阶样条曲线插值法)计算出2个月、4个月、5个月、7个月、8个月、10个月和11个月这7个Shibor新期限的利率。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scipy.interpolate <span class="keyword">as</span> scii</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Shibor = [<span class="number">0.02086</span>,<span class="number">0.02683</span>,<span class="number">0.0286</span>,<span class="number">0.02856</span>,<span class="number">0.0293</span>,<span class="number">0.02963</span>,<span class="number">0.03044</span>,<span class="number">0.03159</span>] <span class="comment"># 上表中数据</span></span><br><span class="line">Tenor = [<span class="number">1</span>/<span class="number">30</span>,<span class="number">7</span>/<span class="number">30</span>,<span class="number">14</span>/<span class="number">30</span>,<span class="number">1</span>,<span class="number">3</span>,<span class="number">6</span>,<span class="number">9</span>,<span class="number">12</span>] <span class="comment"># Shibor现有期限品种</span></span><br><span class="line">Tenor_new = [<span class="number">1</span>/<span class="number">30</span>,<span class="number">7</span>/<span class="number">30</span>,<span class="number">14</span>/<span class="number">30</span>,<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">10</span>,<span class="number">11</span>,<span class="number">12</span>] <span class="comment"># Libor期限品种并以月为单位</span></span><br></pre></td></tr></table></figure>
+<p>最临近插值法<code>nearest</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">f_nearest = scii.interp1d(x=Tenor,y=Shibor,kind=<span class="string">'nearest'</span>)</span><br><span class="line">Shibor_nearest = f_nearest(Tenor_new)</span><br><span class="line">Shibor_nearest</span><br></pre></td></tr></table></figure>
+<pre><code>array([0.02086, 0.02683, 0.0286 , 0.02856, 0.02856, 0.0293 , 0.0293 ,
+       0.02963, 0.02963, 0.02963, 0.03044, 0.03044, 0.03044, 0.03159,
+       0.03159])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'最邻近插值法计算Shibor2个月利率'</span>,Shibor_nearest[Tenor_new.index(<span class="number">2</span>)])</span><br><span class="line">print(<span class="string">'最邻近插值法计算Shibor4个月利率'</span>,Shibor_nearest[Tenor_new.index(<span class="number">4</span>)])</span><br><span class="line">print(<span class="string">'最邻近插值法计算Shibor5个月利率'</span>,Shibor_nearest[Tenor_new.index(<span class="number">5</span>)])</span><br><span class="line">print(<span class="string">'最邻近插值法计算Shibor7个月利率'</span>,Shibor_nearest[Tenor_new.index(<span class="number">7</span>)])</span><br><span class="line">print(<span class="string">'最邻近插值法计算Shibor8个月利率'</span>,Shibor_nearest[Tenor_new.index(<span class="number">8</span>)])</span><br><span class="line">print(<span class="string">'最邻近插值法计算Shibor10个月利率'</span>,Shibor_nearest[Tenor_new.index(<span class="number">10</span>)])</span><br><span class="line">print(<span class="string">'最邻近插值法计算Shibor11个月利率'</span>,Shibor_nearest[Tenor_new.index(<span class="number">11</span>)])</span><br></pre></td></tr></table></figure>
+<pre><code>最邻近插值法计算Shibor2个月利率 0.02856
+最邻近插值法计算Shibor4个月利率 0.0293
+最邻近插值法计算Shibor5个月利率 0.02963
+最邻近插值法计算Shibor7个月利率 0.02963
+最邻近插值法计算Shibor8个月利率 0.03044
+最邻近插值法计算Shibor10个月利率 0.03044
+最邻近插值法计算Shibor11个月利率 0.03159
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">plt.figure()</span><br><span class="line">plt.plot(Tenor_new,Shibor_nearest,<span class="string">'o'</span>)</span><br><span class="line">plt.plot(Tenor_new,Shibor_nearest,<span class="string">'-'</span>)</span><br><span class="line">plt.grid()</span><br></pre></td></tr></table></figure>
+<p><img src="\images\第五章Scipy讲稿\output_26_0.svg" alt="svg"></p>
+<p>阶梯插值法<code>zero</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">f_zero = scii.interp1d(x=Tenor,y=Shibor,kind=<span class="string">'zero'</span>)</span><br><span class="line">Shibor_zero = f_zero(Tenor_new)</span><br><span class="line">Shibor_zero</span><br></pre></td></tr></table></figure>
+<pre><code>array([0.02086, 0.02683, 0.0286 , 0.02856, 0.02856, 0.0293 , 0.0293 ,
+       0.0293 , 0.02963, 0.02963, 0.02963, 0.03044, 0.03044, 0.03044,
+       0.03159])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'阶梯插值法计算Shibor2个月利率'</span>,Shibor_zero[Tenor_new.index(<span class="number">2</span>)])</span><br><span class="line">print(<span class="string">'阶梯插值法计算Shibor4个月利率'</span>,Shibor_zero[Tenor_new.index(<span class="number">4</span>)])</span><br><span class="line">print(<span class="string">'阶梯插值法计算Shibor5个月利率'</span>,Shibor_zero[Tenor_new.index(<span class="number">5</span>)])</span><br><span class="line">print(<span class="string">'阶梯插值法计算Shibor7个月利率'</span>,Shibor_zero[Tenor_new.index(<span class="number">7</span>)])</span><br><span class="line">print(<span class="string">'阶梯插值法计算Shibor8个月利率'</span>,Shibor_zero[Tenor_new.index(<span class="number">8</span>)])</span><br><span class="line">print(<span class="string">'阶梯插值法计算Shibor10个月利率'</span>,Shibor_zero[Tenor_new.index(<span class="number">10</span>)])</span><br><span class="line">print(<span class="string">'阶梯插值法计算Shibor11个月利率'</span>,Shibor_zero[Tenor_new.index(<span class="number">11</span>)])</span><br></pre></td></tr></table></figure>
+<pre><code>阶梯插值法计算Shibor2个月利率 0.02856
+阶梯插值法计算Shibor4个月利率 0.0293
+阶梯插值法计算Shibor5个月利率 0.0293
+阶梯插值法计算Shibor7个月利率 0.02963
+阶梯插值法计算Shibor8个月利率 0.02963
+阶梯插值法计算Shibor10个月利率 0.03044
+阶梯插值法计算Shibor11个月利率 0.03044
+</code></pre><h3 id="任务2-1"><a href="#任务2-1" class="headerlink" title="任务2"></a>任务2</h3><p>依次运用线性插值法(1阶样条曲线插值法)、2阶样条曲线插值法、3阶样条曲线插值法计算出2个月、4个月、5个月、7个月、8个月、10个月和11个月这7个Shibor新期限的利率。</p>
+<p>线性插值法<code>slinear</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f_slinear = scii.interp1d(x=Tenor,y=Shibor,kind=<span class="string">'slinear'</span>)</span><br><span class="line">Shibor_slinear = f_slinear(Tenor_new)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'线性插值法计算Shibor2个月利率'</span>,Shibor_slinear[Tenor_new.index(<span class="number">2</span>)])</span><br><span class="line">print(<span class="string">'线性插值法计算Shibor4个月利率'</span>,Shibor_slinear[Tenor_new.index(<span class="number">4</span>)])</span><br><span class="line">print(<span class="string">'线性插值法计算Shibor5个月利率'</span>,Shibor_slinear[Tenor_new.index(<span class="number">5</span>)])</span><br><span class="line">print(<span class="string">'线性插值法计算Shibor7个月利率'</span>,Shibor_slinear[Tenor_new.index(<span class="number">7</span>)])</span><br><span class="line">print(<span class="string">'线性插值法计算Shibor8个月利率'</span>,Shibor_slinear[Tenor_new.index(<span class="number">8</span>)])</span><br><span class="line">print(<span class="string">'线性插值法计算Shibor10个月利率'</span>,Shibor_slinear[Tenor_new.index(<span class="number">10</span>)])</span><br><span class="line">print(<span class="string">'线性插值法计算Shibor11个月利率'</span>,Shibor_slinear[Tenor_new.index(<span class="number">11</span>)])</span><br></pre></td></tr></table></figure>
+<pre><code>线性插值法计算Shibor2个月利率 0.028929999999999997
+线性插值法计算Shibor4个月利率 0.02941
+线性插值法计算Shibor5个月利率 0.029519999999999998
+线性插值法计算Shibor7个月利率 0.029899999999999996
+线性插值法计算Shibor8个月利率 0.030169999999999995
+线性插值法计算Shibor10个月利率 0.030823333333333328
+线性插值法计算Shibor11个月利率 0.031206666666666664
+</code></pre><p>2阶样条曲线插值法<code>quadratic</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f_quadratic = scii.interp1d(x=Tenor,y=Shibor,kind=<span class="string">'quadratic'</span>)</span><br><span class="line">Shibor_quadratic = f_quadratic(Tenor_new)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'2阶样条曲线插值法计算Shibor2个月利率'</span>,Shibor_quadratic[Tenor_new.index(<span class="number">2</span>)])</span><br><span class="line">print(<span class="string">'2阶样条曲线插值法计算Shibor4个月利率'</span>,Shibor_quadratic[Tenor_new.index(<span class="number">4</span>)])</span><br><span class="line">print(<span class="string">'2阶样条曲线插值法计算Shibor5个月利率'</span>,Shibor_quadratic[Tenor_new.index(<span class="number">5</span>)])</span><br><span class="line">print(<span class="string">'2阶样条曲线插值法计算Shibor7个月利率'</span>,Shibor_quadratic[Tenor_new.index(<span class="number">7</span>)])</span><br><span class="line">print(<span class="string">'2阶样条曲线插值法计算Shibor8个月利率'</span>,Shibor_quadratic[Tenor_new.index(<span class="number">8</span>)])</span><br><span class="line">print(<span class="string">'2阶样条曲线插值法计算Shibor10个月利率'</span>,Shibor_quadratic[Tenor_new.index(<span class="number">10</span>)])</span><br><span class="line">print(<span class="string">'2阶样条曲线插值法计算Shibor11个月利率'</span>,Shibor_quadratic[Tenor_new.index(<span class="number">11</span>)])</span><br></pre></td></tr></table></figure>
+<pre><code>2阶样条曲线插值法计算Shibor2个月利率 0.028616467317840365
+2阶样条曲线插值法计算Shibor4个月利率 0.029600384140984454
+2阶样条曲线插值法计算Shibor5个月利率 0.029581874540857294
+2阶样条曲线插值法计算Shibor7个月利率 0.029809015318476132
+2阶样条曲线插值法计算Shibor8个月利率 0.030105618770349174
+2阶样条曲线插值法计算Shibor10个月利率 0.03079885728149208
+2阶样条曲线插值法计算Shibor11个月利率 0.03118219061482541
+</code></pre><p>3阶样条曲线插值法<code>cubic</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">f_cubic = scii.interp1d(x=Tenor,y=Shibor,kind=<span class="string">'cubic'</span>)</span><br><span class="line">Shibor_cubic = f_cubic(Tenor_new)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'3阶样条曲线插值法计算Shibor2个月利率'</span>,Shibor_cubic[Tenor_new.index(<span class="number">2</span>)])</span><br><span class="line">print(<span class="string">'3阶样条曲线插值法计算Shibor4个月利率'</span>,Shibor_cubic[Tenor_new.index(<span class="number">4</span>)])</span><br><span class="line">print(<span class="string">'3阶样条曲线插值法计算Shibor5个月利率'</span>,Shibor_cubic[Tenor_new.index(<span class="number">5</span>)])</span><br><span class="line">print(<span class="string">'3阶样条曲线插值法计算Shibor7个月利率'</span>,Shibor_cubic[Tenor_new.index(<span class="number">7</span>)])</span><br><span class="line">print(<span class="string">'3阶样条曲线插值法计算Shibor8个月利率'</span>,Shibor_cubic[Tenor_new.index(<span class="number">8</span>)])</span><br><span class="line">print(<span class="string">'3阶样条曲线插值法计算Shibor10个月利率'</span>,Shibor_cubic[Tenor_new.index(<span class="number">10</span>)])</span><br><span class="line">print(<span class="string">'3阶样条曲线插值法计算Shibor11个月利率'</span>,Shibor_cubic[Tenor_new.index(<span class="number">11</span>)])</span><br></pre></td></tr></table></figure>
+<pre><code>3阶样条曲线插值法计算Shibor2个月利率 0.028522339106477893
+3阶样条曲线插值法计算Shibor4个月利率 0.029687175542502105
+3阶样条曲线插值法计算Shibor5个月利率 0.029692919296581313
+3阶样条曲线插值法计算Shibor7个月利率 0.029747595605931057
+3阶样条曲线插值法计算Shibor8个月利率 0.030040520929189286
+3阶样条曲线插值法计算Shibor10个月利率 0.03087725684858849
+3阶样条曲线插值法计算Shibor11个月利率 0.03128351550518005
+</code></pre><h3 id="任务3-1"><a href="#任务3-1" class="headerlink" title="任务3"></a>任务3</h3><p>基于任务1、任务2中运用不同插值法计算得到包含新期限的Shibor利率，绘制出包含15个期限品种的新Shibor利率曲线。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">plt.figure()</span><br><span class="line">plt.plot(Tenor_new,Shibor_nearest,<span class="string">'o'</span>)</span><br><span class="line">plt.plot(Tenor_new,Shibor_zero,<span class="string">'o'</span>)</span><br><span class="line">plt.plot(Tenor_new,Shibor_slinear,<span class="string">'o'</span>)</span><br><span class="line">plt.plot(Tenor_new,Shibor_quadratic,<span class="string">'o'</span>)</span><br><span class="line">plt.plot(Tenor_new,Shibor_cubic,<span class="string">'o'</span>)</span><br><span class="line">plt.plot(Tenor_new,Shibor_nearest,<span class="string">'-'</span>,label=<span class="string">'最邻近插值法'</span>)</span><br><span class="line">plt.plot(Tenor_new,Shibor_zero,<span class="string">'-'</span>,label=<span class="string">'阶梯插值法'</span>)</span><br><span class="line">plt.plot(Tenor_new,Shibor_slinear,<span class="string">'-'</span>,label=<span class="string">'线性插值法'</span>)</span><br><span class="line">plt.plot(Tenor_new,Shibor_quadratic,<span class="string">'-'</span>,label=<span class="string">'2阶样条曲线插值法'</span>)</span><br><span class="line">plt.plot(Tenor_new,Shibor_cubic,<span class="string">'-'</span>,label=<span class="string">'3阶样条曲线插值法'</span>)</span><br><span class="line">plt.xlabel(<span class="string">u'期限(月)'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Shibor'</span>,rotation=<span class="number">90</span>)</span><br><span class="line">plt.title(<span class="string">u'运用不同的插值法计算得到的Shibor'</span>)</span><br><span class="line">plt.legend(loc=<span class="number">0</span>)</span><br><span class="line">plt.grid()</span><br></pre></td></tr></table></figure>
+<p><img src="\images\第五章Scipy讲稿\output_41_0.svg" alt="svg"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">plt.figure()</span><br><span class="line">plt.plot(Tenor_new,Shibor_nearest,<span class="string">'o'</span>)</span><br><span class="line">plt.plot(Tenor_new,Shibor_zero,<span class="string">'o'</span>)</span><br><span class="line">plt.plot(Tenor_new,Shibor_slinear,<span class="string">'o'</span>)</span><br><span class="line">plt.plot(Tenor_new,Shibor_quadratic,<span class="string">'o'</span>)</span><br><span class="line">plt.plot(Tenor_new,Shibor_cubic,<span class="string">'o'</span>)</span><br><span class="line">plt.plot(Tenor_new,Shibor_nearest,<span class="string">'-'</span>,label=<span class="string">'最邻近插值法'</span>)</span><br><span class="line">plt.plot(Tenor_new,Shibor_zero,<span class="string">'-'</span>,label=<span class="string">'阶梯插值法'</span>)</span><br><span class="line">plt.plot(Tenor_new,Shibor_slinear,<span class="string">'-'</span>,label=<span class="string">'线性插值法'</span>)</span><br><span class="line">plt.plot(Tenor_new,Shibor_quadratic,<span class="string">'-'</span>,label=<span class="string">'2阶样条曲线插值法'</span>)</span><br><span class="line">plt.plot(Tenor_new,Shibor_cubic,<span class="string">'-'</span>,label=<span class="string">'3阶样条曲线插值法'</span>)</span><br><span class="line">plt.xlabel(<span class="string">u'期限(月)'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'Shibor'</span>,rotation=<span class="number">90</span>)</span><br><span class="line">plt.title(<span class="string">u'运用不同的插值法计算得到的Shibor'</span>)</span><br><span class="line"><span class="comment"># ---------------------</span></span><br><span class="line">plt.xlim(<span class="number">1.0</span>,<span class="number">12.0</span>)</span><br><span class="line">plt.ylim(<span class="number">0.0285</span>,<span class="number">0.032</span>)</span><br><span class="line"><span class="comment"># ---------------------</span></span><br><span class="line">plt.legend(loc=<span class="number">0</span>)</span><br><span class="line">plt.grid()</span><br></pre></td></tr></table></figure>
+<p><img src="\images\第五章Scipy讲稿\output_42_0.svg" alt="svg"></p>
+<h2 id="求解方程组"><a href="#求解方程组" class="headerlink" title="求解方程组"></a>求解方程组</h2><p>假定你是一位投资顾问，日常服务的客户中恰好有2位个人投资者——曹先生和周女士均偏好于投资中小板股票，同时十分巧合的是在2019年前5个月，他们都投资了新和成、苏泊尔、贝因美、索菲亚以及徐家汇这5只中小板股票并且未投资于其他股票，此外在此期间在2位投资者各自投资组合中每只股票所占的比重均保持不变。为了能够给客户提供更精准的服务，你需要计算计算得到曹先生和周女士持有这5只股票在各自投资组合中的占比数据。</p>
+<p><img src="\images\第五章Scipy讲稿\求解方程组.jpg" alt="求解方程组"></p>
+<h3 id="任务1-2"><a href="#任务1-2" class="headerlink" title="任务1"></a>任务1</h3><p>将表中的股票简称、股票涨跌幅、曹先生收益率和周女士收益率分别以数组的形式输入Python中</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">stock_name = [<span class="string">'新和成'</span>,<span class="string">'苏泊尔'</span>,<span class="string">'贝因美'</span>,<span class="string">'索菲亚'</span>,<span class="string">'徐家汇'</span>]</span><br><span class="line">stock_return = np.array([[<span class="number">0.0033</span>,<span class="number">0.0093</span>,<span class="number">-0.0605</span>,<span class="number">-0.0991</span>,<span class="number">0.0364</span>],[<span class="number">0.1746</span>,<span class="number">0.1606</span>,<span class="number">0.2296</span>,<span class="number">0.23</span>,<span class="number">0.1115</span>],</span><br><span class="line">                        [<span class="number">0.0447</span>,<span class="number">0.22</span>,<span class="number">0.1745</span>,<span class="number">0.382</span>,<span class="number">0.0586</span>],[<span class="number">0.0287</span>,<span class="number">-0.0968</span>,<span class="number">-0.0728</span>,<span class="number">-0.1159</span>,<span class="number">-0.0288</span>],</span><br><span class="line">                        [<span class="number">0.0205</span>,<span class="number">0.0647</span>,<span class="number">-0.0673</span>,<span class="number">-0.1433</span>,<span class="number">-0.0446</span>]])</span><br><span class="line">MrCao_return = np.array([<span class="number">-0.02212</span>,<span class="number">0.18126</span>,<span class="number">0.17596</span>,<span class="number">-0.05712</span>,<span class="number">-0.034</span>])</span><br><span class="line">MsZhou_return = np.array([<span class="number">-0.02423</span>,<span class="number">0.17842</span>,<span class="number">0.18545</span>,<span class="number">-0.063825</span>,<span class="number">-0.05091</span>])</span><br></pre></td></tr></table></figure>
+<h3 id="任务2-2"><a href="#任务2-2" class="headerlink" title="任务2"></a>任务2</h3><p>基于任务1创建的数组并运用Scipy模块，计算出在曹先生个人的投资组合中每只股票所占的权重。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scipy.linalg <span class="keyword">as</span> scl</span><br></pre></td></tr></table></figure>
+<script type="math/tex; mode=display">
+\left [
+\begin{matrix}
+0.0033  &0.0093 &-0.0605 &-0.0991 & 0.0364 \\
+0.1746  &0.1606  &0.2296  &0.23    &0.1115 \\
+0.0447  &0.22   & 0.1745  &0.382  & 0.0586 \\
+0.0287 &-0.0968 &-0.0728 &-0.1159& -0.0288 \\
+0.0205  &0.0647 &-0.0673 &-0.1433& -0.0446 \\
+\end{matrix}
+\right ]
+\left [
+\begin{matrix}
+w_1 \\
+w_2 \\
+w_3 \\
+w_4 \\
+w_5
+\end{matrix}
+\right ] =
+\left [
+\begin{matrix}
+-0.02212 \\
+0.18126 \\
+0.17596 \\
+-0.05712 \\
+-0.034
+\end{matrix}
+\right ]</script><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MrCao_weight = scl.solve(a=stock_return,b=MrCao_return)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(stock_name)):</span><br><span class="line">    print(stock_name[i],round(MrCao_weight[i],<span class="number">5</span>))</span><br></pre></td></tr></table></figure>
+<pre><code>新和成 0.2
+苏泊尔 0.2
+贝因美 0.2
+索菲亚 0.2
+徐家汇 0.2
+</code></pre><p><code>scipy</code>子模块<code>optimize</code>中的函数<code>fsolve</code></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scipy.optimize <span class="keyword">as</span> sco</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">F</span><span class="params">(w)</span>:</span></span><br><span class="line">    w1,w2,w3,w4,w5 = w</span><br><span class="line">    weight= np.array([w1,w2,w3,w4,w5])</span><br><span class="line">    eq1 = np.sum(stock_return[<span class="number">0</span>]*weight)-MrCao_return[<span class="number">0</span>]</span><br><span class="line">    eq2 = np.sum(stock_return[<span class="number">1</span>]*weight)-MrCao_return[<span class="number">1</span>]</span><br><span class="line">    eq3 = np.sum(stock_return[<span class="number">2</span>]*weight)-MrCao_return[<span class="number">2</span>]</span><br><span class="line">    eq4 = np.sum(stock_return[<span class="number">3</span>]*weight)-MrCao_return[<span class="number">3</span>]</span><br><span class="line">    eq5 = np.sum(stock_return[<span class="number">4</span>]*weight)-MrCao_return[<span class="number">4</span>]</span><br><span class="line">    <span class="keyword">return</span> [eq1,eq2,eq3,eq4,eq5]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MrCao_result = sco.fsolve(F,[<span class="number">0.01</span>,<span class="number">0.01</span>,<span class="number">0.01</span>,<span class="number">0.01</span>,<span class="number">0.01</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'曹先生投资组合中每只股票的占比'</span>,MrCao_result)</span><br></pre></td></tr></table></figure>
+<pre><code>曹先生投资组合中每只股票的占比 [0.2 0.2 0.2 0.2 0.2]
+</code></pre><h3 id="任务3-2"><a href="#任务3-2" class="headerlink" title="任务3"></a>任务3</h3><p>基于任务1创建的数组并运用Scipy模块，计算出在周女士个人的投资组合中每只股票所占的权重。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MsZhou_weight = scl.solve(a=stock_return,b=MsZhou_return)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(stock_name)):</span><br><span class="line">    print(stock_name[i],round(MsZhou_weight[i],<span class="number">5</span>))</span><br></pre></td></tr></table></figure>
+<pre><code>新和成 0.1
+苏泊尔 0.15
+贝因美 0.2
+索菲亚 0.25
+徐家汇 0.3
+</code></pre><h2 id="求解最优值"><a href="#求解最优值" class="headerlink" title="求解最优值"></a>求解最优值</h2><p>在金融学的理论研究中，假定证券市场中每位投资者都有一个效用函数，通常情况下是用预取效用函数表示，具体的数学表达式如下:</p>
+<script type="math/tex; mode=display">
+EU=\sum^{N}_{i=1}p_i\sqrt {w_i}</script><p>其中，$EU$表示投资者的预期效用，$i$表示第$i$种情形并且$i=1,2,…,N$,$p_i$表示出现第i种情况的概率以及$\sum^{N}_{i=1}p_i=1$,$w_i$表示出现第$i$种情形时投资者的财富水平(即投资组合市值水平)。<br><br>同时，假定投资者的投资组合种配置$M$支证券，持有每支证券的数量为$x_j$,其中$j=1,2,…,M$。据此，对于理性投资者做出的投资决策就可以用数学方法抽象为求解如下最优问题:</p>
+<script type="math/tex; mode=display">
+max_{x_j}(EU)=max_{x_j}(\sum^{N}_{i=1}p_i\sqrt {w_i}) \tag{5-5}</script><p>其中,</p>
+<script type="math/tex; mode=display">
+w_i=\sum_{j=1}^{M}x_j S_{ij}</script><p>求最优值的约束条件如下:</p>
+<script type="math/tex; mode=display">
+w_0 \ge \sum_{j=1}^{M}x_j S_{0j} \\
+x_j \ge 0</script><p>其中,$S_{ij}$表示第$i$种情形时第j只证券的价格，$w_0$表示初始投资金额，$S_{0j}$表示投资者购买第j只证券的价格,$x_j \le 0$表示不可以做空(也可以作为边界条件).</p>
+<p>D公司是一家总部位于杭州的信托公司，近期有一位民营企业家郭先生希望委托D公司发起设立一个家族信托从而更好地将财富传承给下一代。假定你是D公司负责这个家族信托的信托经理，在沟通的过程中了解到郭先生希望通过家族信托以2019年5月31日的收盘价配置中国平安、五粮液、中国石化和中国国航这4只A股的蓝筹股票，并且郭先生委托给信托公司的初始投资金额是3000万元。下表描述了这4只股票在2019年5月31日的收盘价以及你通过金融大数据预测一年后股票收盘价可能出现的3种情景(乐观、中性和悲观)。</p>
+<p><img src="\images\第五章Scipy讲稿\求解最优值.jpg" alt="求解最优值"></p>
+<h3 id="任务1-3"><a href="#任务1-3" class="headerlink" title="任务1"></a>任务1</h3><p>将表5-6中关于收盘价的数据以及不同情景发生概率的数据分别用数组方式输入，对证券名称以列表方式输入，同时输入求解最优值的约束条件和边界条件。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">stock_price = np.array([[<span class="number">79</span>,<span class="number">95</span>,<span class="number">81</span>,<span class="number">64</span>],[<span class="number">101.25</span>,<span class="number">116</span>,<span class="number">103</span>,<span class="number">85</span>],[<span class="number">5.43</span>,<span class="number">7.65</span>,<span class="number">5.6</span>,<span class="number">4.8</span>],[<span class="number">8.46</span>,<span class="number">10.98</span>,<span class="number">8.7</span>,<span class="number">7.5</span>]])</span><br><span class="line">prob = np.array([<span class="number">0.25</span>,<span class="number">0.4</span>,<span class="number">0.35</span>])</span><br><span class="line">stock_name = [<span class="string">'中国平安'</span>,<span class="string">'五粮液'</span>,<span class="string">'中国石化'</span>,<span class="string">'中国国航'</span>]</span><br><span class="line">invest = <span class="number">3e7</span></span><br><span class="line">cons = (&#123;<span class="string">'type'</span>:<span class="string">'ineq'</span>,<span class="string">'fun'</span>:<span class="keyword">lambda</span> x:invest-np.sum(x*stock_price[:,<span class="number">0</span>])&#125;)</span><br><span class="line">bnds = ((<span class="number">0</span>,invest),(<span class="number">0</span>,invest),(<span class="number">0</span>,invest),(<span class="number">0</span>,invest))</span><br></pre></td></tr></table></figure>
+<h3 id="任务2-3"><a href="#任务2-3" class="headerlink" title="任务2"></a>任务2</h3><p>根据任务1创建的数组和列表，计算在郭先生家族信托中配置4只股票的最优股票数量，并且需要满足A股交易规则中购买单只股票必须是100股整数倍的要求。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scipy.optimize <span class="keyword">as</span> sco</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">EU</span><span class="params">(x)</span>:</span></span><br><span class="line">    x=np.array(x)</span><br><span class="line">    w1=np.sum(x*stock_price[:,<span class="number">1</span>])</span><br><span class="line">    w2=np.sum(x*stock_price[:,<span class="number">2</span>])</span><br><span class="line">    w3=np.sum(x*stock_price[:,<span class="number">3</span>])</span><br><span class="line">    w=np.array([w1,w2,w3])</span><br><span class="line">    <span class="keyword">return</span> -np.sum(prob*np.sqrt(w))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result = sco.minimize(EU,[<span class="number">1e5</span>,<span class="number">1e5</span>,<span class="number">1e5</span>,<span class="number">1e5</span>],method=<span class="string">'SLSQP'</span>,bounds=bnds,constraints=cons)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result</span><br></pre></td></tr></table></figure>
+<pre><code>     fun: -5446.441722683481
+     jac: array([-0.00720215, -0.00909424, -0.00054932, -0.00073242])
+ message: &#39;Optimization terminated successfully&#39;
+    nfev: 99
+     nit: 16
+    njev: 16
+  status: 0
+ success: True
+       x: array([150557.90817201, 164415.47517505, 103797.78950923, 105819.90495231])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">shares = result[<span class="string">'x'</span>]</span><br><span class="line">round(np.sum(shares*stock_price[:,<span class="number">0</span>]),<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>30000000.0
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(stock_name)):</span><br><span class="line">    print(stock_name[i],<span class="number">100</span>*(int(shares[i]/<span class="number">100</span>)))</span><br></pre></td></tr></table></figure>
+<pre><code>中国平安 150500
+五粮液 164400
+中国石化 103700
+中国国航 105800
+</code></pre><h3 id="任务3-3"><a href="#任务3-3" class="headerlink" title="任务3"></a>任务3</h3><p>郭先生希望了解股价变动对持有最优股票数量的影响，因此模拟在情景1(乐观)条件下，中国平安股价从80元每股逐步提高至100元每股时，测算家族信托在期望效用最大的情况下持有中国平安的最优股票数量，并且对中国平安股价与股票数量之间的关系进行可视化。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pingan_price=np.linspace(<span class="number">80</span>,<span class="number">100</span>,<span class="number">50</span>)</span><br><span class="line">pingan_shares=np.zeros_like(pingan_price)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(pingan_price)):</span><br><span class="line">    stock_price[<span class="number">0</span>,<span class="number">1</span>]=pingan_price[i]</span><br><span class="line">    result = sco.minimize(EU,[<span class="number">1e5</span>,<span class="number">1e5</span>,<span class="number">1e5</span>,<span class="number">1e5</span>],method=<span class="string">'SLSQP'</span>,bounds=bnds,constraints=cons)</span><br><span class="line">    pingan_shares[i]=result[<span class="string">'x'</span>][<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">plt.figure()</span><br><span class="line">plt.plot(pingan_price,pingan_shares,<span class="string">'o'</span>)</span><br><span class="line">plt.xlabel(<span class="string">u'股票价格'</span>)</span><br><span class="line">plt.ylabel(<span class="string">u'股数'</span>)</span><br><span class="line">plt.title(<span class="string">u'情景1条件下中国平安的股价与最优股票数量'</span>)</span><br><span class="line">plt.grid()</span><br></pre></td></tr></table></figure>
+<p><img src="\images\第五章Scipy讲稿\output_76_0.svg" alt="svg"></p>
+<h2 id="统计功能"><a href="#统计功能" class="headerlink" title="统计功能"></a>统计功能</h2><p>E银行是总部位于我国香港的一家商业银行，假定你在这家银行的资金管理中心工作，是负责日常人民币资金拆借业务的一名交易员，因此十分关注香港银行同业拆借利率(Hibor)和Shibor的利率走势。<br><br>在2019年8月初，你需要向银行的管理层做一场近年来3个月期人民币Hibor和Shibor利率走势分析的专题报告。</p>
+<h3 id="任务1-4"><a href="#任务1-4" class="headerlink" title="任务1"></a>任务1</h3><p>导入包含2014年1月至2019年7月期间3个月期人民币Hibor和Shibor日数据的Excel文件并且创建数据框,得到该数据框的描述性统计信息并且依次计算众数、峰度、偏度以及3阶矩的数值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Hibor_Shibor = pd.read_excel(<span class="string">'Shibor与Hibor利率数据（2014年至2019年7月）.xlsx'</span>,sheet_name=<span class="string">'Sheet1'</span>,header=<span class="number">0</span>,</span><br><span class="line">                            index_col=<span class="number">0</span>)</span><br><span class="line">Hibor_Shibor=Hibor_Shibor.dropna()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scipy.stats <span class="keyword">as</span> sct</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sct.describe(Hibor_Shibor)</span><br></pre></td></tr></table></figure>
+<pre><code>DescribeResult(nobs=1322, minmax=(array([0.021398, 0.026   ]), array([0.106625, 0.056037])), mean=array([0.03906785, 0.03819674]), variance=array([1.44378835e-04, 8.16303173e-05]), skewness=array([1.5366175 , 0.28070521]), kurtosis=array([ 4.79099063, -1.35627527]))
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hibor_Shibor.describe()</span><br></pre></td></tr></table></figure>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>CNH Hibor（3M）</th>
+      <th>Shibor（3M）</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>1322.000000</td>
+      <td>1322.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>0.039068</td>
+      <td>0.038197</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>0.012016</td>
+      <td>0.009035</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.021398</td>
+      <td>0.026000</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>0.030429</td>
+      <td>0.029389</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>0.038846</td>
+      <td>0.038221</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>0.045569</td>
+      <td>0.046512</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>0.106625</td>
+      <td>0.056037</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sct.mode(Hibor_Shibor) <span class="comment"># 众数</span></span><br></pre></td></tr></table></figure>
+<pre><code>ModeResult(mode=array([[0.023125, 0.055   ]]), count=array([[ 6, 30]]))
+</code></pre><script type="math/tex; mode=display">
+Kurt(x)=E[(\frac{x-\mu}{\sigma})^4]-3</script><p>大于0表示比正态分布陡峭</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sct.kurtosis(Hibor_Shibor) <span class="comment"># 峰度</span></span><br></pre></td></tr></table></figure>
+<pre><code>array([ 4.79099063, -1.35627527])
+</code></pre><script type="math/tex; mode=display">
+Skew(x)=E[(\frac{x-\mu}{\sigma})^3]</script><p>小于0表示分布具有负偏离，样本数据位于均值左边的数量比位于右边的少,呈现出左边的尾部比右边的尾部要更长。反之则反。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sct.skew(Hibor_Shibor) <span class="comment"># 偏度</span></span><br></pre></td></tr></table></figure>
+<pre><code>array([1.5366175 , 0.28070521])
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sct.moment(Hibor_Shibor,moment=<span class="number">3</span>) <span class="comment"># 三阶矩</span></span><br></pre></td></tr></table></figure>
+<pre><code>array([2.66273605e-06, 2.06792482e-07])
+</code></pre><h3 id="任务2-4"><a href="#任务2-4" class="headerlink" title="任务2"></a>任务2</h3><p>创建3个月期人民币Hibor和Shibor每日利率变化金额的数据框，并且针对利率变化绘制直方图。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Hibor_Shibor_change = Hibor_Shibor-Hibor_Shibor.shift(<span class="number">1</span>)</span><br><span class="line">Hibor_Shibor_change = Hibor_Shibor_change.dropna()</span><br><span class="line">Hibor_Shibor_array = np.array(Hibor_Shibor_change)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">plt.figure()</span><br><span class="line">plt.subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line">plt.hist(Hibor_Shibor_array[:,<span class="number">0</span>],facecolor=<span class="string">'c'</span>,edgecolor=<span class="string">'k'</span>,bins=<span class="number">30</span>)</span><br><span class="line">plt.xticks(rotation=<span class="number">30</span>)</span><br><span class="line">plt.xlabel(<span class="string">u'利率'</span>)</span><br><span class="line">plt.xlim(<span class="number">-0.02</span>,<span class="number">0.02</span>)</span><br><span class="line">plt.ylabel(<span class="string">u'频数'</span>)</span><br><span class="line">plt.title(<span class="string">u'3个月期人民币Hibor日变化的直方图'</span>,fontsize=<span class="number">10</span>)</span><br><span class="line">plt.grid()</span><br><span class="line"><span class="comment">#----------------</span></span><br><span class="line">plt.subplot(<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line">plt.hist(Hibor_Shibor_array[:,<span class="number">1</span>],facecolor=<span class="string">'y'</span>,edgecolor=<span class="string">'k'</span>,bins=<span class="number">30</span>)</span><br><span class="line">plt.xticks(rotation=<span class="number">30</span>)</span><br><span class="line">plt.xlabel(<span class="string">u'利率'</span>)</span><br><span class="line">plt.xlim(<span class="number">-0.002</span>,<span class="number">0.002</span>)</span><br><span class="line">plt.title(<span class="string">u'3个月期人民币SHibor日变化的直方图'</span>,fontsize=<span class="number">10</span>)</span><br><span class="line">plt.grid()</span><br></pre></td></tr></table></figure>
+<p><img src="\images\第五章Scipy讲稿\output_92_0.svg" alt="svg"></p>
+<h3 id="任务3-4"><a href="#任务3-4" class="headerlink" title="任务3"></a>任务3</h3><p>针对任务2创建的数据框,检验每日利率变化金额样本数据是否服从正态分布。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sct.kstest(rvs=Hibor_Shibor_change.iloc[:,<span class="number">0</span>],cdf=<span class="string">'norm'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>KstestResult(statistic=0.4920402690671747, pvalue=1.339910485184683e-295)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sct.kstest(rvs=Hibor_Shibor_change.iloc[:,<span class="number">1</span>],cdf=<span class="string">'norm'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>KstestResult(statistic=0.4993206016248759, pvalue=5.110505844420799e-305)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sct.anderson(x=Hibor_Shibor_change.iloc[:,<span class="number">0</span>],dist=<span class="string">'norm'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>AndersonResult(statistic=136.58611911610387, critical_values=array([0.574, 0.654, 0.785, 0.915, 1.089]), significance_level=array([15. , 10. ,  5. ,  2.5,  1. ]))
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sct.anderson(x=Hibor_Shibor_change.iloc[:,<span class="number">1</span>],dist=<span class="string">'norm'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>AndersonResult(statistic=93.6655808434823, critical_values=array([0.574, 0.654, 0.785, 0.915, 1.089]), significance_level=array([15. , 10. ,  5. ,  2.5,  1. ]))
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sct.shapiro(Hibor_Shibor_change.iloc[:,<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+<pre><code>ShapiroResult(statistic=0.639421820640564, pvalue=0.0)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sct.shapiro(Hibor_Shibor_change.iloc[:,<span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+<pre><code>ShapiroResult(statistic=0.7592213749885559, pvalue=3.6711497428074423e-40)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sct.normaltest(Hibor_Shibor_change,axis=<span class="number">0</span>) <span class="comment"># 关于轴的方向</span></span><br></pre></td></tr></table></figure>
+<pre><code>NormaltestResult(statistic=array([502.83433232, 362.20560071]), pvalue=array([6.47011621e-110, 2.22870788e-079]))
+</code></pre><p>均不服从正态分布</p>
+<h2 id="随机抽样与统计"><a href="#随机抽样与统计" class="headerlink" title="随机抽样与统计"></a>随机抽样与统计</h2><p>F银行是总部位于纽约的一家商业银行，假定你是该银行的风险经理，负责银行整体风险敞口的量化分析和压力测试工作。<br><br>近期，根据美联储的监管要求，我们需要测算未来美国经济可能出现的衰退对银行自身风险的影响。对此，你收集了一些金融变量并测度了这些变量近期所服从的分布。  </p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">金融变量</th>
+<th style="text-align:center">服从的分布类型</th>
+<th style="text-align:center">分布的相关参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">3个月期美元Libor利率</td>
+<td style="text-align:center">正态分布</td>
+<td style="text-align:center">$\mu=1.31\%,\sigma=0.85\%$</td>
+</tr>
+<tr>
+<td style="text-align:center">道琼斯指数日收益率</td>
+<td style="text-align:center">学生t分布</td>
+<td style="text-align:center">自由度等于6</td>
+</tr>
+<tr>
+<td style="text-align:center">纳斯达克指数日收益率</td>
+<td style="text-align:center">学生t分布</td>
+<td style="text-align:center">自由度等于9</td>
+</tr>
+<tr>
+<td style="text-align:center">美国债券市场违约回收率</td>
+<td style="text-align:center">贝塔分布</td>
+<td style="text-align:center">$\alpha=1.95,\beta=2.46$</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="任务1-5"><a href="#任务1-5" class="headerlink" title="任务1"></a>任务1</h3><p>(1) 模拟3个月期美元Libor利率，也就是从均值为1.31%,标准差为0.85%的正态分布中进行随机抽样;<br><br>(2) 模拟道琼斯指数日收益率,也就是针对服从自由度等于6的学生t分布中进行随机抽样：<br><br>(3) 模拟纳斯达克指数日收益率，也就是针对服从自由度等于9的学生t分布中进行随机抽样：<br><br>(4) 模拟美国债券市场违约回收率，也就是从$\alpha=1.95、\beta=2.46$的贝塔分布中抽取随机数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scipy.stats <span class="keyword">as</span> sct</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">I = <span class="number">100000</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rand_norm = sct.norm(loc=<span class="number">0.0131</span>,scale=<span class="number">0.085</span>).rvs(size=I)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rand_t1 = sct.t(df=<span class="number">6</span>).rvs(size=I)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rand_t2 = sct.t(df=<span class="number">9</span>).rvs(size=I)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rand_beta = sct.beta(a=<span class="number">1.95</span>,b=<span class="number">2.46</span>).rvs(size=I)</span><br></pre></td></tr></table></figure>
+<h3 id="任务2-5"><a href="#任务2-5" class="headerlink" title="任务2"></a>任务2</h3><p>针对任务1的抽样结果，运用直方图并采用2x2子图的方式进行可视化。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">plt.figure(figsize=(<span class="number">9</span>,<span class="number">9</span>))</span><br><span class="line">plt.subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">1</span>)</span><br><span class="line">plt.hist(rand_norm,label=<span class="string">u'正态分布'</span>,bins=<span class="number">20</span>,facecolor=<span class="string">'r'</span>,edgecolor=<span class="string">'k'</span>)</span><br><span class="line">plt.ylabel(<span class="string">u'频数'</span>,rotation=<span class="number">90</span>)</span><br><span class="line">plt.legend(loc=<span class="number">0</span>)</span><br><span class="line">plt.grid()</span><br><span class="line">plt.subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line">plt.hist(rand_t1,label=<span class="string">u'自由度6的t分布'</span>,bins=<span class="number">20</span>,facecolor=<span class="string">'m'</span>,edgecolor=<span class="string">'k'</span>)</span><br><span class="line">plt.legend(loc=<span class="number">0</span>)</span><br><span class="line">plt.grid()</span><br><span class="line">plt.subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">plt.hist(rand_t2,label=<span class="string">u'自由度9的t分布'</span>,bins=<span class="number">20</span>,facecolor=<span class="string">'y'</span>,edgecolor=<span class="string">'k'</span>)</span><br><span class="line">plt.ylabel(<span class="string">u'频数'</span>,rotation=<span class="number">90</span>)</span><br><span class="line">plt.xlabel(<span class="string">u'样本值'</span>)</span><br><span class="line">plt.legend(loc=<span class="number">0</span>)</span><br><span class="line">plt.grid()</span><br><span class="line">plt.subplot(<span class="number">2</span>,<span class="number">2</span>,<span class="number">4</span>)</span><br><span class="line">plt.hist(rand_t1,label=<span class="string">u'贝塔分布'</span>,bins=<span class="number">20</span>,facecolor=<span class="string">'c'</span>,edgecolor=<span class="string">'k'</span>)</span><br><span class="line">plt.xlabel(<span class="string">u'样本值'</span>)</span><br><span class="line">plt.legend(loc=<span class="number">0</span>)</span><br><span class="line">plt.grid()</span><br></pre></td></tr></table></figure>
+<p><img src="\images\第五章Scipy讲稿\output_112_0.svg" alt="svg"></p>
+<h3 id="任务3-5"><a href="#任务3-5" class="headerlink" title="任务3"></a>任务3</h3><p>针对任务1生成的4组基于不同分布的随机样本值，运用最大似然估计法你和样本并计算最优的概率密度函数系数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sct.norm.fit(rand_norm)</span><br></pre></td></tr></table></figure>
+<pre><code>(0.013016219367223657, 0.08501791902282624)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sct.t.fit(rand_t1)</span><br></pre></td></tr></table></figure>
+<pre><code>(6.072803108740519, 0.0017466070329541544, 1.0018200944732798)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sct.t.fit(rand_t2)</span><br></pre></td></tr></table></figure>
+<pre><code>(8.894650045632575, 0.0008559241436042852, 1.0012759984836093)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sct.beta.fit(rand_beta)</span><br></pre></td></tr></table></figure>
+<pre><code>(1.9563958313007497,
+ 2.4839473114959443,
+ -0.000184300469130077,
+ 1.0029174637965734)
+</code></pre><h3 id="任务4"><a href="#任务4" class="headerlink" title="任务4"></a>任务4</h3><p>基于任务3得到的最优概率密度函数系数，针对美国债券市场违约回收率变量，计算当概率等于5%时所对应的变量值(相当于5%的分位数);同时，针对3个月期美元Libor利率变量，计算当变量等于2%时对应的概率密度函数值;此外，针对道琼斯指数日收益率和纳斯达克指数日收益率变量，计算当变量小于-2%时的概率值。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sct.beta(a=<span class="number">1.95</span>,b=<span class="number">2.46</span>).ppf(q=<span class="number">0.05</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>0.10958783596452157
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sct.norm(loc=<span class="number">0.0131</span>,scale=<span class="number">0.085</span>).pdf(x=<span class="number">0.02</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>4.678000053500319
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sct.t(df=<span class="number">6</span>).cdf(x=<span class="number">-0.02</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>0.4923459398623149
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sct.t(df=<span class="number">9</span>).cdf(x=<span class="number">-0.02</span>)</span><br></pre></td></tr></table></figure>
+<pre><code>0.49223987664311236
+</code></pre><hr>
+<h2 id="StatsModels构建回归模型"><a href="#StatsModels构建回归模型" class="headerlink" title="StatsModels构建回归模型"></a><code>StatsModels</code>构建回归模型</h2><p>对中国石油A股日涨跌幅进行归因分析并构建相应的线性回归模型；影响因子分别为中国石油美股，上证50指数以及衡量金融市场资金宽裕紧张程度的7天期银行间回购定盘利率（FR007）</p>
+<h3 id="任务1-6"><a href="#任务1-6" class="headerlink" title="任务1"></a>任务1</h3><p>导入数据，以2010年首个交易日收盘价为基准进行归一处理并进行可视化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">data=pd.read_excel(<span class="string">'中国石油股价、上证50指数以及回购利率数据.xlsx'</span>,sheet_name=<span class="string">"Sheet1"</span>,header=<span class="number">0</span>,index_col=<span class="number">0</span>)</span><br><span class="line">data=data.dropna()</span><br><span class="line">(data/data.iloc[<span class="number">0</span>]).plot(figsize=(<span class="number">9</span>,<span class="number">6</span>),grid=<span class="keyword">True</span>,fontsize=<span class="number">12</span>);</span><br></pre></td></tr></table></figure>
+<p><img src="\images\第五章Scipy讲稿\output_127_0.svg" alt="svg"></p>
+<p>不难发现，无论是中国石油A股还是美股，股价走势都比较弱，从2010年至2019年8月股价差不多腰斩，同时A股与美股也存在较强的联动性，而在此期间，上证50指数基本上是原地踏步。FR00波动比较高，尤其是在2013年6月期间整个金融市场处于资金荒之际回购利率创出了历史新高，达到2010年初的7倍多</p>
+<h3 id="任务2-6"><a href="#任务2-6" class="headerlink" title="任务2"></a>任务2</h3><p>计算每个变量的日收益率，构建以中国石油A股收益率作为因变量，以上证50指数作为自变量的普通最小二乘法一元线性回归模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> statsmodels.api <span class="keyword">as</span> sm <span class="comment">#导入statsmodels.api模块</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">data_change=data/data.shift(<span class="number">1</span>)<span class="number">-1</span></span><br><span class="line">data_change=data_change.dropna()</span><br><span class="line">Y=data_change.iloc[:,<span class="number">0</span>]</span><br><span class="line">SZ50=data_change.iloc[:,<span class="number">2</span>]</span><br><span class="line">SZ50_addcons=sm.add_constant(SZ50) <span class="comment">#对自变量增加一列常数项</span></span><br><span class="line">model=sm.OLS(endog=Y,exog=SZ50_addcons)</span><br><span class="line">result=model.fit()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result.summary()</span><br></pre></td></tr></table></figure>
+<p><table class="simpletable"></table></p>
+<p><caption>OLS Regression Results</caption></p>
+<p><tr>
+  <th>Dep. Variable:</th>        <td>中国石油（A股）</td>     <th>  R-squared:         </th>  <td>   0.427</td>
+</tr></p>
+<p><tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th>  <td>   0.427</td>
+</tr></p>
+<p><tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th>  <td>   1695.</td>
+</tr></p>
+<p><tr>
+  <th>Date:</th>             <td>Tue, 06 Apr 2021</td> <th>  Prob (F-statistic):</th>  <td>3.09e-277</td>
+</tr></p>
+<p><tr>
+  <th>Time:</th>                 <td>15:14:51</td>     <th>  Log-Likelihood:    </th>  <td>  6912.4</td>
+</tr></p>
+<p><tr>
+  <th>No. Observations:</th>      <td>  2272</td>      <th>  AIC:               </th> <td>-1.382e+04</td>
+</tr></p>
+<p><tr>
+  <th>Df Residuals:</th>          <td>  2270</td>      <th>  BIC:               </th> <td>-1.381e+04</td>
+</tr></p>
+<p><tr>
+  <th>Df Model:</th>              <td>     1</td>      <th>                     </th>      <td> </td>    
+</tr></p>
+<p><tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>      <td> </td>    
+</tr><br>&lt;/table&gt;</p>
+<p><table class="simpletable"></table></p>
+<p><tr>
+     <td></td>       <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr></p>
+<p><tr>
+  <th>const</th>  <td>   -0.0004</td> <td>    0.000</td> <td>   -1.447</td> <td> 0.148</td> <td>   -0.001</td> <td>    0.000</td>
+</tr></p>
+<p><tr>
+  <th>上证50指数</th> <td>    0.6558</td> <td>    0.016</td> <td>   41.171</td> <td> 0.000</td> <td>    0.625</td> <td>    0.687</td>
+</tr><br>&lt;/table&gt;</p>
+<p><table class="simpletable"></table></p>
+<p><tr>
+  <th>Omnibus:</th>       <td>1060.325</td> <th>  Durbin-Watson:     </th> <td>   2.009</td>
+</tr></p>
+<p><tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>24160.406</td>
+</tr></p>
+<p><tr>
+  <th>Skew:</th>           <td> 1.677</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+</tr></p>
+<p><tr>
+  <th>Kurtosis:</th>       <td>18.620</td>  <th>  Cond. No.          </th> <td>    65.7</td>
+</tr><br>&lt;/table&gt;<br><br>Warnings:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result.params</span><br></pre></td></tr></table></figure>
+<pre><code>const    -0.000351
+上证50指数    0.655768
+dtype: float64
+</code></pre><p>针对以上的输出结果不难看出，上证50指数的日收益率对中国石油A股日收益率的影响是非常显著的，并且系数等于0655768就表示从长期而言当上证50指数上涨(下跌)1％，中国石油A股股价就上涨(下跌)0.656％。</p>
+<h3 id="任务3-6"><a href="#任务3-6" class="headerlink" title="任务3"></a>任务3</h3><p>考虑A股与美股交易时间差（美股在T-1日交易收盘以后A股的T日交易开盘）<br>据此以中国石油A股日收益率作为因变量，以T-1中国石油美股日收益率，上证50指数以及FR007日收益率作为自变量，构建普通最小二乘法的多元线性回归模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Stock_US=data_change.iloc[:,<span class="number">1</span>]</span><br><span class="line">Stock_US_previou=Stock_US.shift(<span class="number">1</span>)</span><br><span class="line">X=pd.concat([data_change.iloc[:,<span class="number">2</span>:],Stock_US_previou],axis=<span class="number">1</span>)</span><br><span class="line">X=X.dropna()</span><br><span class="line">X_addcons=sm.add_constant(X)</span><br><span class="line">model_new=sm.OLS(endog=Y[<span class="number">1</span>:],exog=X)</span><br><span class="line">result_new=model_new.fit()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result_new.summary()</span><br></pre></td></tr></table></figure>
+<p><table class="simpletable"></table></p>
+<p><caption>OLS Regression Results</caption></p>
+<p><tr>
+  <th>Dep. Variable:</th>        <td>中国石油（A股）</td>     <th>  R-squared (uncentered):</th>       <td>   0.440</td>
+</tr></p>
+<p><tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared (uncentered):</th>  <td>   0.439</td>
+</tr></p>
+<p><tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th>           <td>   593.0</td>
+</tr></p>
+<p><tr>
+  <th>Date:</th>             <td>Tue, 06 Apr 2021</td> <th>  Prob (F-statistic):</th>           <td>1.59e-284</td>
+</tr></p>
+<p><tr>
+  <th>Time:</th>                 <td>15:14:51</td>     <th>  Log-Likelihood:    </th>           <td>  6933.7</td>
+</tr></p>
+<p><tr>
+  <th>No. Observations:</th>      <td>  2271</td>      <th>  AIC:               </th>          <td>-1.386e+04</td>
+</tr></p>
+<p><tr>
+  <th>Df Residuals:</th>          <td>  2268</td>      <th>  BIC:               </th>          <td>-1.384e+04</td>
+</tr></p>
+<p><tr>
+  <th>Df Model:</th>              <td>     3</td>      <th>                     </th>               <td> </td>    
+</tr></p>
+<p><tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>               <td> </td>    
+</tr><br>&lt;/table&gt;</p>
+<p><table class="simpletable"></table></p>
+<p><tr>
+      <td></td>        <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr></p>
+<p><tr>
+  <th>上证50指数</th>   <td>    0.6423</td> <td>    0.016</td> <td>   40.468</td> <td> 0.000</td> <td>    0.611</td> <td>    0.673</td>
+</tr></p>
+<p><tr>
+  <th>FR007</th>    <td>   -0.0017</td> <td>    0.003</td> <td>   -0.646</td> <td> 0.519</td> <td>   -0.007</td> <td>    0.004</td>
+</tr></p>
+<p><tr>
+  <th>中国石油（美股）</th> <td>    0.0941</td> <td>    0.013</td> <td>    7.134</td> <td> 0.000</td> <td>    0.068</td> <td>    0.120</td>
+</tr><br>&lt;/table&gt;</p>
+<p><table class="simpletable"></table></p>
+<p><tr>
+  <th>Omnibus:</th>       <td>1110.043</td> <th>  Durbin-Watson:     </th> <td>   2.037</td>
+</tr></p>
+<p><tr>
+  <th>Prob(Omnibus):</th>  <td> 0.000</td>  <th>  Jarque-Bera (JB):  </th> <td>25201.965</td>
+</tr></p>
+<p><tr>
+  <th>Skew:</th>           <td> 1.791</td>  <th>  Prob(JB):          </th> <td>    0.00</td>
+</tr></p>
+<p><tr>
+  <th>Kurtosis:</th>       <td>18.922</td>  <th>  Cond. No.          </th> <td>    6.04</td>
+</tr><br>&lt;/table&gt;<br><br>Warnings:<br>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">result_new.params</span><br></pre></td></tr></table></figure>
+<pre><code>上证50指数      0.642257
+FR007      -0.001719
+中国石油（美股）    0.094146
+dtype: float64
+</code></pre><p>通过对比前面的一元线性回归的结果，多元线性回归模型的判定系数R方有所提高，说明用多元线性回归进行归因分析更加合适。<br>此外，从多元线性回归模型的输出结果不难发现，上证50指数的日收益率、中国右油美股T-1日的日收益率这2个变量对于中国石油A股日收益率的影响都是很显著的，并且影响均为正；其中，中国石油美股的系数是0.094146就表示，从长期来看，当T-1日中国石油美股股价上涨(下跌)1％，T日中国石油A股股价就会上涨(下跌)0.094％。此外，FR007变化的影响则不显著，可以认为FRO0不是影响中国石油股价变化的一个重要因子。</p>
+<h2 id="arch构建波动率模型"><a href="#arch构建波动率模型" class="headerlink" title="arch构建波动率模型"></a><code>arch</code>构建波动率模型</h2><p><strong>arch模块若未安装，可在终端输入pip install arch 命令进行安装</strong></p>
+<p>对上证180指数、标普500、恒生指数构建波动率模型。</p>
+<h3 id="任务1-7"><a href="#任务1-7" class="headerlink" title="任务1"></a>任务1</h3><p>导入数据，计算三个指数的周收益率（运用自然对数）并创建新的数据框以及对周收益率进行可视化</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">index_price=pd.read_excel(<span class="string">'上证180、标普500和恒生指数周收盘价（2000年至2019年9月）.xlsx'</span>,sheet_name=<span class="string">"Sheet1"</span>,header=<span class="number">0</span>,index_col=<span class="number">0</span>)</span><br><span class="line">index_return=np.log(index_price/index_price.shift(<span class="number">1</span>))</span><br><span class="line">index_return=index_return.dropna()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">plt.figure(figsize=(<span class="number">8</span>,<span class="number">10</span>))</span><br><span class="line">plt.subplot(<span class="number">3</span>,<span class="number">1</span>,<span class="number">1</span>) <span class="comment">#代表第一行的子图</span></span><br><span class="line">plt.plot(index_return.iloc[:,<span class="number">0</span>],<span class="string">'b-'</span>,label=<span class="string">u'上证180指数'</span>,lw=<span class="number">2.0</span>)</span><br><span class="line">plt.xticks(fontsize=<span class="number">13</span>)</span><br><span class="line">plt.yticks(fontsize=<span class="number">13</span>)</span><br><span class="line">plt.ylim(<span class="number">-0.21</span>,<span class="number">0.16</span>)</span><br><span class="line">plt.ylabel(<span class="string">u'周收益率'</span>,fontsize=<span class="number">13</span>)</span><br><span class="line">plt.legend(fontsize=<span class="number">13</span>,loc=<span class="number">1</span>)<span class="comment">#图例在右上方</span></span><br><span class="line">plt.grid()</span><br><span class="line"><span class="comment">#-------------</span></span><br><span class="line">plt.subplot(<span class="number">3</span>,<span class="number">1</span>,<span class="number">2</span>,sharex=plt.subplot(<span class="number">3</span>,<span class="number">1</span>,<span class="number">1</span>),sharey=plt.subplot(<span class="number">3</span>,<span class="number">1</span>,<span class="number">1</span>))<span class="comment">#共用坐标轴</span></span><br><span class="line">plt.plot(index_return.iloc[:,<span class="number">1</span>],<span class="string">'c-'</span>,label=<span class="string">u'标普500指数'</span>,lw=<span class="number">2.0</span>)</span><br><span class="line">plt.xticks(fontsize=<span class="number">13</span>)</span><br><span class="line">plt.yticks(fontsize=<span class="number">13</span>)</span><br><span class="line">plt.ylabel(<span class="string">u'周收益率'</span>,fontsize=<span class="number">13</span>)</span><br><span class="line">plt.legend(fontsize=<span class="number">13</span>,loc=<span class="number">1</span>)</span><br><span class="line">plt.grid()</span><br><span class="line"><span class="comment">#-----------------</span></span><br><span class="line">plt.subplot(<span class="number">3</span>,<span class="number">1</span>,<span class="number">3</span>,sharex=plt.subplot(<span class="number">3</span>,<span class="number">1</span>,<span class="number">1</span>),sharey=plt.subplot(<span class="number">3</span>,<span class="number">1</span>,<span class="number">1</span>))</span><br><span class="line">plt.plot(index_return.iloc[:,<span class="number">-1</span>],<span class="string">'m-'</span>,label=<span class="string">u'恒生500指数'</span>,lw=<span class="number">2.0</span>)</span><br><span class="line">plt.xticks(fontsize=<span class="number">13</span>)</span><br><span class="line">plt.yticks(fontsize=<span class="number">13</span>)</span><br><span class="line">plt.ylabel(<span class="string">u'周收益率'</span>,fontsize=<span class="number">13</span>)</span><br><span class="line">plt.legend(fontsize=<span class="number">13</span>,loc=<span class="number">1</span>)</span><br><span class="line">plt.grid()</span><br></pre></td></tr></table></figure>
+<pre><code>&lt;ipython-input-84-aa9f9804d044&gt;:11: MatplotlibDeprecationWarning: Adding an axes using the same arguments as a previous axes currently reuses the earlier instance.  In a future version, a new instance will always be created and returned.  Meanwhile, this warning can be suppressed, and the future behavior ensured, by passing a unique label to each axes instance.
+  plt.subplot(3,1,2,sharex=plt.subplot(3,1,1),sharey=plt.subplot(3,1,1))#共用坐标轴
+&lt;ipython-input-84-aa9f9804d044&gt;:19: MatplotlibDeprecationWarning: Adding an axes using the same arguments as a previous axes currently reuses the earlier instance.  In a future version, a new instance will always be created and returned.  Meanwhile, this warning can be suppressed, and the future behavior ensured, by passing a unique label to each axes instance.
+  plt.subplot(3,1,3,sharex=plt.subplot(3,1,1),sharey=plt.subplot(3,1,1))
+</code></pre><p><img src="\images\第五章Scipy讲稿\output_145_1.svg" alt="svg"></p>
+<p>从图中不难看出，在2000年至2019年9月期间内，标普500指数的周最大跌幅达到-20％，这出现在美国次贷危机的高峰期间。相比之下，上证180指数和恒生指数的最大跌幅均小于标普500指数。同时，通过目测可以判断，上证180指数周跌幅超过-10％的次数均超过标普500指数和恒生指数。</p>
+<h3 id="任务2-7"><a href="#任务2-7" class="headerlink" title="任务2"></a>任务2</h3><p>针对上证180指数的周收益率构建波动率模型，ARCH（1）以及GARCH（1，1），并计算长期波动率</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> arch <span class="keyword">import</span> arch_model</span><br><span class="line">SZ180_arch=arch_model(y=index_return.iloc[:,<span class="number">0</span>],mean=<span class="string">'Constant'</span>,lags=<span class="number">0</span>,vol=<span class="string">'ARCH'</span>,p=<span class="number">1</span>,o=<span class="number">0</span>,q=<span class="number">0</span>,dist=<span class="string">'normal'</span>)</span><br><span class="line">SZ180_garch=arch_model(y=index_return.iloc[:,<span class="number">0</span>],mean=<span class="string">'Constant'</span>,lags=<span class="number">0</span>,vol=<span class="string">'GARCH'</span>,p=<span class="number">1</span>,o=<span class="number">0</span>,q=<span class="number">1</span>,dist=<span class="string">'normal'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SZ180_result_arch=SZ180_arch.fit()</span><br><span class="line">SZ180_result_arch.summary()</span><br></pre></td></tr></table></figure>
+<pre><code>Iteration:      1,   Func. Count:      5,   Neg. LLF: 1179882.8693749474
+Iteration:      2,   Func. Count:     15,   Neg. LLF: 21943637.19069905
+Iteration:      3,   Func. Count:     21,   Neg. LLF: -1829.9735883172161
+Iteration:      4,   Func. Count:     28,   Neg. LLF: -1996.9813612620458
+Iteration:      5,   Func. Count:     35,   Neg. LLF: -2012.9798414269171
+Iteration:      6,   Func. Count:     38,   Neg. LLF: -2012.9798414269146
+Optimization terminated successfully    (Exit mode 0)
+            Current function value: -2012.9798414269171
+            Iterations: 6
+            Function evaluations: 38
+            Gradient evaluations: 6
+
+
+C:\Softwares\Anaconda3\lib\site-packages\arch\univariate\base.py:316: DataScaleWarning: y is poorly scaled, which may affect convergence of the optimizer when
+estimating the model parameters. The scale of y is 0.001216. Parameter
+estimation work better when this value is between 1 and 1000. The recommended
+rescaling is 10 * y.
+
+This warning can be disabled by either rescaling y before initializing the
+model or by setting rescale=False.
+
+  warnings.warn(
+</code></pre><p><table class="simpletable"></table></p>
+<p><caption>Constant Mean - ARCH Model Results</caption></p>
+<p><tr>
+  <th>Dep. Variable:</th>       <td>上证180指数</td>      <th>  R-squared:         </th>  <td>   0.000</td>
+</tr></p>
+<p><tr>
+  <th>Mean Model:</th>       <td>Constant Mean</td>   <th>  Adj. R-squared:    </th>  <td>   0.000</td>
+</tr></p>
+<p><tr>
+  <th>Vol Model:</th>            <td>ARCH</td>        <th>  Log-Likelihood:    </th> <td>   2012.98</td>
+</tr></p>
+<p><tr>
+  <th>Distribution:</th>        <td>Normal</td>       <th>  AIC:               </th> <td>  -4019.96</td>
+</tr></p>
+<p><tr>
+  <th>Method:</th>        <td>Maximum Likelihood</td> <th>  BIC:               </th> <td>  -4005.14</td>
+</tr></p>
+<p><tr>
+  <th></th>                        <td></td>          <th>  No. Observations:  </th>    <td>1031</td>   
+</tr></p>
+<p><tr>
+  <th>Date:</th>           <td>Tue, Apr 06 2021</td>  <th>  Df Residuals:      </th>    <td>1030</td>   
+</tr></p>
+<p><tr>
+  <th>Time:</th>               <td>15:14:53</td>      <th>  Df Model:          </th>      <td>1</td>    
+</tr><br>&lt;/table&gt;</p>
+<p><table class="simpletable"></table></p>
+<p><caption>Mean Model</caption></p>
+<p><tr>
+   <td></td>     <th>coef</th>     <th>std err</th>      <th>t</th>       <th>P>|t|</th>      <th>95.0% Conf. Int.</th>   
+</tr></p>
+<p><tr>
+  <th>mu</th> <td>8.9747e-04</td> <td>1.059e-03</td> <td>    0.848</td> <td>    0.397</td> <td>[-1.177e-03,2.972e-03]</td>
+</tr><br>&lt;/table&gt;</p>
+<p><table class="simpletable"></table></p>
+<p><caption>Volatility Model</caption></p>
+<p><tr>
+      <td></td>        <th>coef</th>     <th>std err</th>      <th>t</th>       <th>P>|t|</th>     <th>95.0% Conf. Int.</th>   
+</tr></p>
+<p><tr>
+  <th>omega</th>    <td>1.0093e-03</td> <td>9.199e-05</td> <td>   10.972</td> <td>5.198e-28</td> <td>[8.290e-04,1.190e-03]</td>
+</tr></p>
+<p><tr>
+  <th>alpha[1]</th> <td>    0.1778</td> <td>6.367e-02</td> <td>    2.793</td> <td>5.226e-03</td>  <td>[5.302e-02,  0.303]</td>
+</tr><br>&lt;/table&gt;<br><br>Covariance estimator: robust</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SZ180_result_garch=SZ180_garch.fit()</span><br><span class="line">SZ180_result_garch.summary()</span><br></pre></td></tr></table></figure>
+<pre><code>Iteration:      1,   Func. Count:      6,   Neg. LLF: 199911735325.4699
+Iteration:      2,   Func. Count:     17,   Neg. LLF: 3728.8748810727375
+Iteration:      3,   Func. Count:     26,   Neg. LLF: 4812.446929848193
+Iteration:      4,   Func. Count:     36,   Neg. LLF: 55453.09874487391
+Iteration:      5,   Func. Count:     46,   Neg. LLF: -1898.093272724223
+Iteration:      6,   Func. Count:     54,   Neg. LLF: -1660.658211599947
+Iteration:      7,   Func. Count:     62,   Neg. LLF: -2093.394508365471
+Iteration:      8,   Func. Count:     67,   Neg. LLF: -2093.394518079599
+Iteration:      9,   Func. Count:     71,   Neg. LLF: -2093.3945180798273
+Optimization terminated successfully    (Exit mode 0)
+            Current function value: -2093.394518079599
+            Iterations: 9
+            Function evaluations: 71
+            Gradient evaluations: 9
+
+
+C:\Softwares\Anaconda3\lib\site-packages\arch\univariate\base.py:316: DataScaleWarning: y is poorly scaled, which may affect convergence of the optimizer when
+estimating the model parameters. The scale of y is 0.001216. Parameter
+estimation work better when this value is between 1 and 1000. The recommended
+rescaling is 10 * y.
+
+This warning can be disabled by either rescaling y before initializing the
+model or by setting rescale=False.
+
+  warnings.warn(
+</code></pre><p><table class="simpletable"></table></p>
+<p><caption>Constant Mean - GARCH Model Results</caption></p>
+<p><tr>
+  <th>Dep. Variable:</th>       <td>上证180指数</td>      <th>  R-squared:         </th>  <td>   0.000</td>
+</tr></p>
+<p><tr>
+  <th>Mean Model:</th>       <td>Constant Mean</td>   <th>  Adj. R-squared:    </th>  <td>   0.000</td>
+</tr></p>
+<p><tr>
+  <th>Vol Model:</th>            <td>GARCH</td>       <th>  Log-Likelihood:    </th> <td>   2093.39</td>
+</tr></p>
+<p><tr>
+  <th>Distribution:</th>        <td>Normal</td>       <th>  AIC:               </th> <td>  -4178.79</td>
+</tr></p>
+<p><tr>
+  <th>Method:</th>        <td>Maximum Likelihood</td> <th>  BIC:               </th> <td>  -4159.04</td>
+</tr></p>
+<p><tr>
+  <th></th>                        <td></td>          <th>  No. Observations:  </th>    <td>1031</td>   
+</tr></p>
+<p><tr>
+  <th>Date:</th>           <td>Tue, Apr 06 2021</td>  <th>  Df Residuals:      </th>    <td>1030</td>   
+</tr></p>
+<p><tr>
+  <th>Time:</th>               <td>15:14:53</td>      <th>  Df Model:          </th>      <td>1</td>    
+</tr><br>&lt;/table&gt;</p>
+<p><table class="simpletable"></table></p>
+<p><caption>Mean Model</caption></p>
+<p><tr>
+   <td></td>     <th>coef</th>     <th>std err</th>      <th>t</th>       <th>P>|t|</th>      <th>95.0% Conf. Int.</th>   
+</tr></p>
+<p><tr>
+  <th>mu</th> <td>5.5035e-04</td> <td>9.696e-04</td> <td>    0.568</td> <td>    0.570</td> <td>[-1.350e-03,2.451e-03]</td>
+</tr><br>&lt;/table&gt;</p>
+<p><table class="simpletable"></table></p>
+<p><caption>Volatility Model</caption></p>
+<p><tr>
+      <td></td>        <th>coef</th>     <th>std err</th>      <th>t</th>       <th>P>|t|</th>     <th>95.0% Conf. Int.</th>   
+</tr></p>
+<p><tr>
+  <th>omega</th>    <td>3.3791e-05</td> <td>7.963e-06</td> <td>    4.244</td> <td>2.198e-05</td> <td>[1.818e-05,4.940e-05]</td>
+</tr></p>
+<p><tr>
+  <th>alpha[1]</th> <td>    0.1004</td> <td>2.398e-02</td> <td>    4.185</td> <td>2.853e-05</td>  <td>[5.335e-02,  0.147]</td>
+</tr></p>
+<p><tr>
+  <th>beta[1]</th>  <td>    0.8714</td> <td>2.115e-02</td> <td>   41.209</td>   <td>0.000</td>     <td>[  0.830,  0.913]</td>  
+</tr><br>&lt;/table&gt;<br><br>Covariance estimator: robust</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SZ180_vol=np.sqrt(SZ180_result_garch.params[<span class="number">1</span>]/(<span class="number">1</span>-SZ180_result_garch.params[<span class="number">2</span>]-SZ180_result_garch.params[<span class="number">3</span>]))</span><br><span class="line">print(<span class="string">'利用GARCH（1，1）模型得到的上证180指数周收益率的长期波动率'</span>,round(SZ180_vol,<span class="number">4</span>))</span><br></pre></td></tr></table></figure>
+<pre><code>利用GARCH（1，1）模型得到的上证180指数周收益率的长期波动率 0.0346
+</code></pre><h3 id="任务3-7"><a href="#任务3-7" class="headerlink" title="任务3"></a>任务3</h3><p>针对标普500指数的周收益率构建波动率模型，ARCH（1）以及GARCH（1，1），并计算长期波动率</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SP500_arch=arch_model(y=index_return.iloc[:,<span class="number">1</span>],mean=<span class="string">'Constant'</span>,lags=<span class="number">0</span>,vol=<span class="string">'ARCH'</span>,p=<span class="number">1</span>,o=<span class="number">0</span>,q=<span class="number">0</span>,dist=<span class="string">'normal'</span>)</span><br><span class="line">SP500_garch=arch_model(y=index_return.iloc[:,<span class="number">1</span>],mean=<span class="string">'Constant'</span>,lags=<span class="number">0</span>,vol=<span class="string">'GARCH'</span>,p=<span class="number">1</span>,o=<span class="number">0</span>,q=<span class="number">1</span>,dist=<span class="string">'normal'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SP500_result_arch=SP500_arch.fit()</span><br><span class="line">SP500_result_arch.summary()</span><br></pre></td></tr></table></figure>
+<pre><code>Iteration:      1,   Func. Count:      5,   Neg. LLF: 1.0116334528055134e+19
+Iteration:      2,   Func. Count:     16,   Neg. LLF: 574522412.8153853
+Iteration:      3,   Func. Count:     22,   Neg. LLF: -2088.381793333016
+Iteration:      4,   Func. Count:     29,   Neg. LLF: -2345.854683397661
+Iteration:      5,   Func. Count:     35,   Neg. LLF: 1864345.3523744815
+Iteration:      6,   Func. Count:     42,   Neg. LLF: -2462.7282872494907
+Iteration:      7,   Func. Count:     46,   Neg. LLF: -2462.728291677304
+Iteration:      8,   Func. Count:     49,   Neg. LLF: -2462.728291677298
+Optimization terminated successfully    (Exit mode 0)
+            Current function value: -2462.728291677304
+            Iterations: 8
+            Function evaluations: 49
+            Gradient evaluations: 8
+
+
+C:\Softwares\Anaconda3\lib\site-packages\arch\univariate\base.py:316: DataScaleWarning: y is poorly scaled, which may affect convergence of the optimizer when
+estimating the model parameters. The scale of y is 0.0005825. Parameter
+estimation work better when this value is between 1 and 1000. The recommended
+rescaling is 100 * y.
+
+This warning can be disabled by either rescaling y before initializing the
+model or by setting rescale=False.
+
+  warnings.warn(
+</code></pre><p><table class="simpletable"></table></p>
+<p><caption>Constant Mean - ARCH Model Results</caption></p>
+<p><tr>
+  <th>Dep. Variable:</th>       <td>标普500指数</td>      <th>  R-squared:         </th>  <td>   0.000</td>
+</tr></p>
+<p><tr>
+  <th>Mean Model:</th>       <td>Constant Mean</td>   <th>  Adj. R-squared:    </th>  <td>   0.000</td>
+</tr></p>
+<p><tr>
+  <th>Vol Model:</th>            <td>ARCH</td>        <th>  Log-Likelihood:    </th> <td>   2462.73</td>
+</tr></p>
+<p><tr>
+  <th>Distribution:</th>        <td>Normal</td>       <th>  AIC:               </th> <td>  -4919.46</td>
+</tr></p>
+<p><tr>
+  <th>Method:</th>        <td>Maximum Likelihood</td> <th>  BIC:               </th> <td>  -4904.64</td>
+</tr></p>
+<p><tr>
+  <th></th>                        <td></td>          <th>  No. Observations:  </th>    <td>1031</td>   
+</tr></p>
+<p><tr>
+  <th>Date:</th>           <td>Tue, Apr 06 2021</td>  <th>  Df Residuals:      </th>    <td>1030</td>   
+</tr></p>
+<p><tr>
+  <th>Time:</th>               <td>15:14:53</td>      <th>  Df Model:          </th>      <td>1</td>    
+</tr><br>&lt;/table&gt;</p>
+<p><table class="simpletable"></table></p>
+<p><caption>Mean Model</caption></p>
+<p><tr>
+   <td></td>     <th>coef</th>     <th>std err</th>      <th>t</th>       <th>P>|t|</th>     <th>95.0% Conf. Int.</th>   
+</tr></p>
+<p><tr>
+  <th>mu</th> <td>1.6790e-03</td> <td>6.748e-04</td> <td>    2.488</td> <td>1.284e-02</td> <td>[3.564e-04,3.002e-03]</td>
+</tr><br>&lt;/table&gt;</p>
+<p><table class="simpletable"></table></p>
+<p><caption>Volatility Model</caption></p>
+<p><tr>
+      <td></td>        <th>coef</th>     <th>std err</th>      <th>t</th>       <th>P>|t|</th>     <th>95.0% Conf. Int.</th>   
+</tr></p>
+<p><tr>
+  <th>omega</th>    <td>3.6761e-04</td> <td>3.842e-05</td> <td>    9.567</td> <td>1.095e-21</td> <td>[2.923e-04,4.429e-04]</td>
+</tr></p>
+<p><tr>
+  <th>alpha[1]</th> <td>    0.3406</td> <td>6.758e-02</td> <td>    5.040</td> <td>4.661e-07</td>   <td>[  0.208,  0.473]</td>  
+</tr><br>&lt;/table&gt;<br><br>Covariance estimator: robust</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SP500_result_garch=SP500_garch.fit()</span><br><span class="line">SP500_result_garch.summary()</span><br></pre></td></tr></table></figure>
+<pre><code>Iteration:      1,   Func. Count:      6,   Neg. LLF: 1747170971.5948076
+Iteration:      2,   Func. Count:     19,   Neg. LLF: 68124555.14393945
+Iteration:      3,   Func. Count:     31,   Neg. LLF: -2526.371832279654
+Optimization terminated successfully    (Exit mode 0)
+            Current function value: -2526.3718335633125
+            Iterations: 7
+            Function evaluations: 31
+            Gradient evaluations: 3
+
+
+C:\Softwares\Anaconda3\lib\site-packages\arch\univariate\base.py:316: DataScaleWarning: y is poorly scaled, which may affect convergence of the optimizer when
+estimating the model parameters. The scale of y is 0.0005825. Parameter
+estimation work better when this value is between 1 and 1000. The recommended
+rescaling is 100 * y.
+
+This warning can be disabled by either rescaling y before initializing the
+model or by setting rescale=False.
+
+  warnings.warn(
+</code></pre><p><table class="simpletable"></table></p>
+<p><caption>Constant Mean - GARCH Model Results</caption></p>
+<p><tr>
+  <th>Dep. Variable:</th>       <td>标普500指数</td>      <th>  R-squared:         </th>  <td>   0.000</td>
+</tr></p>
+<p><tr>
+  <th>Mean Model:</th>       <td>Constant Mean</td>   <th>  Adj. R-squared:    </th>  <td>   0.000</td>
+</tr></p>
+<p><tr>
+  <th>Vol Model:</th>            <td>GARCH</td>       <th>  Log-Likelihood:    </th> <td>   2526.37</td>
+</tr></p>
+<p><tr>
+  <th>Distribution:</th>        <td>Normal</td>       <th>  AIC:               </th> <td>  -5044.74</td>
+</tr></p>
+<p><tr>
+  <th>Method:</th>        <td>Maximum Likelihood</td> <th>  BIC:               </th> <td>  -5024.99</td>
+</tr></p>
+<p><tr>
+  <th></th>                        <td></td>          <th>  No. Observations:  </th>    <td>1031</td>   
+</tr></p>
+<p><tr>
+  <th>Date:</th>           <td>Tue, Apr 06 2021</td>  <th>  Df Residuals:      </th>    <td>1030</td>   
+</tr></p>
+<p><tr>
+  <th>Time:</th>               <td>15:14:53</td>      <th>  Df Model:          </th>      <td>1</td>    
+</tr><br>&lt;/table&gt;</p>
+<p><table class="simpletable"></table></p>
+<p><caption>Mean Model</caption></p>
+<p><tr>
+   <td></td>     <th>coef</th>     <th>std err</th>      <th>t</th>       <th>P>|t|</th>     <th>95.0% Conf. Int.</th>   
+</tr></p>
+<p><tr>
+  <th>mu</th> <td>2.1326e-03</td> <td>5.501e-04</td> <td>    3.877</td> <td>1.058e-04</td> <td>[1.054e-03,3.211e-03]</td>
+</tr><br>&lt;/table&gt;</p>
+<p><table class="simpletable"></table></p>
+<p><caption>Volatility Model</caption></p>
+<p><tr>
+      <td></td>        <th>coef</th>     <th>std err</th>      <th>t</th>       <th>P>|t|</th>     <th>95.0% Conf. Int.</th>   
+</tr></p>
+<p><tr>
+  <th>omega</th>    <td>5.8255e-05</td> <td>2.243e-05</td> <td>    2.597</td> <td>9.411e-03</td> <td>[1.429e-05,1.022e-04]</td>
+</tr></p>
+<p><tr>
+  <th>alpha[1]</th> <td>    0.2000</td> <td>4.487e-02</td> <td>    4.457</td> <td>8.316e-06</td>   <td>[  0.112,  0.288]</td>  
+</tr></p>
+<p><tr>
+  <th>beta[1]</th>  <td>    0.7000</td> <td>6.327e-02</td> <td>   11.063</td> <td>1.891e-28</td>   <td>[  0.576,  0.824]</td>  
+</tr><br>&lt;/table&gt;<br><br>Covariance estimator: robust</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SP500_vol=np.sqrt(SP500_result_garch.params[<span class="number">1</span>]/(<span class="number">1</span>-SP500_result_garch.params[<span class="number">2</span>]-SP500_result_garch.params[<span class="number">3</span>]))</span><br><span class="line">print(<span class="string">'利用GARCH（1，1）模型得到的标普500指数周收益率的长期波动率'</span>,round(SP500_vol,<span class="number">4</span>))</span><br></pre></td></tr></table></figure>
+<pre><code>利用GARCH（1，1）模型得到的标普500指数周收益率的长期波动率 0.0241
+</code></pre><p>通过以上的计算可以得到，标普500指数周收益率的长期波动率为2.419％，低于上证180指数的长期波动率3.46％，说明从长期来看标普500指数的投资风险低于上证180指数，这是由于A股市场还是一个新兴加转轨的市场，波动性比美国这样的成熟资本市场会高一些</p>
+<h3 id="任务4-1"><a href="#任务4-1" class="headerlink" title="任务4"></a>任务4</h3><p>针对恒生指数的周收益率构建波动率模型，ARCH（1）以及GARCH（1，1），并计算长期波动率</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HS_arch=arch_model(y=index_return.iloc[:,<span class="number">2</span>],mean=<span class="string">'Constant'</span>,lags=<span class="number">0</span>,vol=<span class="string">'ARCH'</span>,p=<span class="number">1</span>,o=<span class="number">0</span>,q=<span class="number">0</span>,dist=<span class="string">'normal'</span>)</span><br><span class="line">HS_garch=arch_model(y=index_return.iloc[:,<span class="number">2</span>],mean=<span class="string">'Constant'</span>,lags=<span class="number">0</span>,vol=<span class="string">'GARCH'</span>,p=<span class="number">1</span>,o=<span class="number">0</span>,q=<span class="number">1</span>,dist=<span class="string">'normal'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HS_result_arch=HS_arch.fit()</span><br><span class="line">HS_result_arch.summary()</span><br></pre></td></tr></table></figure>
+<pre><code>C:\Softwares\Anaconda3\lib\site-packages\arch\univariate\base.py:316: DataScaleWarning: y is poorly scaled, which may affect convergence of the optimizer when
+estimating the model parameters. The scale of y is 0.0009118. Parameter
+estimation work better when this value is between 1 and 1000. The recommended
+rescaling is 100 * y.
+
+This warning can be disabled by either rescaling y before initializing the
+model or by setting rescale=False.
+
+  warnings.warn(
+
+
+Iteration:      1,   Func. Count:      5,   Neg. LLF: 324704518.77467996
+Iteration:      2,   Func. Count:     15,   Neg. LLF: 157727.3373528949
+Iteration:      3,   Func. Count:     21,   Neg. LLF: -2080.521713459737
+Iteration:      4,   Func. Count:     27,   Neg. LLF: -2096.764453105348
+Iteration:      5,   Func. Count:     33,   Neg. LLF: -2064.079282311399
+Iteration:      6,   Func. Count:     39,   Neg. LLF: -2177.079303001856
+Iteration:      7,   Func. Count:     43,   Neg. LLF: -2177.082619581817
+Iteration:      8,   Func. Count:     47,   Neg. LLF: -2177.0826208818876
+Iteration:      9,   Func. Count:     50,   Neg. LLF: -2177.082620881882
+Optimization terminated successfully    (Exit mode 0)
+            Current function value: -2177.0826208818876
+            Iterations: 9
+            Function evaluations: 50
+            Gradient evaluations: 9
+</code></pre><p><table class="simpletable"></table></p>
+<p><caption>Constant Mean - ARCH Model Results</caption></p>
+<p><tr>
+  <th>Dep. Variable:</th>        <td>恒生指数</td>        <th>  R-squared:         </th>  <td>   0.000</td>
+</tr></p>
+<p><tr>
+  <th>Mean Model:</th>       <td>Constant Mean</td>   <th>  Adj. R-squared:    </th>  <td>   0.000</td>
+</tr></p>
+<p><tr>
+  <th>Vol Model:</th>            <td>ARCH</td>        <th>  Log-Likelihood:    </th> <td>   2177.08</td>
+</tr></p>
+<p><tr>
+  <th>Distribution:</th>        <td>Normal</td>       <th>  AIC:               </th> <td>  -4348.17</td>
+</tr></p>
+<p><tr>
+  <th>Method:</th>        <td>Maximum Likelihood</td> <th>  BIC:               </th> <td>  -4333.35</td>
+</tr></p>
+<p><tr>
+  <th></th>                        <td></td>          <th>  No. Observations:  </th>    <td>1031</td>   
+</tr></p>
+<p><tr>
+  <th>Date:</th>           <td>Tue, Apr 06 2021</td>  <th>  Df Residuals:      </th>    <td>1030</td>   
+</tr></p>
+<p><tr>
+  <th>Time:</th>               <td>15:14:53</td>      <th>  Df Model:          </th>      <td>1</td>    
+</tr><br>&lt;/table&gt;</p>
+<p><table class="simpletable"></table></p>
+<p><caption>Mean Model</caption></p>
+<p><tr>
+   <td></td>     <th>coef</th>     <th>std err</th>      <th>t</th>       <th>P>|t|</th>      <th>95.0% Conf. Int.</th>   
+</tr></p>
+<p><tr>
+  <th>mu</th> <td>1.3771e-03</td> <td>8.705e-04</td> <td>    1.582</td> <td>    0.114</td> <td>[-3.290e-04,3.083e-03]</td>
+</tr><br>&lt;/table&gt;</p>
+<p><table class="simpletable"></table></p>
+<p><caption>Volatility Model</caption></p>
+<p><tr>
+      <td></td>        <th>coef</th>     <th>std err</th>      <th>t</th>       <th>P>|t|</th>     <th>95.0% Conf. Int.</th>   
+</tr></p>
+<p><tr>
+  <th>omega</th>    <td>6.6498e-04</td> <td>5.200e-05</td> <td>   12.787</td> <td>1.931e-37</td> <td>[5.631e-04,7.669e-04]</td>
+</tr></p>
+<p><tr>
+  <th>alpha[1]</th> <td>    0.2860</td> <td>7.493e-02</td> <td>    3.818</td> <td>1.347e-04</td>   <td>[  0.139,  0.433]</td>  
+</tr><br>&lt;/table&gt;<br><br>Covariance estimator: robust</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HS_result_garch=HS_garch.fit()</span><br><span class="line">HS_result_garch.summary()</span><br></pre></td></tr></table></figure>
+<pre><code>C:\Softwares\Anaconda3\lib\site-packages\arch\univariate\base.py:316: DataScaleWarning: y is poorly scaled, which may affect convergence of the optimizer when
+estimating the model parameters. The scale of y is 0.0009118. Parameter
+estimation work better when this value is between 1 and 1000. The recommended
+rescaling is 100 * y.
+
+This warning can be disabled by either rescaling y before initializing the
+model or by setting rescale=False.
+
+  warnings.warn(
+
+
+Iteration:      1,   Func. Count:      6,   Neg. LLF: 967888828437.0393
+Iteration:      2,   Func. Count:     18,   Neg. LLF: -2063.355990038111
+Iteration:      3,   Func. Count:     25,   Neg. LLF: 1701.918287629034
+Iteration:      4,   Func. Count:     34,   Neg. LLF: 1084887.9285339573
+Iteration:      5,   Func. Count:     43,   Neg. LLF: -2238.8479649588335
+Optimization terminated successfully    (Exit mode 0)
+            Current function value: -2238.8479657032667
+            Iterations: 9
+            Function evaluations: 43
+            Gradient evaluations: 5
+</code></pre><p><table class="simpletable"></table></p>
+<p><caption>Constant Mean - GARCH Model Results</caption></p>
+<p><tr>
+  <th>Dep. Variable:</th>        <td>恒生指数</td>        <th>  R-squared:         </th>  <td>   0.000</td>
+</tr></p>
+<p><tr>
+  <th>Mean Model:</th>       <td>Constant Mean</td>   <th>  Adj. R-squared:    </th>  <td>   0.000</td>
+</tr></p>
+<p><tr>
+  <th>Vol Model:</th>            <td>GARCH</td>       <th>  Log-Likelihood:    </th> <td>   2238.85</td>
+</tr></p>
+<p><tr>
+  <th>Distribution:</th>        <td>Normal</td>       <th>  AIC:               </th> <td>  -4469.70</td>
+</tr></p>
+<p><tr>
+  <th>Method:</th>        <td>Maximum Likelihood</td> <th>  BIC:               </th> <td>  -4449.94</td>
+</tr></p>
+<p><tr>
+  <th></th>                        <td></td>          <th>  No. Observations:  </th>    <td>1031</td>   
+</tr></p>
+<p><tr>
+  <th>Date:</th>           <td>Tue, Apr 06 2021</td>  <th>  Df Residuals:      </th>    <td>1030</td>   
+</tr></p>
+<p><tr>
+  <th>Time:</th>               <td>15:14:53</td>      <th>  Df Model:          </th>      <td>1</td>    
+</tr><br>&lt;/table&gt;</p>
+<p><table class="simpletable"></table></p>
+<p><caption>Mean Model</caption></p>
+<p><tr>
+   <td></td>     <th>coef</th>     <th>std err</th>      <th>t</th>       <th>P>|t|</th>      <th>95.0% Conf. Int.</th>   
+</tr></p>
+<p><tr>
+  <th>mu</th> <td>1.4513e-03</td> <td>8.067e-04</td> <td>    1.799</td> <td>7.202e-02</td> <td>[-1.298e-04,3.032e-03]</td>
+</tr><br>&lt;/table&gt;</p>
+<p><table class="simpletable"></table></p>
+<p><caption>Volatility Model</caption></p>
+<p><tr>
+      <td></td>        <th>coef</th>     <th>std err</th>      <th>t</th>        <th>P>|t|</th>     <th>95.0% Conf. Int.</th>   
+</tr></p>
+<p><tr>
+  <th>omega</th>    <td>1.9648e-05</td> <td>2.950e-06</td> <td>    6.660</td>  <td>2.734e-11</td> <td>[1.387e-05,2.543e-05]</td>
+</tr></p>
+<p><tr>
+  <th>alpha[1]</th> <td>    0.0966</td> <td>3.393e-02</td> <td>    2.848</td>  <td>4.401e-03</td>  <td>[3.013e-02,  0.163]</td>
+</tr></p>
+<p><tr>
+  <th>beta[1]</th>  <td>    0.8841</td> <td>2.606e-02</td> <td>   33.921</td> <td>3.260e-252</td>   <td>[  0.833,  0.935]</td>  
+</tr><br>&lt;/table&gt;<br><br>Covariance estimator: robust</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HS_vol=np.sqrt(HS_result_garch.params[<span class="number">1</span>]/(<span class="number">1</span>-HS_result_garch.params[<span class="number">2</span>]-HS_result_garch.params[<span class="number">3</span>]))</span><br><span class="line">print(<span class="string">'利用GARCH（1，1）模型得到的恒生指数周收益率的长期波动率'</span>,round(HS_vol,<span class="number">4</span>))</span><br></pre></td></tr></table></figure>
+<pre><code>利用GARCH（1，1）模型得到的恒生指数周收益率的长期波动率 0.0319
+</code></pre><p>从上述结果可以看出，恒生指数周收益率的长期波动率为3.19%，高于标普500指数的长期波动率2.41%，但低于上证180指数的长期波动率3.46%，这表明香港资本市场的长期风险介于美股和A股之间</p>
+<h2 id="datetime-模块处理事件对象"><a href="#datetime-模块处理事件对象" class="headerlink" title="datetime 模块处理事件对象"></a><code>datetime</code> 模块处理事件对象</h2><p>一银行于2019年2月初对外发行两款期限均为6个月的理财产品—-利利盈AB，但两款产品起始日期和到期日有所不同，已知年化收益率为5%，给投资者的收益按照实际天数计算且一年以365天计算。</p>
+<h3 id="任务1-8"><a href="#任务1-8" class="headerlink" title="任务1"></a>任务1</h3><p>将两款产品的起始日期和到期日以时间对象的方式输入，并依次访问。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> datetime <span class="keyword">as</span> dt</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">begin_A=dt.datetime(<span class="number">2019</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">begin_A</span><br></pre></td></tr></table></figure>
+<pre><code>datetime.datetime(2019, 2, 3, 0, 0)
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">type(begin_A)</span><br></pre></td></tr></table></figure>
+<pre><code>datetime.datetime
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">end_A=dt.datetime(<span class="number">2019</span>,<span class="number">8</span>,<span class="number">3</span>)</span><br><span class="line">begin_B=dt.datetime(<span class="number">2019</span>,<span class="number">3</span>,<span class="number">8</span>)</span><br><span class="line">end_B=dt.datetime(<span class="number">2019</span>,<span class="number">9</span>,<span class="number">8</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">begin_A.year</span><br></pre></td></tr></table></figure>
+<pre><code>2019
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">begin_A.month</span><br></pre></td></tr></table></figure>
+<pre><code>2
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">begin_A.weekday()</span><br></pre></td></tr></table></figure>
+<pre><code>6
+</code></pre><h3 id="任务2-8"><a href="#任务2-8" class="headerlink" title="任务2"></a>任务2</h3><p>比较两款理财产品的起始日期的大小</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#datetime内置函数判断</span></span><br><span class="line">begin_A.__eq__(begin_B)</span><br></pre></td></tr></table></figure>
+<pre><code>False
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">begin_A.__gt__(begin_B)</span><br></pre></td></tr></table></figure>
+<pre><code>False
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">begin_A.__lt__(begin_B)</span><br></pre></td></tr></table></figure>
+<pre><code>True
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">begin_A==begin_B</span><br></pre></td></tr></table></figure>
+<pre><code>False
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">begin_A&gt;begin_B</span><br></pre></td></tr></table></figure>
+<pre><code>False
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">begin_A&lt;begin_B</span><br></pre></td></tr></table></figure>
+<pre><code>True
+</code></pre><h3 id="任务3-8"><a href="#任务3-8" class="headerlink" title="任务3"></a>任务3</h3><p>计算两款产品的天数，并比较期限大小</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tenor_A=(end_A-begin_A).days</span><br><span class="line">print(<span class="string">'利利盈A产品的期限(天)'</span>,tenor_A)</span><br><span class="line">tenor_B=(end_B-begin_B).days</span><br><span class="line">print(<span class="string">'利利盈B产品的期限(天)'</span>,tenor_B)</span><br></pre></td></tr></table></figure>
+<pre><code>利利盈A产品的期限(天) 181
+利利盈B产品的期限(天) 184
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tenor_A==tenor_B</span><br></pre></td></tr></table></figure>
+<pre><code>False
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tenor_A&gt;tenor_B</span><br></pre></td></tr></table></figure>
+<pre><code>False
+</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tenor_A&lt;tenor_B</span><br></pre></td></tr></table></figure>
+<pre><code>True
+</code></pre><h3 id="任务4-2"><a href="#任务4-2" class="headerlink" title="任务4"></a>任务4</h3><p>钱先生购买了上述的两款产品，初始投资额均为100万，计算产品到期时钱先生两款产品的收益和两者的差额</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">invest=<span class="number">1e6</span></span><br><span class="line">R=<span class="number">0.05</span></span><br><span class="line">days=<span class="number">365</span></span><br><span class="line">return_A=invest*R*tenor_A/days</span><br><span class="line">return_B=invest*R*tenor_B/days</span><br><span class="line">return_diff=return_B-return_A</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">'A理财产品到期时支付给钱先生的收益额'</span>,round(return_A,<span class="number">2</span>))</span><br><span class="line">print(<span class="string">'B理财产品到期时支付给钱先生的收益额'</span>,round(return_B,<span class="number">2</span>))</span><br><span class="line">print(<span class="string">'两款理财产品到期时支付给钱先生的收益额的差异'</span>,round(return_diff,<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+<pre><code>A理财产品到期时支付给钱先生的收益额 24794.52
+B理财产品到期时支付给钱先生的收益额 25205.48
+两款理财产品到期时支付给钱先生的收益额的差异 410.96
+</code></pre>
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/笔记/" rel="tag"># 笔记</a>
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/04/06/matlab-Ex5/" rel="next" title="Matlab作业(三)">
+                <i class="fa fa-chevron-left"></i> Matlab作业(三)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/04/13/matlab-Ex6/" rel="prev" title="Matlab作业(四)">
+                Matlab作业(四) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="wjqsteam" />
+            
+              <p class="site-author-name" itemprop="name">wjqsteam</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#积分运算"><span class="nav-number">2.</span> <span class="nav-text">积分运算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务1"><span class="nav-number">2.1.</span> <span class="nav-text">任务1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务2"><span class="nav-number">2.2.</span> <span class="nav-text">任务2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务3"><span class="nav-number">2.3.</span> <span class="nav-text">任务3</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插值计算"><span class="nav-number">3.</span> <span class="nav-text">插值计算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务1-1"><span class="nav-number">3.1.</span> <span class="nav-text">任务1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务2-1"><span class="nav-number">3.2.</span> <span class="nav-text">任务2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务3-1"><span class="nav-number">3.3.</span> <span class="nav-text">任务3</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#求解方程组"><span class="nav-number">4.</span> <span class="nav-text">求解方程组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务1-2"><span class="nav-number">4.1.</span> <span class="nav-text">任务1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务2-2"><span class="nav-number">4.2.</span> <span class="nav-text">任务2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务3-2"><span class="nav-number">4.3.</span> <span class="nav-text">任务3</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#求解最优值"><span class="nav-number">5.</span> <span class="nav-text">求解最优值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务1-3"><span class="nav-number">5.1.</span> <span class="nav-text">任务1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务2-3"><span class="nav-number">5.2.</span> <span class="nav-text">任务2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务3-3"><span class="nav-number">5.3.</span> <span class="nav-text">任务3</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#统计功能"><span class="nav-number">6.</span> <span class="nav-text">统计功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务1-4"><span class="nav-number">6.1.</span> <span class="nav-text">任务1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务2-4"><span class="nav-number">6.2.</span> <span class="nav-text">任务2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务3-4"><span class="nav-number">6.3.</span> <span class="nav-text">任务3</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#随机抽样与统计"><span class="nav-number">7.</span> <span class="nav-text">随机抽样与统计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务1-5"><span class="nav-number">7.1.</span> <span class="nav-text">任务1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务2-5"><span class="nav-number">7.2.</span> <span class="nav-text">任务2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务3-5"><span class="nav-number">7.3.</span> <span class="nav-text">任务3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务4"><span class="nav-number">7.4.</span> <span class="nav-text">任务4</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StatsModels构建回归模型"><span class="nav-number">8.</span> <span class="nav-text">StatsModels构建回归模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务1-6"><span class="nav-number">8.1.</span> <span class="nav-text">任务1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务2-6"><span class="nav-number">8.2.</span> <span class="nav-text">任务2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务3-6"><span class="nav-number">8.3.</span> <span class="nav-text">任务3</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#arch构建波动率模型"><span class="nav-number">9.</span> <span class="nav-text">arch构建波动率模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务1-7"><span class="nav-number">9.1.</span> <span class="nav-text">任务1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务2-7"><span class="nav-number">9.2.</span> <span class="nav-text">任务2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务3-7"><span class="nav-number">9.3.</span> <span class="nav-text">任务3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务4-1"><span class="nav-number">9.4.</span> <span class="nav-text">任务4</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#datetime-模块处理事件对象"><span class="nav-number">10.</span> <span class="nav-text">datetime 模块处理事件对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#任务1-8"><span class="nav-number">10.1.</span> <span class="nav-text">任务1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务2-8"><span class="nav-number">10.2.</span> <span class="nav-text">任务2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务3-8"><span class="nav-number">10.3.</span> <span class="nav-text">任务3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#任务4-2"><span class="nav-number">10.4.</span> <span class="nav-text">任务4</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wjqsteam</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

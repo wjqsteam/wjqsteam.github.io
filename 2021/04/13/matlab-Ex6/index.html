@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.2',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="题目1 f(S_T,P)= \left \{         \begin{array}{lr}         K-S_T,如果S_T\le K \\         -P,其他         \end{array} \right.计算该欧式后付看跌期权的定价P，使得$E[f(S_T,P)]=0$.">
+<meta name="keywords" content="笔记,matlab">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Matlab作业(四)">
+<meta property="og:url" content="http://yoursite.com/2021/04/13/matlab-Ex6/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="题目1 f(S_T,P)= \left \{         \begin{array}{lr}         K-S_T,如果S_T\le K \\         -P,其他         \end{array} \right.计算该欧式后付看跌期权的定价P，使得$E[f(S_T,P)]=0$.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-04-18T08:40:39.541Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Matlab作业(四)">
+<meta name="twitter:description" content="题目1 f(S_T,P)= \left \{         \begin{array}{lr}         K-S_T,如果S_T\le K \\         -P,其他         \end{array} \right.计算该欧式后付看跌期权的定价P，使得$E[f(S_T,P)]=0$.">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/04/13/matlab-Ex6/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Matlab作业(四) | Hexo</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/13/matlab-Ex6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wjqsteam">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Matlab作业(四)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-04-13 00:00:00" itemprop="dateCreated datePublished" datetime="2021-04-13T00:00:00+08:00">2021-04-13</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-04-18 16:40:39" itemprop="dateModified" datetime="2021-04-18T16:40:39+08:00">2021-04-18</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="题目1"><a href="#题目1" class="headerlink" title="题目1"></a>题目1</h2><script type="math/tex; mode=display">
+f(S_T,P)=
+\left \{
+        \begin{array}{lr}
+        K-S_T,如果S_T\le K \\
+        -P,其他
+        \end{array}
+\right.</script><p>计算该欧式后付看跌期权的定价P，使得$E[f(S_T,P)]=0$.</p>
+<a id="more"></a>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%ex6_1.m</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ExpPayoff</span> = <span class="title">ex6_1</span><span class="params">(premium,S0,K,r,sigma,T,N)</span></span></span><br><span class="line"><span class="comment">%-------------------</span></span><br><span class="line">deltaT = T/N;</span><br><span class="line">u = <span class="built_in">exp</span>(sigma * <span class="built_in">sqrt</span> (deltaT));</span><br><span class="line">d=<span class="number">1</span>/u;</span><br><span class="line">p = (<span class="built_in">exp</span>(r*deltaT)-d)/(u-d);</span><br><span class="line">p_u = <span class="built_in">exp</span>(-r*deltaT)*p;</span><br><span class="line">p_d = <span class="built_in">exp</span>(-r*deltaT)*(<span class="number">1</span>-p);</span><br><span class="line"><span class="comment">%-------------------</span></span><br><span class="line">lattice = <span class="built_in">zeros</span>(N+<span class="number">1</span>,N+<span class="number">1</span>);</span><br><span class="line"><span class="comment">%-------------------按期权公式执行---------------</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">0</span> : N</span><br><span class="line">    <span class="keyword">if</span> (S0*(u^<span class="built_in">i</span>)*(d^(N-<span class="built_in">i</span>)) &lt;= K) <span class="comment">%</span></span><br><span class="line">       lattice(<span class="built_in">i</span>+<span class="number">1</span>,N+<span class="number">1</span>) = K - S0*(u^<span class="built_in">i</span>)*(d^(N-<span class="built_in">i</span>)); <span class="comment">%</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">       lattice(<span class="built_in">i</span>+<span class="number">1</span>,N+<span class="number">1</span>) = -premium;</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">%-------------------计算数学期望----------------</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">j</span>=N<span class="number">-1</span>:<span class="number">-1</span>:<span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> <span class="built_in">i</span> = <span class="number">0</span>:<span class="built_in">j</span></span><br><span class="line">        lattice(<span class="built_in">i</span>+<span class="number">1</span>,<span class="built_in">j</span>+<span class="number">1</span>)=p_u*lattice(<span class="built_in">i</span>+<span class="number">2</span>,<span class="built_in">j</span>+<span class="number">2</span>)+p_d*lattice(<span class="built_in">i</span>+<span class="number">1</span>,<span class="built_in">j</span>+<span class="number">2</span>);</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">%-------------------返回期权价格----------------</span></span><br><span class="line">ExpPayoff = lattice(<span class="number">1</span>,<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; f=@(P) ex6_1(P,<span class="number">12</span>,<span class="number">14</span>,<span class="number">0.1</span>,<span class="number">0.2</span>,<span class="number">10</span>/<span class="number">12</span>,<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">f =</span><br><span class="line"></span><br><span class="line">    @(P)ex6_1(P,<span class="number">12</span>,<span class="number">14</span>,<span class="number">0.1</span>,<span class="number">0.2</span>,<span class="number">10</span>/<span class="number">12</span>,<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">&gt;&gt; fzero(f,<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">    <span class="number">5.4221</span></span><br></pre></td></tr></table></figure>
+<p>所以该欧式后付看跌期权的P值为5.4221，也就是该期权的持有者在到期日$K&lt;S_T$的情况下要支付5.4221给对方。</p>
+<p>若为普通看跌期权,即$P=0$:</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; ex6_1(<span class="number">0</span>,<span class="number">12</span>,<span class="number">14</span>,<span class="number">0.1</span>,<span class="number">0.2</span>,<span class="number">10</span>/<span class="number">12</span>,<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">ans</span> =</span><br><span class="line"></span><br><span class="line">    <span class="number">1.4131</span></span><br></pre></td></tr></table></figure>
+<p>该期权的持有者购买期权的权利金为1.4131，只有前一种情况的$26\%$。</p>
+<h2 id="题目2"><a href="#题目2" class="headerlink" title="题目2"></a>题目2</h2><p>设计带红利率q的美式期权二叉树算法，并标记持有和执行区域。</p>
+<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><p>分红$q=0.01$,这里只取了$N=10$个时段，太多的话之后输出的二叉树显示不全。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%ex6_2</span></span><br><span class="line"> S0=<span class="number">50</span>;K=<span class="number">50</span>;r=<span class="number">0.05</span>;T=<span class="number">5</span>/<span class="number">12</span>;sigma=<span class="number">0.4</span>;N=<span class="number">10</span>;q=<span class="number">0.01</span>; <span class="comment">% 相应常数</span></span><br><span class="line"><span class="comment">%-----------------------------</span></span><br><span class="line">deltaT=T/N;</span><br><span class="line">u = <span class="built_in">exp</span>(sigma*<span class="built_in">sqrt</span>(deltaT));</span><br><span class="line">d=<span class="number">1</span>/u;</span><br><span class="line"><span class="comment">%--------有分红</span></span><br><span class="line">p = (<span class="built_in">exp</span>((r-q)*deltaT)-d)/(u-d); <span class="comment">% 包含分红</span></span><br><span class="line"><span class="comment">%---------</span></span><br><span class="line">discount = <span class="built_in">exp</span>(-r*deltaT); <span class="comment">% 贴现率</span></span><br><span class="line">p_u=discount*p;</span><br><span class="line">p_d=discount*(<span class="number">1</span>-p);</span><br><span class="line"><span class="comment">%-----------------------------</span></span><br><span class="line">SVals = <span class="built_in">zeros</span>(<span class="number">2</span>*N+<span class="number">1</span>,<span class="number">1</span>); <span class="comment">% 一个一维数组用于储存股价</span></span><br><span class="line">SVals(N+<span class="number">1</span>)=S0;</span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span> =<span class="number">1</span>:N</span><br><span class="line">    SVals(N+<span class="number">1</span>+<span class="built_in">i</span>)=u*SVals(N+<span class="built_in">i</span>); <span class="comment">% 中间的右边依次乘以u</span></span><br><span class="line">    SVals(N+<span class="number">1</span>-<span class="built_in">i</span>)=d*SVals(N+<span class="number">2</span>-<span class="built_in">i</span>); <span class="comment">% 中间的左边依次乘以d</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">%-----------------------------</span></span><br><span class="line">PVals = <span class="built_in">zeros</span>(<span class="number">2</span>*N+<span class="number">1</span>,<span class="number">1</span>); <span class="comment">% 一个一维数组用于储存期权价格</span></span><br><span class="line"><span class="keyword">for</span> <span class="built_in">i</span>=<span class="number">1</span>:<span class="number">2</span>:<span class="number">2</span>*N+<span class="number">1</span></span><br><span class="line">    PVals(<span class="built_in">i</span>)=max(K-SVals(<span class="built_in">i</span>),<span class="number">0</span>); <span class="comment">% 数组中单数部分为期末的期权价格</span></span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">fprintf(<span class="string">'\n'</span>);</span><br><span class="line"><span class="comment">%-----------------------------</span></span><br><span class="line"><span class="keyword">for</span> tau=<span class="number">1</span>:N <span class="comment">% tau用来遍历时段</span></span><br><span class="line"><span class="comment">%-------------------向前贴现一轮---------------</span></span><br><span class="line">    <span class="keyword">for</span> <span class="built_in">i</span> = (tau+<span class="number">1</span>):<span class="number">2</span>:(<span class="number">2</span>*N+<span class="number">1</span>-tau)</span><br><span class="line">        hold = p_u*PVals(<span class="built_in">i</span>+<span class="number">1</span>)+p_d*PVals(<span class="built_in">i</span><span class="number">-1</span>);</span><br><span class="line">        <span class="comment">%PVals(i)=max(hold,K-SVals(i));</span></span><br><span class="line">        <span class="comment">%------------标记区域----------------</span></span><br><span class="line">        <span class="keyword">if</span>  hold &lt;= K-SVals(<span class="built_in">i</span>)</span><br><span class="line">            PVals(<span class="built_in">i</span>)=K-SVals(<span class="built_in">i</span>);</span><br><span class="line">            fprintf(<span class="string">'S'</span>); <span class="comment">% 表示行权</span></span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            PVals(<span class="built_in">i</span>)=hold;</span><br><span class="line">            fprintf(<span class="string">'H'</span>); <span class="comment">% 表示继续持有</span></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">        fprintf(<span class="string">'%.2f|'</span>,PVals(<span class="built_in">i</span>));</span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">    fprintf(<span class="string">'\n'</span>);</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line">price = PVals(N+<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt; ex6_2</span><br><span class="line"></span><br><span class="line">S26.02|S21.77|S16.76|S10.86|S3.92|H0.00|H0.00|H0.00|H0.00|H0.00|</span><br><span class="line">S23.98|S19.37|S13.93|S7.53|H2.00|H0.00|H0.00|H0.00|H0.00|</span><br><span class="line">S21.77|S16.76|S10.86|H4.81|H1.02|H0.00|H0.00|H0.00|</span><br><span class="line">S19.37|S13.93|H7.88|H2.95|H0.52|H0.00|H0.00|</span><br><span class="line">S16.76|H10.95|H5.45|H1.75|H0.26|H0.00|</span><br><span class="line">S13.93|H8.24|H3.63|H1.02|H0.13|</span><br><span class="line">H11.12|H5.97|H2.35|H0.59|</span><br><span class="line">H8.58|H4.19|H1.48|</span><br><span class="line">H6.42|H2.86|</span><br><span class="line">H4.66|</span><br></pre></td></tr></table></figure>
+<p>该二叉树，从下往上看为时段增加，从左往右看为股票价格增长。<code>H</code>表示持有期权,<code>S</code>表示行权。</p>
+<p>当期权内在价值大于后一时段的期望时应该行权，此时交易完成。所以结果输出的一部分<code>S</code>实际上是多余的。</p>
+<p>因为时段$N=10$太小，所以计算出的期权价格并不够准确。$N=1000$时计算出的期权的价格为4.7453。</p>
+<hr>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/笔记/" rel="tag"># 笔记</a>
+          
+            <a href="/tags/matlab/" rel="tag"># matlab</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/04/13/第五章讲稿/" rel="next" title="数据分析第五章讲稿">
+                <i class="fa fa-chevron-left"></i> 数据分析第五章讲稿
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/04/15/统计学/" rel="prev" title="统计学(一)">
+                统计学(一) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="wjqsteam" />
+            
+              <p class="site-author-name" itemprop="name">wjqsteam</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目1"><span class="nav-number">1.</span> <span class="nav-text">题目1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#代码"><span class="nav-number">1.1.</span> <span class="nav-text">代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#题目2"><span class="nav-number">2.</span> <span class="nav-text">题目2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#代码-1"><span class="nav-number">2.1.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结果"><span class="nav-number">2.2.</span> <span class="nav-text">结果</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wjqsteam</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
