@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.4.2" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.4.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.4.2">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.4.2" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.4.2',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="题目Consider a call option written on two correlated assets $S_1$ and $S_2$, whose dynamics follows, for$ i = 1,2,$  dS_i/S_i = (r-q_i)dt+\sigma _i d W_i , \quad dW_1dW_2 = \rho dt,\quad \rho \in [-1,1]">
+<meta name="keywords" content="笔记,python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="彩虹期权的定价">
+<meta property="og:url" content="http://yoursite.com/2021/06/16/Project/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="题目Consider a call option written on two correlated assets $S_1$ and $S_2$, whose dynamics follows, for$ i = 1,2,$  dS_i/S_i = (r-q_i)dt+\sigma _i d W_i , \quad dW_1dW_2 = \rho dt,\quad \rho \in [-1,1]">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-06-16T09:08:01.417Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="彩虹期权的定价">
+<meta name="twitter:description" content="题目Consider a call option written on two correlated assets $S_1$ and $S_2$, whose dynamics follows, for$ i = 1,2,$  dS_i/S_i = (r-q_i)dt+\sigma _i d W_i , \quad dW_1dW_2 = \rho dt,\quad \rho \in [-1,1]">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/06/16/Project/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>彩虹期权的定价 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/16/Project/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="wjqsteam">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">彩虹期权的定价
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-06-16 00:00:00 / 修改时间：17:08:01" itemprop="dateCreated datePublished" datetime="2021-06-16T00:00:00+08:00">2021-06-16</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习/" itemprop="url" rel="index"><span itemprop="name">学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>Consider a call option written on two correlated assets $S_1$ and $S_2$, whose dynamics follows, for$ i = 1,2,$</p>
+<script type="math/tex; mode=display">
+dS_i/S_i = (r-q_i)dt+\sigma _i d W_i , \quad dW_1dW_2 = \rho dt,\quad \rho \in [-1,1]</script><p>The payoff is $(max(S_{1,T},S_{2,T})-K)^+$</p>
+<ol>
+<li>What is the price when the option is European? (use Monte Carlo and Finite Difference methods)</li>
+<li>What is the price when the option is American? (use Finite Different methods)</li>
+<li>Calculates Delta for both European and American.</li>
+</ol>
+<p align="center">Table: The Default Parameter Values</p>
+
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Symbol</th>
+<th style="text-align:center">$S_{1,0}$</th>
+<th style="text-align:center">$q_1$</th>
+<th style="text-align:center">$\sigma _1$</th>
+<th style="text-align:center">$S_{2,0}$</th>
+<th style="text-align:center">$q_2$</th>
+<th style="text-align:center">$\sigma _2$</th>
+<th style="text-align:center">$\rho$</th>
+<th style="text-align:center">$K$</th>
+<th style="text-align:center">$r$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Value</td>
+<td style="text-align:center">50</td>
+<td style="text-align:center">0.01</td>
+<td style="text-align:center">0.2</td>
+<td style="text-align:center">55</td>
+<td style="text-align:center">0.015</td>
+<td style="text-align:center">0.3</td>
+<td style="text-align:center">0.75</td>
+<td style="text-align:center">55</td>
+<td style="text-align:center">0.03</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="page-break-after:always;"></div>
+
+<a id="more"></a>
+<h2 id="蒙特卡洛模拟法求欧式期权价格"><a href="#蒙特卡洛模拟法求欧式期权价格" class="headerlink" title="蒙特卡洛模拟法求欧式期权价格"></a>蒙特卡洛模拟法求欧式期权价格</h2><p><code>genpaths</code>生成了两条股票价格的路径,<code>normfit</code>计算数据的均值和置信区间,<code>cal_option</code>计算期权的价格和置信区间.</p>
+<p>以下代码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">gen_paths</span><span class="params">(S1_0,S2_0,r,q_1,q_2,sigma_1,sigma_2,rho,T,M,I)</span>:</span> <span class="comment"># M-时间步,I路径数量</span></span><br><span class="line">    dt = T/M</span><br><span class="line">    paths1 = np.zeros((M+<span class="number">1</span>,I))</span><br><span class="line">    paths2 = np.zeros((M+<span class="number">1</span>,I))</span><br><span class="line">    paths1[<span class="number">0</span>] = S1_0</span><br><span class="line">    paths2[<span class="number">0</span>] = S2_0</span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> range(<span class="number">1</span>,M+<span class="number">1</span>):</span><br><span class="line">        rand1 = np.random.standard_normal(I)</span><br><span class="line">        rand2 =  rho*rand1 + math.sqrt(<span class="number">1</span>-rho**<span class="number">2</span>)* np.random.standard_normal(I)</span><br><span class="line">        rand1 = (rand1-rand1.mean())/rand1.std()</span><br><span class="line">        rand2 = (rand2-rand2.mean())/rand2.std()</span><br><span class="line">        paths1[t] = paths1[t<span class="number">-1</span>] * np.exp((r-q_1<span class="number">-0.5</span>*sigma_1**<span class="number">2</span>)*dt+sigma_1*math.sqrt(dt)*rand1)</span><br><span class="line">        paths2[t] = paths2[t<span class="number">-1</span>] * np.exp((r-q_2<span class="number">-0.5</span>*sigma_2**<span class="number">2</span>)*dt+sigma_2*math.sqrt(dt)*rand2)</span><br><span class="line">    <span class="keyword">return</span> paths1,paths2</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cal_option</span><span class="params">(S1_0,S2_0,r,q_1,q_2,sigma_1,sigma_2,rho,T,M,I)</span>:</span></span><br><span class="line">    paths1,paths2 = gen_paths(S1_0,S2_0,r,q_1,q_2,sigma_1,sigma_2,rho,T,M,I)</span><br><span class="line">    S_max = np.maximum(paths1[<span class="number">-1</span>],paths2[<span class="number">-1</span>])</span><br><span class="line">    V = S_max -K</span><br><span class="line">    V[V&lt;<span class="number">0</span>] = <span class="number">0</span></span><br><span class="line">    option_price = V.mean() * math.exp(-r*T)</span><br><span class="line">    <span class="keyword">return</span> option_price</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    q_1=<span class="number">0.01</span></span><br><span class="line">    sigma_1=<span class="number">0.2</span></span><br><span class="line">    q_2=<span class="number">0.015</span></span><br><span class="line">    sigma_2=<span class="number">0.3</span></span><br><span class="line">    rho = <span class="number">0.75</span></span><br><span class="line">    K = <span class="number">55</span></span><br><span class="line">    r =<span class="number">0.03</span></span><br><span class="line">    S1_0=<span class="number">50</span></span><br><span class="line">    S2_0=<span class="number">55</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    T = <span class="number">1</span></span><br><span class="line">    M = <span class="number">50</span></span><br><span class="line">    I = <span class="number">250000</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    option_price = cal_option(S1_0,S2_0,r,q_1,q_2,sigma_1,sigma_2,rho,T,M,I)</span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    option1 = cal_option(S1_0+<span class="number">1</span>,S2_0,r,q_1,q_2,sigma_1,sigma_2,rho,T,M,I)</span><br><span class="line">    delta1 = (option1-option_price)/<span class="number">1</span></span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    option2 = cal_option(S1_0,S2_0+<span class="number">1</span>,r,q_1,q_2,sigma_1,sigma_2,rho,T,M,I)</span><br><span class="line">    delta2 = (option2-option_price)/<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>上述代码的计算结果为:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">期权价格</th>
+<th style="text-align:center">95%置信区间</th>
+<th style="text-align:center">$\Delta _{S_1}$</th>
+<th style="text-align:center">$\Delta _ {S_2}$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">7.2429949</td>
+<td style="text-align:center">[7.2328183 , 7.25317162]</td>
+<td style="text-align:center">0.13606</td>
+<td style="text-align:center">0.52673</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="page-break-after:always;"></div>
+
+<h2 id="显式有限差分求欧式期权价格"><a href="#显式有限差分求欧式期权价格" class="headerlink" title="显式有限差分求欧式期权价格"></a>显式有限差分求欧式期权价格</h2><p>题设的期权价格满足的方程为:</p>
+<script type="math/tex; mode=display">
+0=\frac{1}{2}\sigma _1 ^2 s_1^2 \frac{\partial ^2 f}{\partial s_1 ^2}+\rho \sigma _1 \sigma _2 s_1 s_2 \frac{\partial ^2 f}{\partial s_1 \partial s_2} + \frac{1}{2} \sigma _2 ^2 s_2 ^2 \frac{\partial ^2 f}{\partial s_2 ^2} +(r-q_1)s_1\frac{\partial f}{\partial s_1}+(r-q_2)s_2 \frac{\partial f}{\partial s_2}-rf+\frac{\partial f}{\partial t}</script><p>对其进行网格划分:</p>
+<script type="math/tex; mode=display">
+\frac{1}{2}\sigma _1 ^2 \Delta s_1^2 i^2 \frac{f^{n+1}_{i+1,j}-2f^{n+1}_{i,j}+f^{n+1}_{i-1,j}}{\Delta s_1^2}+\\
+\rho \sigma _1 \sigma _2 \Delta s_1 \Delta s_2i j \frac{1}{2\Delta s_1 \Delta s _2}(2f^{n+1}_{i,j}+f^{n+1}_{i+1,j+1}+f^{n+1}_{i-1,j-1}-f^{n+1}_{i+1,j}-f^{n+1}_{i-1,j}-f^{n+1}_{i,j+1}-f^{n+1}_{i,j-1})+ \\
+\frac{1}{2}\sigma_2 ^2 \Delta s_2 ^2 j^2\frac{f^{n+1}_{i,j+1}-2f^{n+1}_{i,j}+f^{n+1}_{i,j-1}}{\Delta s_2^2}+
+(r-q_1)\Delta s_1 i \frac{f^{n+1}_{i+1,j}-f^{n+1}_{i-1,j}}{2\Delta s_1} +\\
+(r-q_2)\Delta s_2 i \frac{f^{n+1}_{i,j+1}-f^{n+1}_{i,j-1}}{2\Delta s_2} +
+\frac{f^{n+1}_{i,j}-f^n_{i,j}}{\Delta t} \\
+=rf^{n+1}_{i,j}</script><p>整理得:</p>
+<script type="math/tex; mode=display">
+(\frac{1}{2}\sigma _1 ^2 i^2 -\frac{1}{2} \rho \sigma_1 \sigma _2ij + \frac{1}{2}(r-q_1)i)\Delta t \cdot f_{i+1,j}^{n+1} + \\
+(-\sigma _1 ^2 i^2 + \rho \sigma _1 \sigma _2 ij -\sigma _2 ^2 j^2 - r+\frac{1}{\Delta t}) \Delta t \cdot f_{i,j}^{n+1} + \\
+(\frac{1}{2}\sigma _1 ^2 i ^2 - \frac{1}{2} \rho \sigma _1 \sigma _2 i j -\frac{1}{2} (r-q_1) i)\Delta t \cdot f_{i-1,j}^{n+1} + \\
+(\frac{1}{2} \rho \sigma _1 \sigma _2 i j ) \Delta t \cdot f_{i+1,j+1}^{n+1}+ \\
+(\frac{1}{2} \rho \sigma _1 \sigma _2 i j ) \Delta t \cdot f_{i-1,j-1}^{n+1}+ \\
+(-\frac{1}{2}\rho \sigma _1 \sigma _2 i j +\frac{1}{2}\sigma _2 ^2 j^2 +\frac{1}{2}(r-q_2)j)\Delta t \cdot f_{i,j+1}^{n+1}+ \\
+(-\frac{1}{2}\rho \sigma _1 \sigma _2 i j +\frac{1}{2}\sigma _2 ^2 j^2 -\frac{1}{2}(r-q_2)j)\Delta t \cdot f_{i,j-1}^{n+1} \\
+=f_{i,j}^{n}</script><p>初边终值条件(从0开始索引)为:</p>
+<script type="math/tex; mode=display">
+f^n_{j,0}=max(\Delta s_1\times j-K)\times e^{-r(N_1-j)} \\
+f^n_{0,k}=max(\Delta s_2\times k-K)\times e^{-r(N_2-k)} \\
+f^{N}_{i,j} = max(max(\Delta s_1\times i,\Delta s_2\times j)-K,0) \\
+f^n_{j,N_2} = (Smax1 - K)\times e^{-r(N_1-j)\Delta t} \\
+f^n_{N_1,k} = (Smax2 - K)\times e^{-r(N_2-j)\Delta t}</script><p>以下代码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> scipy.interpolate <span class="keyword">as</span> scii</span><br><span class="line"></span><br><span class="line">q_1=<span class="number">0.01</span></span><br><span class="line">sigma_1=<span class="number">0.2</span></span><br><span class="line">q_2=<span class="number">0.015</span></span><br><span class="line">sigma_2=<span class="number">0.3</span></span><br><span class="line">rho = <span class="number">0.75</span></span><br><span class="line">K = <span class="number">55</span></span><br><span class="line">r =<span class="number">0.03</span></span><br><span class="line">S1_0=<span class="number">50</span></span><br><span class="line">S2_0=<span class="number">55</span></span><br><span class="line">dS1 = <span class="number">4</span></span><br><span class="line">dS2 = <span class="number">6</span></span><br><span class="line">dt = <span class="number">0.005</span></span><br><span class="line">T = <span class="number">1</span></span><br><span class="line">Smax1 = <span class="number">150</span></span><br><span class="line">Smax2 = <span class="number">300</span></span><br><span class="line">N1 = int(Smax1/dS1)</span><br><span class="line">N2 = int(Smax2/dS2)</span><br><span class="line">M = int(T/dt)</span><br><span class="line"></span><br><span class="line">f =np.zeros((M+<span class="number">1</span>,N1+<span class="number">1</span>,N2+<span class="number">1</span>)) <span class="comment"># M+1个时间划分,N1+1个S1划分，N2+1个S2划分</span></span><br><span class="line"><span class="comment"># 边界条件</span></span><br><span class="line"><span class="comment">##############################</span></span><br><span class="line"><span class="comment"># 1资产价格为0的期权价格</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(f)):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(N1+<span class="number">1</span>):</span><br><span class="line">        f[i][j][<span class="number">0</span>] = max(dS1*j-K,<span class="number">0</span>) * math.exp(-r*(M-i)*dt)</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> range(N2+<span class="number">1</span>):</span><br><span class="line">        f[i][<span class="number">0</span>][k] = max(dS2*k-K,<span class="number">0</span>) * math.exp(-r*(M-i)*dt)</span><br><span class="line"><span class="comment"># 到期日的期权价格</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(N1+<span class="number">1</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(N2+<span class="number">1</span>):</span><br><span class="line">        f[<span class="number">-1</span>][i][j]=max(max(dS1*i,dS2*j)-K,<span class="number">0</span>)</span><br><span class="line"><span class="comment"># 资产价格到达边界时的期权价格</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(f)):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(N1+<span class="number">1</span>):</span><br><span class="line">        f[i][j][<span class="number">-1</span>] = (Smax1 - K)*math.exp(-r*(M-i)*dt)</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> range(N2+<span class="number">1</span>):</span><br><span class="line">        f[i][<span class="number">-1</span>][k] = (Smax2 - K)*math.exp(-r*(M-i)*dt)</span><br><span class="line"></span><br><span class="line">a = np.zeros((N1<span class="number">-1</span>,N2<span class="number">-1</span>)) <span class="comment"># 因为f[n,0,0]是已知的，所以算的少一个</span></span><br><span class="line">b = np.zeros((N1<span class="number">-1</span>,N2<span class="number">-1</span>)) <span class="comment"># 直接b=a的话b和a会共用一个地址</span></span><br><span class="line">c = np.zeros((N1<span class="number">-1</span>,N2<span class="number">-1</span>))</span><br><span class="line">d = np.zeros((N1<span class="number">-1</span>,N2<span class="number">-1</span>))</span><br><span class="line">e = np.zeros((N1<span class="number">-1</span>,N2<span class="number">-1</span>))</span><br><span class="line">g = np.zeros((N1<span class="number">-1</span>,N2<span class="number">-1</span>))</span><br><span class="line">h = np.zeros((N1<span class="number">-1</span>,N2<span class="number">-1</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(N1<span class="number">-1</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(N2<span class="number">-1</span>):</span><br><span class="line">        a[i][j] = (<span class="number">0.5</span>*sigma_1**<span class="number">2</span> * i**<span class="number">2</span><span class="number">-0.5</span>*rho*sigma_1*sigma_2*i*j+<span class="number">0.5</span>*(r-q_1)*i)*dt</span><br><span class="line">        b[i][j] = (-sigma_1 **<span class="number">2</span> * i**<span class="number">2</span> + rho * sigma_1 * sigma_2*i*j-sigma_2**<span class="number">2</span> *j**<span class="number">2</span>-r+<span class="number">1</span>/dt)*dt</span><br><span class="line">        c[i][j] = (<span class="number">0.5</span>*sigma_1**<span class="number">2</span> * i**<span class="number">2</span><span class="number">-0.5</span>*rho*sigma_1*sigma_2*i*j<span class="number">-0.5</span>*(r-q_1)*i)*dt</span><br><span class="line">        d[i][j] = <span class="number">0.5</span>*rho*sigma_1*sigma_2*i*j*dt</span><br><span class="line">        e[i][j] = <span class="number">0.5</span>*rho*sigma_1*sigma_2*i*j*dt</span><br><span class="line">        g[i][j] = (<span class="number">-0.5</span>*rho*sigma_1*sigma_2*i*j+<span class="number">0.5</span>*sigma_2**<span class="number">2</span>*j**<span class="number">2</span>+<span class="number">0.5</span>*(r-q_2)*j)*dt</span><br><span class="line">        h[i][j] = (<span class="number">-0.5</span>*rho*sigma_1*sigma_2*i*j+<span class="number">0.5</span>*sigma_2**<span class="number">2</span>*j**<span class="number">2</span><span class="number">-0.5</span>*(r-q_2)*j)*dt</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> n <span class="keyword">in</span> range(M<span class="number">-1</span>,<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,N1,<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,N2,<span class="number">1</span>):</span><br><span class="line">            f[n][i][j] = (a[i<span class="number">-1</span>][j<span class="number">-1</span>] * f[n+<span class="number">1</span>][i+<span class="number">1</span>][j]+b[i<span class="number">-1</span>][j<span class="number">-1</span>]*f[n+<span class="number">1</span>][i][j]+c[i<span class="number">-1</span>][j<span class="number">-1</span>]*f[n+<span class="number">1</span>][i<span class="number">-1</span>][j]+d[i<span class="number">-1</span>][j<span class="number">-1</span>]</span><br><span class="line">            *f[n+<span class="number">1</span>][i+<span class="number">1</span>][j+<span class="number">1</span>]+e[i<span class="number">-1</span>][j<span class="number">-1</span>]*f[n+<span class="number">1</span>][i<span class="number">-1</span>][j<span class="number">-1</span>]</span><br><span class="line">            + g[i<span class="number">-1</span>][j<span class="number">-1</span>]*f[n+<span class="number">1</span>][i][j+<span class="number">1</span>]+h[i<span class="number">-1</span>][j<span class="number">-1</span>] *f[n+<span class="number">1</span>][i][j<span class="number">-1</span>])</span><br><span class="line"></span><br><span class="line">x = np.arange(<span class="number">0</span>,(N1+<span class="number">1</span>)*dS1,dS1)</span><br><span class="line">y = np.arange(<span class="number">0</span>,(N2+<span class="number">1</span>)*dS2,dS2)</span><br><span class="line">z = f[<span class="number">0</span>][:][:]</span><br><span class="line"></span><br><span class="line">newf = scii.interp2d(y,x,z,kind=<span class="string">'linear'</span>) <span class="comment"># dim(x)=m,dim(y)=n,shape(f)=(n,m)</span></span><br><span class="line">ans = newf([S2_0],[S1_0])</span><br><span class="line"></span><br><span class="line">ansnew2 = newf([S2_0+dS2],[S1_0])</span><br><span class="line">delta2 = (ansnew2-ans)/dS2</span><br><span class="line"></span><br><span class="line">ansnew1 = newf([S2_0],[S1_0+dS1])</span><br><span class="line">delta1 = (ansnew1-ans)/dS1</span><br></pre></td></tr></table></figure>
+<p>上述程序计算结果为:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">期权价格</th>
+<th style="text-align:center">$\Delta _{s_1}$</th>
+<th style="text-align:center">$\Delta _{s_2}$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">6.5254175</td>
+<td style="text-align:center">0.19024955</td>
+<td style="text-align:center">0.60329769</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="page-break-after:always;"></div>
+
+<h2 id="显式有限差分求美式期权价格"><a href="#显式有限差分求美式期权价格" class="headerlink" title="显式有限差分求美式期权价格"></a>显式有限差分求美式期权价格</h2><p>题设的期权价格满足的方程为:</p>
+<script type="math/tex; mode=display">
+0=\frac{1}{2}\sigma _1 ^2 s_1^2 \frac{\partial ^2 f}{\partial s_1 ^2}+\rho \sigma _1 \sigma _2 s_1 s_2 \frac{\partial ^2 f}{\partial s_1 \partial s_2} + \frac{1}{2} \sigma _2 ^2 s_2 ^2 \frac{\partial ^2 f}{\partial s_2 ^2} +(r-q_1)s_1\frac{\partial f}{\partial s_1}+(r-q_2)s_2 \frac{\partial f}{\partial s_2}-rf+\frac{\partial f}{\partial t}</script><p>对其进行网格划分:</p>
+<script type="math/tex; mode=display">
+\frac{1}{2}\sigma _1 ^2 \Delta s_1^2 i^2 \frac{f^{n+1}_{i+1,j}-2f^{n+1}_{i,j}+f^{n+1}_{i-1,j}}{\Delta s_1^2}+\\
+\rho \sigma _1 \sigma _2 \Delta s_1 \Delta s_2i j \frac{1}{2\Delta s_1 \Delta s _2}(2f^{n+1}_{i,j}+f^{n+1}_{i+1,j+1}+f^{n+1}_{i-1,j-1}-f^{n+1}_{i+1,j}-f^{n+1}_{i-1,j}-f^{n+1}_{i,j+1}-f^{n+1}_{i,j-1})+ \\
+\frac{1}{2}\sigma_2 ^2 \Delta s_2 ^2 j^2\frac{f^{n+1}_{i,j+1}-2f^{n+1}_{i,j}+f^{n+1}_{i,j-1}}{\Delta s_2^2}+
+(r-q_1)\Delta s_1 i \frac{f^{n+1}_{i+1,j}-f^{n+1}_{i-1,j}}{2\Delta s_1} +
+(r-q_2)\Delta s_2 i \frac{f^{n+1}_{i,j+1}-f^{n+1}_{i,j-1}}{2\Delta s_2} +\\
+\frac{f^{n+1}_{i,j}-f^n_{i,j}}{\Delta t} \\
+=rf^{n+1}_{i,j}</script><p>整理得:</p>
+<script type="math/tex; mode=display">
+(\frac{1}{2}\sigma _1 ^2 i^2 -\frac{1}{2} \rho \sigma_1 \sigma _2ij + \frac{1}{2}(r-q_1)i)\Delta t \cdot f_{i+1,j}^{n+1} + \\
+(-\sigma _1 ^2 i^2 + \rho \sigma _1 \sigma _2 ij -\sigma _2 ^2 j^2 - r+\frac{1}{\Delta t}) \Delta t \cdot f_{i,j}^{n+1} + \\
+(\frac{1}{2}\sigma _1 ^2 i ^2 - \frac{1}{2} \rho \sigma _1 \sigma _2 i j -\frac{1}{2} (r-q_1) i)\Delta t \cdot f_{i-1,j}^{n+1} + \\
+(\frac{1}{2} \rho \sigma _1 \sigma _2 i j ) \Delta t \cdot f_{i+1,j+1}^{n+1}+ \\
+(\frac{1}{2} \rho \sigma _1 \sigma _2 i j ) \Delta t \cdot f_{i-1,j-1}^{n+1}+ \\
+(-\frac{1}{2}\rho \sigma _1 \sigma _2 i j +\frac{1}{2}\sigma _2 ^2 j^2 +\frac{1}{2}(r-q_2)j)\Delta t \cdot f_{i,j+1}^{n+1}+ \\
+(-\frac{1}{2}\rho \sigma _1 \sigma _2 i j +\frac{1}{2}\sigma _2 ^2 j^2 -\frac{1}{2}(r-q_2)j)\Delta t \cdot f_{i,j-1}^{n+1} \\
+=f_{i,j}^{n}</script><p>由于美式期权的特性,所以计算所得期权价格还需要和立即行权的收益进行比较:</p>
+<script type="math/tex; mode=display">
+f^n_{i,j} = max(f^n_{i,j},max(max(s_i,s_j)-K,0))</script><p>由于美式期权立即行权的特性，所以初边终值条件(从0开始索引)为:</p>
+<script type="math/tex; mode=display">
+f^n_{j,0}=max(\Delta s_1\times j-K) \\
+f^n_{0,k}=max(\Delta s_2\times k-K)\\
+f^{N}_{i,j} = max(max(\Delta s_1\times i,\Delta s_2\times j)-K,0) \\
+f^n_{j,N_2} = Smax1 - K \\
+f^n_{N_1,k} = Smax2 - K</script><p>以下代码，和欧式显式的区别在于初边值条件与期权价格的计算上:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> scipy.interpolate <span class="keyword">as</span> scii</span><br><span class="line"></span><br><span class="line">q_1=<span class="number">0.01</span></span><br><span class="line">sigma_1=<span class="number">0.2</span></span><br><span class="line">q_2=<span class="number">0.015</span></span><br><span class="line">sigma_2=<span class="number">0.3</span></span><br><span class="line">rho = <span class="number">0.75</span></span><br><span class="line">K = <span class="number">55</span></span><br><span class="line">r =<span class="number">0.03</span></span><br><span class="line">S1_0=<span class="number">50</span></span><br><span class="line">S2_0=<span class="number">55</span></span><br><span class="line"></span><br><span class="line">dS1 = <span class="number">4</span></span><br><span class="line">dS2 = <span class="number">6</span></span><br><span class="line">dt = <span class="number">0.005</span></span><br><span class="line">T = <span class="number">1</span></span><br><span class="line">Smax1 = <span class="number">150</span></span><br><span class="line">Smax2 = <span class="number">300</span></span><br><span class="line">N1 = int(Smax1/dS1)</span><br><span class="line">N2 = int(Smax2/dS2)</span><br><span class="line">M = int(T/dt)</span><br><span class="line"></span><br><span class="line">f =np.zeros((M+<span class="number">1</span>,N1+<span class="number">1</span>,N2+<span class="number">1</span>)) <span class="comment"># M+1个时间划分,N1+1个S1划分，N2+1个S2划分</span></span><br><span class="line"><span class="comment"># 边界条件</span></span><br><span class="line"><span class="comment"># 1资产价格为0的期权价格</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(f)):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(N1+<span class="number">1</span>):</span><br><span class="line">        f[i][j][<span class="number">0</span>] = max(dS1*j-K,<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> range(N2+<span class="number">1</span>):</span><br><span class="line">        f[i][<span class="number">0</span>][k] = max(dS2*k-K,<span class="number">0</span>)</span><br><span class="line"><span class="comment"># 到期日的期权价格</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(N1+<span class="number">1</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(N2+<span class="number">1</span>):</span><br><span class="line">        f[<span class="number">-1</span>][i][j]=max(max(dS1*i,dS2*j)-K,<span class="number">0</span>)</span><br><span class="line"><span class="comment"># 资产价格到达边界时的期权价格</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(f)):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(N1+<span class="number">1</span>):</span><br><span class="line">        f[i][j][<span class="number">-1</span>] = Smax1 - K</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> range(N2+<span class="number">1</span>):</span><br><span class="line">        f[i][<span class="number">-1</span>][k] = Smax2 - K</span><br><span class="line"></span><br><span class="line">a = np.zeros((N1<span class="number">-1</span>,N2<span class="number">-1</span>)) <span class="comment"># 因为f[n,0,0]是已知的，所以算的少一个</span></span><br><span class="line">b = np.zeros((N1<span class="number">-1</span>,N2<span class="number">-1</span>)) <span class="comment"># 直接b=a的话b和a会共用一个地址</span></span><br><span class="line">c = np.zeros((N1<span class="number">-1</span>,N2<span class="number">-1</span>))</span><br><span class="line">d = np.zeros((N1<span class="number">-1</span>,N2<span class="number">-1</span>))</span><br><span class="line">e = np.zeros((N1<span class="number">-1</span>,N2<span class="number">-1</span>))</span><br><span class="line">g = np.zeros((N1<span class="number">-1</span>,N2<span class="number">-1</span>))</span><br><span class="line">h = np.zeros((N1<span class="number">-1</span>,N2<span class="number">-1</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(N1<span class="number">-1</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(N2<span class="number">-1</span>):</span><br><span class="line">        a[i][j] = (<span class="number">0.5</span>*sigma_1**<span class="number">2</span> * i**<span class="number">2</span><span class="number">-0.5</span>*rho*sigma_1*sigma_2*i*j+<span class="number">0.5</span>*(r-q_1)*i)*dt</span><br><span class="line">        b[i][j] = (-sigma_1 **<span class="number">2</span> * i**<span class="number">2</span> + rho * sigma_1 * sigma_2*i*j-sigma_2**<span class="number">2</span> *j**<span class="number">2</span>-r+<span class="number">1</span>/dt)*dt</span><br><span class="line">        c[i][j] = (<span class="number">0.5</span>*sigma_1**<span class="number">2</span> * i**<span class="number">2</span><span class="number">-0.5</span>*rho*sigma_1*sigma_2*i*j<span class="number">-0.5</span>*(r-q_1)*i)*dt</span><br><span class="line">        d[i][j] = <span class="number">0.5</span>*rho*sigma_1*sigma_2*i*j*dt</span><br><span class="line">        e[i][j] = <span class="number">0.5</span>*rho*sigma_1*sigma_2*i*j*dt</span><br><span class="line">        g[i][j] = (<span class="number">-0.5</span>*rho*sigma_1*sigma_2*i*j+<span class="number">0.5</span>*sigma_2**<span class="number">2</span>*j**<span class="number">2</span>+<span class="number">0.5</span>*(r-q_2)*j)*dt</span><br><span class="line">        h[i][j] = (<span class="number">-0.5</span>*rho*sigma_1*sigma_2*i*j+<span class="number">0.5</span>*sigma_2**<span class="number">2</span>*j**<span class="number">2</span><span class="number">-0.5</span>*(r-q_2)*j)*dt</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> n <span class="keyword">in</span> range(M<span class="number">-1</span>,<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,N1,<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,N2,<span class="number">1</span>):</span><br><span class="line">            temp = (a[i<span class="number">-1</span>][j<span class="number">-1</span>] * f[n+<span class="number">1</span>][i+<span class="number">1</span>][j]+b[i<span class="number">-1</span>][j<span class="number">-1</span>]*f[n+<span class="number">1</span>][i][j]+c[i<span class="number">-1</span>][j<span class="number">-1</span>]*f[n+<span class="number">1</span>][i<span class="number">-1</span>][j]+d[i<span class="number">-1</span>][j<span class="number">-1</span>]</span><br><span class="line">            *f[n+<span class="number">1</span>][i+<span class="number">1</span>][j+<span class="number">1</span>]+e[i<span class="number">-1</span>][j<span class="number">-1</span>]*f[n+<span class="number">1</span>][i<span class="number">-1</span>][j<span class="number">-1</span>]</span><br><span class="line">            + g[i<span class="number">-1</span>][j<span class="number">-1</span>]*f[n+<span class="number">1</span>][i][j+<span class="number">1</span>]+h[i<span class="number">-1</span>][j<span class="number">-1</span>] *f[n+<span class="number">1</span>][i][j<span class="number">-1</span>])</span><br><span class="line">            f[n][i][j]=max(temp,max(i*dS1,j*dS2)-K)</span><br><span class="line"></span><br><span class="line">x = np.arange(<span class="number">0</span>,(N1+<span class="number">1</span>)*dS1,dS1)</span><br><span class="line">y = np.arange(<span class="number">0</span>,(N2+<span class="number">1</span>)*dS2,dS2)</span><br><span class="line">z = f[<span class="number">0</span>][:][:]</span><br><span class="line"></span><br><span class="line">newf = scii.interp2d(y,x,z,kind=<span class="string">'linear'</span>) <span class="comment"># dim(x)=m,dim(y)=n,shape(f)=(n,m)</span></span><br><span class="line">ans = newf([S2_0],[S1_0])</span><br><span class="line"></span><br><span class="line">ansnew2 = newf([S2_0+dS2],[S1_0])</span><br><span class="line">delta2 = (ansnew2-ans)/dS2</span><br><span class="line"></span><br><span class="line">ansnew1 = newf([S2_0],[S1_0+dS1])</span><br><span class="line">delta1 = (ansnew1-ans)/dS1</span><br></pre></td></tr></table></figure>
+<p>上述代码的结果为:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">期权价格</th>
+<th style="text-align:center">$\Delta _{s_1}$</th>
+<th style="text-align:center">$\Delta _{s_2}$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">6.52564527</td>
+<td style="text-align:center">0.1902458</td>
+<td style="text-align:center">0.6033876</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>可以看出美式期权的价格略高于欧式期权的价格，这在现实中是合理的。</p>
+<div style="page-break-after:always;"></div>
+
+<h2 id="隐式有限差分求欧式期权价格"><a href="#隐式有限差分求欧式期权价格" class="headerlink" title="隐式有限差分求欧式期权价格"></a>隐式有限差分求欧式期权价格</h2><p>题设的期权价格满足的方程为:</p>
+<script type="math/tex; mode=display">
+0=\frac{1}{2}\sigma _1 ^2 s_1^2 \frac{\partial ^2 f}{\partial s_1 ^2}+\rho \sigma _1 \sigma _2 s_1 s_2 \frac{\partial ^2 f}{\partial s_1 \partial s_2} + \frac{1}{2} \sigma _2 ^2 s_2 ^2 \frac{\partial ^2 f}{\partial s_2 ^2} +(r-q_1)s_1\frac{\partial f}{\partial s_1}+(r-q_2)s_2 \frac{\partial f}{\partial s_2}-rf+\frac{\partial f}{\partial t}</script><p>对其进行网格划分:</p>
+<script type="math/tex; mode=display">
+\frac{1}{2}\sigma _1 ^2 \Delta s_1^2 i^2 \frac{f^{n}_{i+1,j}-2f^{n}_{i,j}+f^{n}_{i-1,j}}{\Delta s_1^2}+\\
+\rho \sigma _1 \sigma _2 s_1 s_2i j \frac{1}{2\Delta s_1 \Delta s _2}(2f^n_{i,j}+f^n_{i+1,j+1}+f^n_{i-1,j-1}-f^n_{i+1,j}-f^n_{i-1,j}-f^n_{i,j+1}-f^n_{i,j-1})+ \\
+\frac{1}{2}\sigma_2 ^2 \Delta s_2 ^2 j^2\frac{f^{n}_{i,j+1}-2f^{n}_{i,j}+f^{n}_{i,j-1}}{\Delta s_2^2}+
+(r-q_1)\Delta s_1 i \frac{f^n_{i+1,j}-f^n_{i-1,j}}{2\Delta s_1} +
+(r-q_2)\Delta s_2 i \frac{f^n_{i,j+1}-f^n_{i,j-1}}{2\Delta s_2} +\\
+\frac{f^{n+1}_{i,j}-f^n_{i,j}}{\Delta t} \\
+=rf^n_{i,j}</script><p>整理得:</p>
+<script type="math/tex; mode=display">
+(-\frac{1}{2}\sigma _1 ^2 i^2 + \frac{1}{2}\rho \sigma_1 \sigma _2 ij -\frac{1}{2}(r-q_1)i)\Delta t \cdot f_{i+1,j}^n + \\
+(\sigma_1 ^2 i^2 -\rho \sigma _1 \sigma_2 ij+\sigma_2 ^2 j^2+r+\frac{1}{\Delta t})\Delta t \cdot f_{i,j}^n + \\
+(-\frac{1}{2}\sigma _1 ^2 i^2 + \frac{1}{2}\rho \sigma_1 \sigma _2 ij+\frac{1}{2}(r-q_1)i)\Delta t \cdot f_{i-1,j}^n + \\
+-\frac{\rho}{2}\sigma_1 \sigma_2ij \Delta t \cdot f_{i+1,j+1}^n + \\
+-\frac{\rho}{2}\sigma_1 \sigma_2ij \Delta t \cdot f_{i-1,j-1}^n + \\
+(\frac{\rho}{2}\sigma_1 \sigma_2 ij- \frac{1}{2}\sigma_2^2 j^2-\frac{1}{2}(r-q_2)j)\Delta t \cdot f_{i,j+1}^n + \\
+(\frac{\rho}{2}\sigma_1 \sigma_2 ij- \frac{1}{2}\sigma_2^2 j^2+\frac{1}{2}(r-q_2)j)\Delta t \cdot f_{i,j-1}^n \\
+=f_{i,j}^{n+1}</script><p>初边终值条件(从0开始索引)为:</p>
+<script type="math/tex; mode=display">
+f^n_{j,0}=max(\Delta s_1\times j-K)\times e^{-r(N_1-j)} \\
+f^n_{0,k}=max(\Delta s_2\times k-K)\times e^{-r(N_2-k)} \\
+f^{N}_{i,j} = max(max(\Delta s_1\times i,\Delta s_2\times j)-K,0) \\
+f^n_{j,N_2} = (Smax1 - K)\times e^{-r(N_1-j)\Delta t} \\
+f^n_{N_1,k} = (Smax2 - K)\times e^{-r(N_2-j)\Delta t}</script><p>降维示意:</p>
+<script type="math/tex; mode=display">
+\left [
+\begin{matrix} \
+f^n_{0,0} & f^n_{0,1} & \cdots &  f^n_{0,N_2-1} & f^n_{0,N_2}\\
+f^n_{1,0} &\ddots &    &   &f^n_{1,N_2}\\
+ \vdots &  & \ddots & & \vdots\\
+f^n_{N_1-1,0} & & &\ddots &f^n_{N_1-1,N_2}\\
+f^n_{N_1,0} & f^n_{N_1,1} & \cdots & f^n_{N_1,N_2-1} & f^n_{N_1,N_2}
+\end{matrix}
+\right ]</script><script type="math/tex; mode=display">
+\downarrow \\
+\quad \quad
+\left [
+\begin{matrix} \
+f^n_{0,0} \\  \vdots  \\ f^n_{0,N_2}\\ f^n_{1,0} \\
+\vdots \\
+f^n_{1,N_2} \\ \vdots \\ f^n_{N_1,0}  \\ \vdots  \\ f^n_{N_1,N_2}
+\end{matrix}
+\right ]  = X</script><p>已知数据为:</p>
+<script type="math/tex; mode=display">
+\left [
+\begin{matrix} \
+f^{n+1}_{0,0} \\  \vdots  \\ f^{n+1}_{0,N_2}\\ f^{n+1}_{1,0} \\
+\vdots \\
+f^{n+1}_{1,N_2} \\ \vdots \\ f^{n+1}_{N_1,0}  \\ \vdots  \\ f^{n+1}_{N_1,N_2}
+\end{matrix}
+\right ]  = B</script><p>系数矩阵$A$需要根据降维前的系数的索引进行确定。</p>
+<p>最后求解方程:</p>
+<script type="math/tex; mode=display">
+AX=B</script><p>最后将$X$升维后可得初始时刻的期权价格。</p>
+<p>以下代码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> scipy.interpolate <span class="keyword">as</span> scii</span><br><span class="line"><span class="keyword">import</span> scipy.linalg <span class="keyword">as</span> scil</span><br><span class="line"></span><br><span class="line">q_1=<span class="number">0.01</span></span><br><span class="line">sigma_1=<span class="number">0.2</span></span><br><span class="line">q_2=<span class="number">0.015</span></span><br><span class="line">sigma_2=<span class="number">0.3</span></span><br><span class="line">rho = <span class="number">0.75</span></span><br><span class="line">K = <span class="number">55</span></span><br><span class="line">r =<span class="number">0.03</span></span><br><span class="line">S1_0=<span class="number">50</span></span><br><span class="line">S2_0=<span class="number">55</span></span><br><span class="line"></span><br><span class="line">T = <span class="number">1</span></span><br><span class="line">Smax1 = <span class="number">100</span></span><br><span class="line">Smax2 = <span class="number">100</span></span><br><span class="line">M = <span class="number">50</span></span><br><span class="line">N1 = <span class="number">50</span></span><br><span class="line">N2 = <span class="number">50</span></span><br><span class="line">dS1 = int(Smax1/N1)</span><br><span class="line">dS2 = int(Smax2/N2)</span><br><span class="line">dt = T/M</span><br><span class="line"></span><br><span class="line">f = np.zeros((M+<span class="number">1</span>,N1+<span class="number">1</span>,N2+<span class="number">1</span>)) <span class="comment"># M+1个时间，N1+1个资产1，N2+1个资产2</span></span><br><span class="line"><span class="comment"># 边界条件</span></span><br><span class="line"><span class="comment"># 1资产价格为0的期权价格</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(f)):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(N1+<span class="number">1</span>):</span><br><span class="line">        f[i][j][<span class="number">0</span>] = max(dS1*j-K,<span class="number">0</span>) * math.exp(-r*(M-i)*dt)</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> range(N2+<span class="number">1</span>):</span><br><span class="line">        f[i][<span class="number">0</span>][k] = max(dS2*k-K,<span class="number">0</span>) * math.exp(-r*(M-i)*dt)</span><br><span class="line"><span class="comment"># 到期日的期权价格</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(N1+<span class="number">1</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(N2+<span class="number">1</span>):</span><br><span class="line">        f[<span class="number">-1</span>][i][j]=max(max(dS1*i,dS2*j)-K,<span class="number">0</span>)</span><br><span class="line"><span class="comment"># 资产价格到达边界时的期权价格</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(f)):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(N1+<span class="number">1</span>):</span><br><span class="line">        f[i][j][<span class="number">-1</span>] = (Smax1 - K)*math.exp(-r*(M-i)*dt)</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> range(N2+<span class="number">1</span>):</span><br><span class="line">        f[i][<span class="number">-1</span>][k] = (Smax2 - K)*math.exp(-r*(M-i)*dt)</span><br><span class="line"></span><br><span class="line">X = np.zeros((M+<span class="number">1</span>,(N1+<span class="number">1</span>)*(N2+<span class="number">1</span>))) <span class="comment"># 未知数矩阵</span></span><br><span class="line"><span class="keyword">for</span> m <span class="keyword">in</span> range(M+<span class="number">1</span>): <span class="comment"># 按行展开降维</span></span><br><span class="line">    X[m]=f[m].flatten()</span><br><span class="line"></span><br><span class="line">loc = np.zeros(((N1+<span class="number">1</span>)*(N2+<span class="number">1</span>),<span class="number">2</span>))</span><br><span class="line">X[<span class="number">-1</span>] = f[<span class="number">-1</span>].flatten() <span class="comment"># 到期日的期权价格</span></span><br><span class="line">count = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(N1+<span class="number">1</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(N2+<span class="number">1</span>):</span><br><span class="line">        loc[count][<span class="number">0</span>] = i</span><br><span class="line">        loc[count][<span class="number">1</span>] = j</span><br><span class="line">        count = count + <span class="number">1</span></span><br><span class="line"></span><br><span class="line">A = np.zeros(((N1+<span class="number">1</span>)*(N2+<span class="number">1</span>),(N1+<span class="number">1</span>)*(N2+<span class="number">1</span>))) <span class="comment"># 系数矩阵</span></span><br><span class="line">cond = <span class="keyword">lambda</span> n:loc[n][<span class="number">0</span>] ==<span class="number">0</span> <span class="keyword">or</span> loc[n][<span class="number">1</span>] ==<span class="number">0</span> <span class="keyword">or</span> loc[n][<span class="number">0</span>] == N1 <span class="keyword">or</span> loc[n][<span class="number">1</span>] ==N2 <span class="comment"># 判断是否是边值</span></span><br><span class="line"><span class="keyword">for</span> n <span class="keyword">in</span> range((N1+<span class="number">1</span>)*(N2+<span class="number">1</span>)):</span><br><span class="line">    <span class="keyword">if</span> cond(n):</span><br><span class="line">        A[n][n] = math.exp(-r*dt) <span class="comment"># 根据边值的计算方式确定A[n][n]的取值</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        i = loc[n][<span class="number">0</span>]</span><br><span class="line">        j = loc[n][<span class="number">1</span>]</span><br><span class="line">        <span class="comment">#f(i+1,j)</span></span><br><span class="line">        A[n][n+N2+<span class="number">1</span>] = (<span class="number">-0.5</span>*sigma_1**<span class="number">2</span> * i**<span class="number">2</span>+<span class="number">0.5</span>*rho*sigma_1*sigma_2*i*j<span class="number">-0.5</span>*(r-q_1)*i)*dt</span><br><span class="line">        <span class="comment"># f(i,j)</span></span><br><span class="line">        A[n][n] = (sigma_1 **<span class="number">2</span> * i**<span class="number">2</span> - rho * sigma_1 * sigma_2*i*j+sigma_2**<span class="number">2</span> *j**<span class="number">2</span>+r+<span class="number">1</span>/dt)*dt</span><br><span class="line">        <span class="comment">#f(i-1,j)</span></span><br><span class="line">        A[n][n-N2<span class="number">-1</span>] = (<span class="number">-0.5</span>*sigma_1**<span class="number">2</span> * i**<span class="number">2</span>+<span class="number">0.5</span>*rho*sigma_1*sigma_2*i*j+<span class="number">0.5</span>*(r-q_1)*i)*dt</span><br><span class="line">        <span class="comment"># f(i+1,j+1)</span></span><br><span class="line">        A[n][n+N2+<span class="number">2</span>] = <span class="number">-0.5</span>*rho*sigma_1*sigma_2*i*j*dt</span><br><span class="line">        <span class="comment"># f(i-1,j-1)</span></span><br><span class="line">        A[n][n-N2<span class="number">-2</span>] = <span class="number">-0.5</span>*rho*sigma_1*sigma_2*i*j*dt</span><br><span class="line">        <span class="comment"># f(i,j+1)</span></span><br><span class="line">        A[n][n+<span class="number">1</span>] = (<span class="number">0.5</span>*rho*sigma_1*sigma_2*i*j<span class="number">-0.5</span>*sigma_2**<span class="number">2</span>*j**<span class="number">2</span><span class="number">-0.5</span>*(r-q_2)*j)*dt</span><br><span class="line">        <span class="comment"># f(i,j-1)</span></span><br><span class="line">        A[n][n<span class="number">-1</span>] = (<span class="number">0.5</span>*rho*sigma_1*sigma_2*i*j<span class="number">-0.5</span>*sigma_2**<span class="number">2</span>*j**<span class="number">2</span>+<span class="number">0.5</span>*(r-q_2)*j)*dt</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> m <span class="keyword">in</span> range(M<span class="number">-1</span>,<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">    B = X[m+<span class="number">1</span>]</span><br><span class="line">    temp = scil.solve(A,B)</span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> range((N1+<span class="number">1</span>)*(N2+<span class="number">1</span>)):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> cond(n):</span><br><span class="line">            X[m][n] = temp[n]</span><br><span class="line"></span><br><span class="line">tempx = X[<span class="number">0</span>].reshape(N1+<span class="number">1</span>,N2+<span class="number">1</span>)</span><br><span class="line">x = np.arange(<span class="number">0</span>,(N1+<span class="number">1</span>)*dS1,dS1)</span><br><span class="line">y = np.arange(<span class="number">0</span>,(N2+<span class="number">1</span>)*dS2,dS2)</span><br><span class="line">z = tempx[:][:]</span><br><span class="line">newf = scii.interp2d(y,x,z,kind=<span class="string">'linear'</span>) <span class="comment"># dim(x)=m,dim(y)=n,shape(f)=(n,m)</span></span><br><span class="line">ans = newf([S2_0],[S1_0])</span><br><span class="line"></span><br><span class="line">ansnew2 = newf([S2_0+dS2],[S1_0])</span><br><span class="line">delta2 = (ansnew2-ans)/dS2</span><br><span class="line"></span><br><span class="line">ansnew1 = newf([S2_0],[S1_0+dS1])</span><br><span class="line">delta1 = (ansnew1-ans)/dS1</span><br></pre></td></tr></table></figure>
+<p>上述代码的计算结果为:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">期权价格</th>
+<th style="text-align:center">$\Delta _ {s_1}$</th>
+<th style="text-align:center">$\Delta _ {s_2}$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">7.22147671</td>
+<td style="text-align:center">0.15035592</td>
+<td style="text-align:center">0.54276813</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div style="page-break-after:always;"></div>
+
+<h2 id="隐式有限差分求美式期权价格"><a href="#隐式有限差分求美式期权价格" class="headerlink" title="隐式有限差分求美式期权价格"></a>隐式有限差分求美式期权价格</h2><p>题设美式期权满足方程:</p>
+<script type="math/tex; mode=display">
+max({\mathcal{L}f},max(max(s_1,s_2)-K,0)-f) = 0</script><p>其中</p>
+<script type="math/tex; mode=display">
+\mathcal{L}f =\frac{1}{2}\sigma _1 ^2 s_1^2 \frac{\partial ^2 f}{\partial s_1 ^2}+\rho \sigma _1 \sigma _2 s_1 s_2 \frac{\partial ^2 f}{\partial s_1 \partial s_2} + \frac{1}{2} \sigma _2 ^2 s_2 ^2 \frac{\partial ^2 f}{\partial s_2 ^2} +(r-q_1)s_1\frac{\partial f}{\partial s_1}+(r-q_2)s_2 \frac{\partial f}{\partial s_2}-rf+\frac{\partial f}{\partial t}</script><p>以下使用惩罚法，构造方程:</p>
+<script type="math/tex; mode=display">
+\mathcal{L}f + PN \times (max(max(s_1,s_2)-K,0)-f^n_{i,j})\times \mathbb{I}_{max(max(s_1,s_2)-K,0)-\bar p}</script><p>其中$\bar p$为一个已知函数。</p>
+<p>对上述方程进行网格划分,整理得:</p>
+<script type="math/tex; mode=display">
+(-\frac{1}{2}\sigma _1 ^2 i^2 + \frac{1}{2}\rho \sigma_1 \sigma _2 ij -\frac{1}{2}(r-q_1)i)\Delta t \cdot f_{i+1,j}^n + \\
+(\sigma_1 ^2 i^2 -\rho \sigma _1 \sigma_2 ij+\sigma_2 ^2 j^2+r+\frac{1}{\Delta t}+PN\times \mathbb{I}_{max(max(s_1,s_2)-K,0)-\bar p})\Delta t \cdot f_{i,j}^n + \\
+(-\frac{1}{2}\sigma _1 ^2 i^2 + \frac{1}{2}\rho \sigma_1 \sigma _2 ij+\frac{1}{2}(r-q_1)i)\Delta t \cdot f_{i-1,j}^n + \\
+-\frac{\rho}{2}\sigma_1 \sigma_2ij \Delta t \cdot f_{i+1,j+1}^n + \\
+-\frac{\rho}{2}\sigma_1 \sigma_2ij \Delta t \cdot f_{i-1,j-1}^n + \\
+(\frac{\rho}{2}\sigma_1 \sigma_2 ij- \frac{1}{2}\sigma_2^2 j^2-\frac{1}{2}(r-q_2)j)\Delta t \cdot f_{i,j+1}^n + \\
+(\frac{\rho}{2}\sigma_1 \sigma_2 ij- \frac{1}{2}\sigma_2^2 j^2+\frac{1}{2}(r-q_2)j)\Delta t \cdot f_{i,j-1}^n \\
+=f_{i,j}^{n+1}</script><p>与<a href="#隐式有限差分求欧式期权价格">隐式有限差分求解欧式期权价格</a>一样，需要先进行降维，求解$AX=B$.</p>
+<p>惩罚法的具体迭代方法:</p>
+<p>第一步、给定一个初始猜测$f^{(0)}$,解如下方程:</p>
+<script type="math/tex; mode=display">
+0 = \mathcal{L}f^a + PN \times (max(max(s_1,s_2)-K,0)-f^a_{i,j})\times \mathbb{I}_{max(max(s_1,s_2)-K,0)-\bar p}</script><p>并令$f^{(1)}=f^{(a)}$</p>
+<p>第二步、计算相对误差$RE = ||f^{(a)}-f^{(0)}||_2$</p>
+<p>第三步、若$RE&lt;\varepsilon (e.g., \varepsilon=10^{-9})$,则令$f=f^{(1)}$;</p>
+<p>否则回到步骤一并用$f^{(1)}$代替$f^{(0)}$,并令$f^{(2)}=f^{(a)}$.</p>
+<p>最后将$X$升维后可得初始期权价格。</p>
+<p>代码如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> scipy.interpolate <span class="keyword">as</span> scii</span><br><span class="line"><span class="keyword">import</span> scipy.linalg <span class="keyword">as</span> scil</span><br><span class="line"></span><br><span class="line">q_1=<span class="number">0.01</span></span><br><span class="line">sigma_1=<span class="number">0.2</span></span><br><span class="line">q_2=<span class="number">0.015</span></span><br><span class="line">sigma_2=<span class="number">0.3</span></span><br><span class="line">rho = <span class="number">0.75</span></span><br><span class="line">K = <span class="number">55</span></span><br><span class="line">r =<span class="number">0.03</span></span><br><span class="line">S1_0=<span class="number">50</span></span><br><span class="line">S2_0=<span class="number">55</span></span><br><span class="line"></span><br><span class="line">T = <span class="number">1</span></span><br><span class="line">Smax1 = <span class="number">100</span></span><br><span class="line">Smax2 = <span class="number">100</span></span><br><span class="line">M = <span class="number">50</span></span><br><span class="line">N1 = <span class="number">50</span></span><br><span class="line">N2 = <span class="number">50</span></span><br><span class="line">dS1 = int(Smax1/N1)</span><br><span class="line">dS2 = int(Smax2/N2)</span><br><span class="line">dt = T/M</span><br><span class="line">penalty =<span class="number">1e8</span></span><br><span class="line">vareps = <span class="number">0.001</span></span><br><span class="line"></span><br><span class="line">f = np.zeros((M+<span class="number">1</span>,N1+<span class="number">1</span>,N2+<span class="number">1</span>)) <span class="comment"># M+1个时间，N1+1个资产1，N2+1个资产2</span></span><br><span class="line"><span class="comment"># 边界条件</span></span><br><span class="line"><span class="comment"># 1资产价格为0的期权价格</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(f)):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(N1+<span class="number">1</span>):</span><br><span class="line">        f[i][j][<span class="number">0</span>] = max(dS1*j-K,<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> range(N2+<span class="number">1</span>):</span><br><span class="line">        f[i][<span class="number">0</span>][k] = max(dS2*k-K,<span class="number">0</span>)</span><br><span class="line"><span class="comment"># 到期日的期权价格</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(N1+<span class="number">1</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(N2+<span class="number">1</span>):</span><br><span class="line">        f[<span class="number">-1</span>][i][j]=max(max(dS1*i,dS2*j)-K,<span class="number">0</span>)</span><br><span class="line"><span class="comment"># 资产价格到达边界时的期权价格</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(f)):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(N1+<span class="number">1</span>):</span><br><span class="line">        f[i][j][<span class="number">-1</span>] = (Smax1 - K)</span><br><span class="line">    <span class="keyword">for</span> k <span class="keyword">in</span> range(N2+<span class="number">1</span>):</span><br><span class="line">        f[i][<span class="number">-1</span>][k] = (Smax2 - K)</span><br><span class="line"></span><br><span class="line">X = np.zeros((M+<span class="number">1</span>,(N1+<span class="number">1</span>)*(N2+<span class="number">1</span>))) <span class="comment"># 未知数矩阵</span></span><br><span class="line"><span class="keyword">for</span> m <span class="keyword">in</span> range(M+<span class="number">1</span>): <span class="comment"># 按行展开降维</span></span><br><span class="line">    X[m]=f[m].flatten()</span><br><span class="line"></span><br><span class="line">loc = np.zeros(((N1+<span class="number">1</span>)*(N2+<span class="number">1</span>),<span class="number">2</span>))</span><br><span class="line">g = np.zeros(((N1+<span class="number">1</span>)*(N2+<span class="number">1</span>),<span class="number">1</span>))</span><br><span class="line">X[<span class="number">-1</span>] = f[<span class="number">-1</span>].flatten() <span class="comment"># 到期日的期权价格</span></span><br><span class="line">g = f[<span class="number">-1</span>].flatten() <span class="comment"># 执行价列向</span></span><br><span class="line">count = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(N1+<span class="number">1</span>):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> range(N2+<span class="number">1</span>):</span><br><span class="line">        loc[count][<span class="number">0</span>] = i</span><br><span class="line">        loc[count][<span class="number">1</span>] = j</span><br><span class="line">        count = count + <span class="number">1</span></span><br><span class="line"></span><br><span class="line">A = np.zeros(((N1+<span class="number">1</span>)*(N2+<span class="number">1</span>),(N1+<span class="number">1</span>)*(N2+<span class="number">1</span>))) <span class="comment"># 系数矩阵</span></span><br><span class="line">B = np.zeros(((N1+<span class="number">1</span>)*(N2+<span class="number">1</span>)))</span><br><span class="line">cond = <span class="keyword">lambda</span> n:loc[n][<span class="number">0</span>] ==<span class="number">0</span> <span class="keyword">or</span> loc[n][<span class="number">1</span>] ==<span class="number">0</span> <span class="keyword">or</span> loc[n][<span class="number">0</span>] == N1 <span class="keyword">or</span> loc[n][<span class="number">1</span>] ==N2 <span class="comment"># 判断是否是边值</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> m <span class="keyword">in</span> range(M<span class="number">-1</span>,<span class="number">-1</span>,<span class="number">-1</span>):</span><br><span class="line">    p0 = X[m+<span class="number">1</span>] <span class="comment"># 下一时刻期权价格列向量，第一次迭代用该价格作为猜测</span></span><br><span class="line">    error = vareps+<span class="number">0.1</span></span><br><span class="line">    <span class="keyword">while</span> error &gt; vareps:</span><br><span class="line">        <span class="keyword">for</span> n <span class="keyword">in</span> range((N1+<span class="number">1</span>)*(N2+<span class="number">1</span>)):</span><br><span class="line">            <span class="keyword">if</span> g[n] &gt; p0[n]: <span class="comment">#立即行权价格高于期权价格就惩罚</span></span><br><span class="line">                B[n] = X[m+<span class="number">1</span>][n]+penalty*p1[n]*dt</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                B[n] = X[m+<span class="number">1</span>][n] <span class="comment"># 不惩罚</span></span><br><span class="line">            <span class="keyword">if</span> cond(n):</span><br><span class="line">                A[n][n] = <span class="number">1</span> <span class="comment"># 根据边值的计算方式确定A[n][n]的取值</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                i = loc[n][<span class="number">0</span>]</span><br><span class="line">                j = loc[n][<span class="number">1</span>]</span><br><span class="line">                <span class="keyword">if</span> p1[n] &gt; p0[n]:</span><br><span class="line">                    <span class="comment"># f(i,j)</span></span><br><span class="line">                    A[n][n] = (sigma_1 **<span class="number">2</span> * i**<span class="number">2</span> - rho * sigma_1 * sigma_2*i*j+sigma_2**<span class="number">2</span> *j**<span class="number">2</span>+r+<span class="number">1</span>/dt+penalty)*dt</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="comment"># f(i,j)</span></span><br><span class="line">                    A[n][n] = (sigma_1 **<span class="number">2</span> * i**<span class="number">2</span> - rho * sigma_1 * sigma_2*i*j+sigma_2**<span class="number">2</span> *j**<span class="number">2</span>+r+<span class="number">1</span>/dt)*dt</span><br><span class="line">                <span class="comment">#f(i+1,j)</span></span><br><span class="line">                A[n][n+N2+<span class="number">1</span>] = (<span class="number">-0.5</span>*sigma_1**<span class="number">2</span> * i**<span class="number">2</span>+<span class="number">0.5</span>*rho*sigma_1*sigma_2*i*j<span class="number">-0.5</span>*(r-q_1)*i)*dt</span><br><span class="line">                <span class="comment">#f(i-1,j)</span></span><br><span class="line">                A[n][n-N2<span class="number">-1</span>] = (<span class="number">-0.5</span>*sigma_1**<span class="number">2</span> * i**<span class="number">2</span>+<span class="number">0.5</span>*rho*sigma_1*sigma_2*i*j+<span class="number">0.5</span>*(r-q_1)*i)*dt</span><br><span class="line">                <span class="comment"># f(i+1,j+1)</span></span><br><span class="line">                A[n][n+N2+<span class="number">2</span>] = <span class="number">-0.5</span>*rho*sigma_1*sigma_2*i*j*dt</span><br><span class="line">                <span class="comment"># f(i-1,j-1)</span></span><br><span class="line">                A[n][n-N2<span class="number">-2</span>] = <span class="number">-0.5</span>*rho*sigma_1*sigma_2*i*j*dt</span><br><span class="line">                <span class="comment"># f(i,j+1)</span></span><br><span class="line">                A[n][n+<span class="number">1</span>] = (<span class="number">0.5</span>*rho*sigma_1*sigma_2*i*j<span class="number">-0.5</span>*sigma_2**<span class="number">2</span>*j**<span class="number">2</span><span class="number">-0.5</span>*(r-q_2)*j)*dt</span><br><span class="line">                <span class="comment"># f(i,j-1)</span></span><br><span class="line">                A[n][n<span class="number">-1</span>] = (<span class="number">0.5</span>*rho*sigma_1*sigma_2*i*j<span class="number">-0.5</span>*sigma_2**<span class="number">2</span>*j**<span class="number">2</span>+<span class="number">0.5</span>*(r-q_2)*j)*dt</span><br><span class="line">        X[m] = scil.solve(A,B) <span class="comment"># p(a)</span></span><br><span class="line">        p1 = X[m] <span class="comment"># p1=p(a)</span></span><br><span class="line">        error = np.linalg.norm((p1-p0),ord=<span class="number">2</span>) <span class="comment"># RE</span></span><br><span class="line">        p0 = X[m] <span class="comment"># p(0)=p(1)=p(a)</span></span><br><span class="line"></span><br><span class="line">tempx = X[<span class="number">0</span>].reshape(N1+<span class="number">1</span>,N2+<span class="number">1</span>)</span><br><span class="line">x = np.arange(<span class="number">0</span>,(N1+<span class="number">1</span>)*dS1,dS1)</span><br><span class="line">y = np.arange(<span class="number">0</span>,(N2+<span class="number">1</span>)*dS2,dS2)</span><br><span class="line">z = tempx[:][:]</span><br><span class="line">newf = scii.interp2d(y,x,z,kind=<span class="string">'linear'</span>) <span class="comment"># dim(x)=m,dim(y)=n,shape(f)=(n,m)</span></span><br><span class="line">ans = newf([S2_0],[S1_0])</span><br><span class="line"></span><br><span class="line">ansnew2 = newf([S2_0+dS2],[S1_0])</span><br><span class="line">delta2 = (ansnew2-ans)/dS2</span><br><span class="line"></span><br><span class="line">ansnew1 = newf([S2_0],[S1_0+dS1])</span><br><span class="line">delta1 = (ansnew1-ans)/dS1</span><br></pre></td></tr></table></figure>
+<p>上述代码的计算结果为:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">期权价格</th>
+<th style="text-align:center">$\Delta _ {s_1}$</th>
+<th style="text-align:center">$\Delta _ {s_2}$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">7.23358029</td>
+<td style="text-align:center">0.15036738</td>
+<td style="text-align:center">0.54529611</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/笔记/" rel="tag"># 笔记</a>
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/04/15/统计学/" rel="next" title="统计学(一)">
+                <i class="fa fa-chevron-left"></i> 统计学(一)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="wjqsteam" />
+            
+              <p class="site-author-name" itemprop="name">wjqsteam</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">14</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#题目"><span class="nav-number">1.</span> <span class="nav-text">题目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#蒙特卡洛模拟法求欧式期权价格"><span class="nav-number">2.</span> <span class="nav-text">蒙特卡洛模拟法求欧式期权价格</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#显式有限差分求欧式期权价格"><span class="nav-number">3.</span> <span class="nav-text">显式有限差分求欧式期权价格</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#显式有限差分求美式期权价格"><span class="nav-number">4.</span> <span class="nav-text">显式有限差分求美式期权价格</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#隐式有限差分求欧式期权价格"><span class="nav-number">5.</span> <span class="nav-text">隐式有限差分求欧式期权价格</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#隐式有限差分求美式期权价格"><span class="nav-number">6.</span> <span class="nav-text">隐式有限差分求美式期权价格</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wjqsteam</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.4.2</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.4.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.4.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.4.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.4.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      },
+      TeX: {equationNumbers: { autoNumber: "AMS" }}
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
